@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView textTimer;
     Button start;
+    Button stop;
     EditText et_timer;
     CountDownTimer countdownTimer;
     int myProgress = 0;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.barTimer);
         textTimer = findViewById(R.id.timer_countdown);
         start = findViewById(R.id.start);
+        stop = findViewById(R.id.stop);
         et_timer = findViewById(R.id.session_duration);
 
         // startTimer(5);
@@ -42,6 +44,23 @@ public class MainActivity extends AppCompatActivity {
                 startTimer();
             }
         });
+
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopTimer();
+            }
+        });
+    }
+
+    private void stopTimer() {
+        try {
+            countdownTimer.cancel();
+
+        } catch (Exception e) {
+
+        }
+        textTimer.setText("Stopped!");
     }
 
 
@@ -70,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
                     String newtime = hours + ":" + minutes + ":" + seconds;
 
+                    //sets the countdown timer depending on length of seconds, minutes and hours
                     if (newtime.equals("0:0:0")) {
                         textTimer.setText("00:00:00");
                     } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(minutes).length() == 1) && (String.valueOf(seconds).length() == 1)) {
@@ -90,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                         textTimer.setText(hours + ":" + minutes + ":" + seconds);
                     }
                 }
+
 
                 @Override
                 public void onFinish() {
