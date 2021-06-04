@@ -29,6 +29,6 @@ public class AuthViewModel extends ViewModel {
     }
 
     public void createUser(User authenticatedUser) {
-        createdUser = authRepository.createUserInFirestoreIfNotExists(authenticatedUser);
+        createdUser = authRepository.createUserIfNotExists(authenticatedUser);
     }
 }

@@ -16,18 +16,18 @@ public class SplashViewModel extends ViewModel {
     }
 
     public void checkIfUserIsAuthenticated() {
-        isUserAuthenticated = splashRepository.checkIfUserIsAuthenticatedInFirebase();
+        isUserAuthenticated = splashRepository.checkIfUserIsAuthenticated();
     }
 
     public LiveData<User> getIsUserAuthenticated() {
         return isUserAuthenticated;
     }
 
-    public LiveData<User> getUserLiveData() {
+    public LiveData<User> getUser() {
         return userLiveData;
     }
 
-    public void setUserFromUid(String uid) {
-        userLiveData = splashRepository.setUserFromUid(uid);
+    public void setUserFromUid(String id) {
+        userLiveData = splashRepository.setUserFromId(id);
     }
 }

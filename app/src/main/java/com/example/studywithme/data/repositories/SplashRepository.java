@@ -17,7 +17,7 @@ public class SplashRepository {
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference usersRef = rootRef.collection(Constants.USERS);
 
-    public MutableLiveData<User> checkIfUserIsAuthenticatedInFirebase() {
+    public MutableLiveData<User> checkIfUserIsAuthenticated() {
         MutableLiveData<User> isUserAuthenticatedInFirebase = new MutableLiveData<>();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser == null) {
@@ -30,9 +30,9 @@ public class SplashRepository {
         return isUserAuthenticatedInFirebase;
     }
 
-    public MutableLiveData<User> setUserFromUid(String uid) {
+    public MutableLiveData<User> setUserFromId(String id) {
         MutableLiveData<User> user = new MutableLiveData<>();
-        usersRef.document(uid).get().addOnCompleteListener(userTask -> {
+        usersRef.document(id).get().addOnCompleteListener(userTask -> {
             if (userTask.isSuccessful()) {
                 DocumentSnapshot document = userTask.getResult();
                 if (document.exists()) {

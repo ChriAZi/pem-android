@@ -43,9 +43,9 @@ public class SplashActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void getUserFromDatabase(String uid) {
-        splashViewModel.setUserFromUid(uid);
-        splashViewModel.getUserLiveData().observe(this, user -> {
+    private void getUserFromDatabase(String id) {
+        splashViewModel.setUserFromUid(id);
+        splashViewModel.getUser().observe(this, user -> {
             startMainActivity(user);
             finish();
         });

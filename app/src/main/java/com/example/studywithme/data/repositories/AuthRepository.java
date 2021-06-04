@@ -39,7 +39,7 @@ public class AuthRepository {
         return authenticatedUser;
     }
 
-    public MutableLiveData<User> createUserInFirestoreIfNotExists(User authenticatedUser) {
+    public MutableLiveData<User> createUserIfNotExists(User authenticatedUser) {
         MutableLiveData<User> newUser = new MutableLiveData<>();
         DocumentReference uidRef = usersRef.document(authenticatedUser.getUid());
         uidRef.get().addOnCompleteListener(uidTask -> {
