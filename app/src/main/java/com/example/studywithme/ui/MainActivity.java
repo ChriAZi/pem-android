@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private SessionHistoryViewModel sessionHistoryViewModel;
     private SessionCreationViewModel sessionCreationViewModel;
     private User user;
+    private String currSession;
 
 
     @Override
@@ -66,10 +67,21 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         createSessionButton.setOnClickListener(view -> {
             sessionCreationViewModel.createSession(user.getUid(), session);
             startViewModelObservation();
-        });
 
+        });
+        Button startSessionButton = findViewById(R.id.bt_start_session);
+        startSessionButton.setOnClickListener(view -> {
+            startTimerActivity();
+        });
         MaterialButton signOutButton = findViewById(R.id.bt_sign_out);
         signOutButton.setOnClickListener(view -> firebaseAuth.signOut());
+    }
+
+    private void startTimerActivity() {
+        Intent i = new Intent(MainActivity.this, TimerActivity.class);
+        i.putExtra(Constants.USER, user);
+        i.putExtra(Constants.SESSIONS,currSession);
+        MainActivity.this.startActivity(i);
     }
 
     private User getUserFromIntent() {
@@ -98,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         sessionCreationViewModel.getCurrentSession().observe(this, session -> {
             TextView testView = findViewById(R.id.tv_session_id);
             testView.setText(session.getUid());
+            currSession = session.getUid();
         });
     }
 

@@ -3,7 +3,9 @@
 
     android:fromDegrees="270"
     android:toDegrees="270">
-
+    <rotate
+        android:fromDegrees="-360"
+        android:toDegrees="-360">
     <shape
         android:innerRadiusRatio="2.5"
         android:shape="ring"
@@ -12,13 +14,14 @@
         >
         <gradient
             android:angle="0"
-            android:endColor="#007DD6"
-            android:startColor="#007DD6"
+            android:endColor="@color/whiteBlue"
+            android:startColor="@color/white"
             android:type="sweep"
             android:useLevel="false"
             >
 
         </gradient>
     </shape>
+    </rotate>
 
 </rotate>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.studywithme">
+    <uses-permission android:name="android.permission.SET_DEBUG_APP"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:allowBackup="true"
@@ -18,7 +22,7 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-       <!-- <activity android:name=".ui.authentication.AuthActivity" /> -->
+        <activity android:name=".ui.authentication.AuthActivity" />
         <activity android:name=".ui.MainActivity"/>
             <activity android:name=".ui.TimerActivity"/>
     </application>

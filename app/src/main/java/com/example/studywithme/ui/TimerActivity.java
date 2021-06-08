@@ -13,8 +13,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
+import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.viewmodels.SessionCreationViewModel;
+import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
+import com.example.studywithme.utils.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -31,12 +36,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.studywithme.data.models.User.getIdFromPreferences;
+
 public class TimerActivity extends AppCompatActivity {
     ProgressBar progressBar;
     TextView textTimer,creatorName,partnerName,creatorGoal,partnerGoal,creatorWork,partnerWork;
-    FirebaseFirestore db;
-    FirebaseAuth fAuth;
-    String userID;
+  //  FirebaseFirestore db;
+  //  FirebaseAuth fAuth;
+  //  String userID;
     Button start;
     Button stop;
     EditText et_timer;
@@ -45,12 +52,18 @@ public class TimerActivity extends AppCompatActivity {
     int progress;
     int endTime = 250;
     private String TAG = "TimerActivity";
+    private SessionCreationViewModel sessionCreationViewModel;
+    private SessionHistoryViewModel sessionHistoryViewModel;
+    private User user;
+    private String session;
+    private String uID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
+
 
         creatorName = findViewById(R.id.sessionCreator);
         creatorWork = findViewById(R.id.creatorWork);
@@ -67,8 +80,12 @@ public class TimerActivity extends AppCompatActivity {
         stop = findViewById(R.id.stop);
         et_timer = findViewById(R.id.session_duration);
 
+        getCurrentUser();
+        initViewModels();
+      //  initViewModel();
 
-        db = FirebaseFirestore.getInstance();
+
+      /*  db = FirebaseFirestore.getInstance();
 
         CollectionReference cities = db.collection("users");
 
@@ -113,7 +130,7 @@ public class TimerActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,6 +147,19 @@ public class TimerActivity extends AppCompatActivity {
         });
     }
 
+    private void getCurrentUser() {
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            user= null;
+        } else {
+            user= (User) extras.get(Constants.USER);
+            session = (String) extras.get(Constants.SESSIONS);
+            Log.d(TAG, String.valueOf(user));
+            Log.d(TAG,String.valueOf(session));
+
+        }
+    }
+
     private void stopTimer() {
         try {
             countdownTimer.cancel();
@@ -138,6 +168,36 @@ public class TimerActivity extends AppCompatActivity {
 
         }
         textTimer.setText("Stopped!");
+    }
+
+
+
+    /**
+     * observes the current session and sets the variables to the current values
+     * but does not work yet
+     */
+    private void initViewModel(){
+        sessionCreationViewModel = new ViewModelProvider(this).get(SessionCreationViewModel.class);
+        sessionCreationViewModel.getCurrentSession().observe(this, sessions -> {
+            textTimer.setText(sessions.getDuration());
+            creatorName.setText((CharSequence) sessions.getOwner());
+            creatorWork.setText((CharSequence) sessions.getOwnerSetting().getCategories());
+            creatorGoal.setText(sessions.getOwnerSetting().getGoal());
+            partnerName.setText((CharSequence) sessions.getPartner());
+            partnerWork.setText((CharSequence) sessions.getPartnerSetting().getCategories());
+            partnerGoal.setText(sessions.getPartnerSetting().getGoal());
+
+             });
+    }
+
+    private void initViewModels() {
+        sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
+        sessionHistoryViewModel.getSessions(user.getUid()).observe(this, sessions -> {
+            partnerGoal.setText(session);
+        });
+        creatorName.setText(user.getName());
+
+
     }
 
     /**
