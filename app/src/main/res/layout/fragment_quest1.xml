@@ -44,6 +44,22 @@
             android:layout_margin="20px"
             />
 
+        <TextView
+            android:id="@+id/tvAnsw1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center"
+            android:text=""
+            android:textSize="25dp"
+            android:textStyle="normal"
+            android:layout_margin="20px"
+            />
+        <Button
+            android:id="@+id/btnSubmit1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Submit" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,9 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.studywithme.R;
+
+import org.w3c.dom.Text;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +30,9 @@ public class Quest1Fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private EditText editQuest1;
+    private TextView tvAnsw1;
+    private Button submitBtn;
 
     public Quest1Fragment() {
         // Required empty public constructor
@@ -64,7 +71,17 @@ public class Quest1Fragment extends Fragment {
         final View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_quest1, container, false);
-        TextView tv = (TextView) view.findViewById(R.id.hlFrag1);
+        editQuest1 = view.findViewById(R.id.editQuest1);
+        tvAnsw1 = view.findViewById(R.id.tvAnsw1);
+        submitBtn = view.findViewById(R.id.btnSubmit1);
+
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvAnsw1.setText(String.valueOf(editQuest1.getText()));
+            }
+        });
+
         return view;
     }
 }
