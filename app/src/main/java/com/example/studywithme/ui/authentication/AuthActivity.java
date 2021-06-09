@@ -3,7 +3,6 @@ package com.example.studywithme.ui.authentication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -14,6 +13,7 @@ import com.example.studywithme.ui.MainActivity;
 import com.example.studywithme.ui.viewmodels.AuthViewModel;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.Logger;
+import com.example.studywithme.utils.ToastMaster;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -100,7 +100,7 @@ public class AuthActivity extends AppCompatActivity {
         authViewModel.createUser(authenticatedUser);
         authViewModel.getCreatedUser().observe(this, user -> {
             if (user.isCreated()) {
-                showToast(user.getName());
+                ToastMaster.showToast(this, user.getName());
             }
             goToMainActivity(user);
         });
@@ -111,12 +111,5 @@ public class AuthActivity extends AppCompatActivity {
         intent.putExtra(Constants.USER, user);
         startActivity(intent);
         finish();
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this,
-                message,
-                Toast.LENGTH_LONG)
-                .show();
     }
 }

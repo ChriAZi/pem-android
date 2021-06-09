@@ -1,12 +1,11 @@
 package com.example.studywithme.ui.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.data.repositories.SplashRepository;
 
-public class SplashViewModel extends ViewModel {
+public class SplashViewModel extends AbstractViewModel {
     private final SplashRepository splashRepository;
     LiveData<User> isUserAuthenticated;
     LiveData<User> userLiveData;
