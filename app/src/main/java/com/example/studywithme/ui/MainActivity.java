@@ -19,6 +19,7 @@ import com.example.studywithme.ui.authentication.AuthActivity;
 import com.example.studywithme.ui.viewmodels.SessionCreationViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.utils.Constants;
+import com.example.studywithme.utils.ToastMaster;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -109,9 +110,14 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private void startViewModelObservation() {
         sessionCreationViewModel.getCurrentSession().observe(this, session -> {
             TextView testView = findViewById(R.id.tv_session_id);
-            testView.setText(session.getUid());
-            currSession = session.getUid();
-            Session.setIdInPreferences(session.getUid(), this);
+            String sessionId = session.getUid();
+            testView.setText(sessionId);
+            /*    testView.setText(session.getUid());
+                currSession = session.getUid();
+                Session.setIdInPreferences(session.getUid(), this); */
+        });
+        sessionCreationViewModel.getCurrentUser(User.getIdFromPreferences(this)).observe(this, user -> {
+            ToastMaster.showToast(this, "Current User: " + user.getName());
         });
     }
 

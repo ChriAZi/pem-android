@@ -9,7 +9,7 @@ import com.example.studywithme.data.repositories.SessionHistoryRepository;
 import java.util.List;
 
 
-public class SessionHistoryViewModel extends ViewModel {
+public class SessionHistoryViewModel extends AbstractViewModel {
     private final SessionHistoryRepository sessionHistoryRepository;
     private LiveData<List<Session>> sessions;
 
