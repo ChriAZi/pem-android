@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private void startTimerActivity() {
         Intent i = new Intent(MainActivity.this, TimerActivity.class);
         i.putExtra(Constants.USER, user);
-        i.putExtra(Constants.SESSIONS,currSession);
+        i.putExtra(Constants.SESSIONS, currSession);
         MainActivity.this.startActivity(i);
     }
 
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             TextView testView = findViewById(R.id.tv_session_id);
             testView.setText(session.getUid());
             currSession = session.getUid();
+            Session.setIdInPreferences(session.getUid(), this);
         });
     }
 

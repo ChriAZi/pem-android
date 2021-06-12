@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
+import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.viewmodels.SessionCreationViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
@@ -55,7 +56,8 @@ public class TimerActivity extends AppCompatActivity {
     private SessionCreationViewModel sessionCreationViewModel;
     private SessionHistoryViewModel sessionHistoryViewModel;
     private User user;
-    private String session;
+    private String session2;
+    private Session session;
     private String uID;
 
 
@@ -80,6 +82,8 @@ public class TimerActivity extends AppCompatActivity {
         stop = findViewById(R.id.stop);
         et_timer = findViewById(R.id.session_duration);
 
+
+        getCurrentSession();
         getCurrentUser();
         initViewModels();
       //  initViewModel();
@@ -147,13 +151,18 @@ public class TimerActivity extends AppCompatActivity {
         });
     }
 
+    private void getCurrentSession() {
+        // session = Session.getIdFromPreferences(this);
+    }
+
     private void getCurrentUser() {
+       // user = User.getIdFromPreferences(this);
         Bundle extras = getIntent().getExtras();
         if(extras == null) {
             user= null;
         } else {
             user= (User) extras.get(Constants.USER);
-            session = (String) extras.get(Constants.SESSIONS);
+            session2 = (String) extras.get(Constants.SESSIONS);
             Log.d(TAG, String.valueOf(user));
             Log.d(TAG,String.valueOf(session));
 
@@ -193,7 +202,7 @@ public class TimerActivity extends AppCompatActivity {
     private void initViewModels() {
         sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
         sessionHistoryViewModel.getSessions(user.getUid()).observe(this, sessions -> {
-            partnerGoal.setText(session);
+            partnerGoal.setText(session2);
         });
         creatorName.setText(user.getName());
 
