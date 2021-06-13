@@ -10,42 +10,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
-import com.example.studywithme.ui.viewmodels.AbstractViewModelFactory;
 import com.example.studywithme.ui.viewmodels.SessionCreationViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.utils.Constants;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import static com.example.studywithme.data.models.User.getIdFromPreferences;
 
 public class TimerActivity extends AppCompatActivity {
     ProgressBar progressBar;
@@ -66,6 +44,7 @@ public class TimerActivity extends AppCompatActivity {
     private Session session;
     private String uID;
     private boolean active = false;
+    private Timestamp sessionStart;
 
 
     @Override
@@ -97,53 +76,6 @@ public class TimerActivity extends AppCompatActivity {
         //initAbstractViewModel();
         initViewModel();
 
-
-      /*  db = FirebaseFirestore.getInstance();
-
-        CollectionReference cities = db.collection("users");
-
-        Map<String, Object> data1 = new HashMap<>();
-        data1.put("name", "Max Mustermann");
-        data1.put("email", "max@mustermann.de");
-        cities.document("SF").set(data1);
-
-        //get current userID and partnerID instead of SF
-        DocumentReference docRef2 = db.collection("sessions").document("m2SCORCU5GVC2EtpIHor");
-        docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData().get("duration"));
-                        startTimer(document.getData().get("duration").toString());
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-            });
-
-        DocumentReference documentReference = db.collection("users").document("6RZPdsF6vSQQHAe4BXwTkTXtowb2");
-        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData().get("name"));
-                            creatorName.setText(document.getData().get("name").toString());
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-
-            }
-        });*/
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,10 +134,11 @@ public class TimerActivity extends AppCompatActivity {
             textTimer.setText(String.valueOf(session.getDuration()));
             creatorName.setText(user.getName());
             creatorWork.setText(session.getOwnerSetting().getCategories().get(0).toString());
-            creatorGoal.setText(session.getOwnerSetting().getGoal().toString());
+            creatorGoal.setText(session.getOwnerSetting().getGoal());
            // partnerName.setText(session.getPartner().toString());
             partnerWork.setText(session.getPartnerSetting().getCategories().get(0).toString());
-            partnerGoal.setText(session.getPartnerSetting().getGoal().toString());
+            partnerGoal.setText(session.getPartnerSetting().getGoal());
+
 
             started.setText(Boolean.toString(session.isActive()));
             if(!active){
@@ -217,28 +150,6 @@ public class TimerActivity extends AppCompatActivity {
              });
     }
 
-    private void initAbstractViewModel(){
-      // abstractViewModel = new ViewModelProviders.of(this, new AbstractViewModelFactory()).get(AbstractViewModel.class);
-      //  final Observer<Session> sessionobserver = new Observer<Session>() {
-      //      @Override
-       //     public void onChanged(Session sessionS) {
-        //Session currentSession = abstractViewModel.getActiveSession(session2);
-        /*
-                creatorName.setText((CharSequence) currentSession.getOwner());
-                creatorWork.setText((CharSequence) sessionS.getOwnerSetting().getCategories());
-                creatorGoal.setText(session2.getOwnerSetting().getGoal());
-      */      }
-     //   };
-       /* abstractViewModel.getCurrentUser(user.getUid()).observe(this,user ->{
-            creatorName.setText((CharSequence) user.getName());
-        });
-     /*   abstractViewModel.getActiveSession(session2).observe(this, session ->{
-            creatorName.setText((CharSequence) session.getOwner());
-            creatorWork.setText((CharSequence) session.getOwnerSetting().getCategories());
-            creatorGoal.setText(session.getOwnerSetting().getGoal());
-        });*/
-
-   // }
 
     private void initViewModels() {
         sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
