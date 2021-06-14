@@ -120,6 +120,7 @@ public class TimerActivity extends AppCompatActivity {
 
         }
         textTimer.setText("Stopped!");
+        started.setText("Session stopped!");
     }
 
 
@@ -140,7 +141,7 @@ public class TimerActivity extends AppCompatActivity {
             partnerGoal.setText(session.getPartnerSetting().getGoal());
 
 
-            started.setText(Boolean.toString(session.isActive()));
+          //  started.setText("Session started");
             if(!active){
                 session.setActive(false);
             }else{
@@ -291,8 +292,10 @@ public class TimerActivity extends AppCompatActivity {
             String ts = tsLong.toString();
             SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyyhhmmss");
             String dateString = formatter.format(new Date(tsLong));
-            Log.d("Timestamp", dateString);
-           // started.setText("Session active");
+            sessionStart = new Timestamp(new Date());
+
+            Log.d("Timestamp", sessionStart.toString());
+            started.setText("Session active");
         } else {
             Toast.makeText(getApplicationContext(), "Please enter your session time", Toast.LENGTH_LONG).show();
         }
