@@ -64,14 +64,13 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         createSessionButton.setOnClickListener(view -> {
             sessionCreationViewModel.createSession(user.getUid(), session);
             startViewModelObservation();
-
+        });
         Button sessionHistoryButton = findViewById(R.id.bt_history);
         sessionHistoryButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, SessionHistoryActivity.class);
             startActivity(intent);
         });
-      });
-        Button startSessionButton = findViewById(R.id.bt_start_session);
+       Button startSessionButton = findViewById(R.id.bt_start_session);
         startSessionButton.setOnClickListener(view -> {
             startTimerActivity();
       });
