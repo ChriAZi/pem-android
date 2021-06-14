@@ -16,9 +16,11 @@ import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.authentication.AuthActivity;
+import com.example.studywithme.ui.history.SessionHistoryActivity;
 import com.example.studywithme.ui.viewmodels.SessionCreationViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.utils.Constants;
+import com.example.studywithme.utils.ToastMaster;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         storeUserInfo();
-        initViewModels();
+        initViewModel();
         initViews();
     }
 
@@ -48,12 +50,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         User.setIdInPreferences(user.getUid(), this);
     }
 
-    private void initViewModels() {
-        sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
-        sessionHistoryViewModel.getSessions(User.getIdFromPreferences(this)).observe(this, sessions -> {
-            TextView testView = findViewById(R.id.tv_test);
-            testView.setText(String.valueOf(sessions.get(0).getUid()));
-        });
+    private void initViewModel() {
         sessionCreationViewModel = new ViewModelProvider(this).get(SessionCreationViewModel.class);
     }
 
@@ -66,6 +63,12 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         createSessionButton.setOnClickListener(view -> {
             sessionCreationViewModel.createSession(user.getUid(), session);
             startViewModelObservation();
+        });
+
+        Button sessionHistoryButton = findViewById(R.id.bt_history);
+        sessionHistoryButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SessionHistoryActivity.class);
+            startActivity(intent);
         });
 
         MaterialButton signOutButton = findViewById(R.id.bt_sign_out);
@@ -97,7 +100,11 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private void startViewModelObservation() {
         sessionCreationViewModel.getCurrentSession().observe(this, session -> {
             TextView testView = findViewById(R.id.tv_session_id);
-            testView.setText(session.getUid());
+            String sessionId = session.getUid();
+            testView.setText(sessionId);
+        });
+        sessionCreationViewModel.getCurrentUser(User.getIdFromPreferences(this)).observe(this, user -> {
+            ToastMaster.showToast(this, "Current User: " + user.getName());
         });
     }
 

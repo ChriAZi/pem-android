@@ -24,8 +24,18 @@ public class SessionCreationRepository {
                 .addOnCompleteListener(sessionTask -> {
                     if (sessionTask.isSuccessful()) {
                         DocumentReference document = sessionTask.getResult();
-                        session.setUid(document.getId());
-                        newSession.setValue(session);
+                        String sessionId = document.getId();
+                        sessionsRef
+                                .document(sessionId)
+                                .update("uid", sessionId)
+                                .addOnCompleteListener(sessionUpdateTask -> {
+                                    if (sessionUpdateTask.isSuccessful()) {
+                                        session.setUid(sessionId);
+                                        newSession.setValue(session);
+                                    } else {
+                                        Logger.log(sessionUpdateTask.getException().getMessage());
+                                    }
+                                });
                     } else {
                         Logger.log(sessionTask.getException().getMessage());
                     }

@@ -1,13 +1,12 @@
 package com.example.studywithme.ui.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.data.repositories.AuthRepository;
 import com.google.firebase.auth.AuthCredential;
 
-public class AuthViewModel extends ViewModel {
+public class AuthViewModel extends AbstractViewModel {
     private final AuthRepository authRepository;
     private LiveData<User> authenticatedUser;
     private LiveData<User> createdUser;

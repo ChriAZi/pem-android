@@ -28,6 +28,18 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public static String getIdFromPreferences(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(Constants.USER_ID, null);
+    }
+
+    public static void setIdInPreferences(String userId, Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constants.USER_ID, userId);
+        editor.apply();
+    }
+
     public String getUid() {
         return uid;
     }
@@ -74,17 +86,5 @@ public class User implements Serializable {
 
     public void setCreated(boolean created) {
         isCreated = created;
-    }
-
-    public static String getIdFromPreferences(Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getString(Constants.USER_ID, null);
-    }
-
-    public static void setIdInPreferences(String userId, Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(Constants.USER_ID, userId);
-        editor.apply();
     }
 }
