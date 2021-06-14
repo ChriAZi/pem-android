@@ -1,13 +1,32 @@
 package com.example.studywithme.ui.questionnaire;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.studywithme.R;
+import com.example.studywithme.data.models.SessionTask;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,6 +43,12 @@ public class Quest3Fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private List<SessionTask> tasks;
+    private ArrayList<String> taskList;
+    private ArrayAdapter<String> tasksAdapter;
+    private ListView listView;
+    private Button submitTodoBtn;
 
     public Quest3Fragment() {
         // Required empty public constructor
@@ -54,12 +79,62 @@ public class Quest3Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        taskList = new ArrayList<>();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        final View view;
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_quest3, container, false);
+        view = inflater.inflate(R.layout.fragment_quest3, container, false);
+        listView = view.findViewById(R.id.toDoList);
+        submitTodoBtn = view.findViewById(R.id.btnSubmit3);
+
+        submitTodoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTodo(view);
+            }
+        });
+
+
+
+
+        /*ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_listview, items);
+        ListView listView = (ListView) view.findViewById(R.id.toDoList);
+        listView.setAdapter(itemsAdapter);
+*/
+        //taskList = new ArrayList<>();
+        tasksAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, taskList);
+        listView.setAdapter(tasksAdapter);
+        setUpListViewListener();
+
+        return view;
     }
+
+    private void setUpListViewListener() {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                taskList.remove(position);
+                tasksAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+    }
+
+    private void addTodo(View view) {
+        EditText editQuest3 = view.findViewById(R.id.editQuest3);
+        String todoText = editQuest3.getText().toString();
+
+        if (!(todoText.equals(""))){
+            tasksAdapter.add(todoText);
+            editQuest3.setText("");
+        } else {
+            //TODO
+        }
+    }
+
 }

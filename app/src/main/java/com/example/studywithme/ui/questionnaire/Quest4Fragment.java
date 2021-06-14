@@ -4,22 +4,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.studywithme.R;
+import com.example.studywithme.data.models.SessionTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Quest2Fragment#newInstance} factory method to
+ * Use the {@link Quest4Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Quest2Fragment extends Fragment {
+public class Quest4Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,12 +33,10 @@ public class Quest2Fragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private EditText editQuest2;
-    private TextView tvAnsw2;
-    //private Button submitCatBtn;
+    private EditText editQuest4;
 
 
-    public Quest2Fragment() {
+    public Quest4Fragment() {
         // Required empty public constructor
     }
 
@@ -47,8 +49,8 @@ public class Quest2Fragment extends Fragment {
      * @return A new instance of fragment Quest1.
      */
     // TODO: Rename and change types and number of parameters
-    public static Quest2Fragment newInstance(String param1, String param2) {
-        Quest2Fragment fragment = new Quest2Fragment();
+    public static Quest4Fragment newInstance(String param1, String param2) {
+        Quest4Fragment fragment = new Quest4Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,36 +68,22 @@ public class Quest2Fragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view;
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_quest2, container, false);
+        view = inflater.inflate(R.layout.fragment_quest4, container, false);
+        //listView = view.findViewById(R.id.toDoList);
 
-        //editQuest2 = view.findViewById(R.id.editQuest2);
-        tvAnsw2 = view.findViewById(R.id.tvAnsw2);
-        //submitCatBtn = view.findViewById(R.id.btnSubmit2);
-
-        /*submitCatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvAnsw2.setText(String.valueOf(editQuest2.getText()));
-            }
-        });*/
+        //taskList = new ArrayList<>();
+        //tasksAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, taskList);
+        //listView.setAdapter(tasksAdapter);
 
         if (savedInstanceState != null) {
             // Restore last state for checked position.
-            editQuest2.setText(savedInstanceState.getString("MyFragment2", "lol"));
+            editQuest4.setText(savedInstanceState.getString("MyFragment4", ""));
         }
-
-        // Get a reference to the AutoCompleteTextView in the layout
-        AutoCompleteTextView autoView = (AutoCompleteTextView) view.findViewById(R.id.autoEditQuest2);
-        // Get the string array
-        String[] categories = getResources().getStringArray(R.array.categories);
-        // Create the adapter and set it to the AutoCompleteTextView
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, categories);
-        autoView.setAdapter(adapter);
 
         return view;
     }
+
 }

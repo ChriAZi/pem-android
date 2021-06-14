@@ -10,20 +10,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10px"
+        android:layout_margin="80px"
+        android:padding="50px"
         android:layout_marginStart="4dp"
         android:orientation="vertical"
-        android:padding="10px"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#516c8d"
+        >
 
         <TextView
             android:id="@+id/hlFrag1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="First Question"
-            android:textSize="30dp"
-            android:layout_margin="20px"/>
+            android:text="1"
+            android:textSize="20dp"
+            android:layout_margin="20px"
+            android:textColor="#FFFFFF"
+            />
 
         <TextView
             android:id="@+id/tvQuest1"
@@ -34,6 +38,7 @@
             android:textSize="25dp"
             android:textStyle="normal"
             android:layout_margin="20px"
+            android:textColor="#FFFFFF"
             />
 
         <EditText
@@ -42,10 +47,13 @@
             android:layout_height="wrap_content"
             android:hint="Enter your goals"
             android:layout_margin="20px"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+
             />
 
         <TextView
-            android:id="@+id/tvAnsw1"
+            android:id="@+id/partnerGoal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center"
@@ -54,12 +62,12 @@
             android:textStyle="normal"
             android:layout_margin="20px"
             />
-        <Button
+        <!--Button
             android:id="@+id/btnSubmit1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Submit" />
+            android:text="Submit" /-->
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,18 +11,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="10px"
-        android:padding="10px"
+        android:layout_margin="80px"
+        android:padding="50px"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#516c8d">
 
         <TextView
             android:id="@+id/hlFrag2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Second Question"
-            android:textSize="30dp"
+            android:text="2"
+            android:textSize="20dp"
             android:layout_margin="20px"
+            android:textColor="#FFFFFF"
             />
 
         <TextView
@@ -34,16 +36,36 @@
             android:textSize="25dp"
             android:textStyle="normal"
             android:layout_margin="20px"
+            android:textColor="#FFFFFF"
             />
 
-        <EditText
+        <!--EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editQuest2"
             android:hint="Enter matching categories"
             android:layout_margin="20px"
+            /-->
 
+        <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/autoEditQuest2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter matching categories"
+            android:textColorHint="#FFFFFF"
+            android:layout_margin="20px"
+            android:textColor="#FFFFFF"
             />
+
+        <TextView
+            android:id="@+id/tvAnsw2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center"
+            android:text=""
+            android:textSize="25dp"
+            android:textStyle="normal"
+            android:layout_margin="20px" />
 
     </LinearLayout>
 

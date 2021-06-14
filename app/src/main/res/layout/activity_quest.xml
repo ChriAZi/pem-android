@@ -37,14 +37,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Prev" />
+            android:text="Prev"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:backgroundTint="#7f9abd"
+            android:textColor="#FFFFFF"
+            />
 
         <Button
             android:id="@+id/btnNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Next" />
+            android:text="Next"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:backgroundTint="#516c8d"
+            android:textColor="#FFFFFF"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

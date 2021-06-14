@@ -16,26 +16,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="#516c8d"
-
+        android:textColor="#FFFFFF"
         >
 
         <TextView
-            android:id="@+id/hlFrag3"
+            android:id="@+id/hlFrag4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
+            android:text="4"
             android:textSize="20dp"
             android:layout_margin="20px"
             android:textColor="#FFFFFF"
-
             />
 
         <TextView
-            android:id="@+id/tvQuest3"
+            android:id="@+id/tvQuest4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center"
-            android:text="Add some subtasks?"
+            android:text="How much time?"
             android:textSize="25dp"
             android:textStyle="normal"
             android:layout_margin="20px"
@@ -45,25 +44,12 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editQuest3"
-            android:hint="Enter a subtask"
+            android:id="@+id/editQuest4"
+            android:hint="Enter your duration in minutes"
             android:layout_margin="20px"
             android:textColorHint="#FFFFFF"
             android:textColor="#FFFFFF"
-            />
-
-        <Button
-            android:id="@+id/btnSubmit3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Add ToDo" />
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/toDoList"
-            android:textColor="#FFFFFF"
+            android:inputType="number"
             />
 
     </LinearLayout>

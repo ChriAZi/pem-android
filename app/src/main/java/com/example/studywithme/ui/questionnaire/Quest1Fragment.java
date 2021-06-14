@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,9 @@ public class Quest1Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private EditText editQuest1;
+    private String answ1;
     private TextView tvAnsw1;
-    private Button submitBtn;
+    //private Button submitBtn;
 
     public Quest1Fragment() {
         // Required empty public constructor
@@ -63,6 +65,10 @@ public class Quest1Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            editQuest1.setText(savedInstanceState.getString("MyFragment1", "lol"));
+        }
     }
 
     @Override
@@ -72,16 +78,41 @@ public class Quest1Fragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_quest1, container, false);
         editQuest1 = view.findViewById(R.id.editQuest1);
-        tvAnsw1 = view.findViewById(R.id.tvAnsw1);
-        submitBtn = view.findViewById(R.id.btnSubmit1);
+        tvAnsw1 = view.findViewById(R.id.partnerGoal);
+        //submitBtn = view.findViewById(R.id.btnSubmit1);
 
-        submitBtn.setOnClickListener(new View.OnClickListener() {
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            editQuest1.setText(savedInstanceState.getString("MyFragment1", ""));
+        }
+        /*submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tvAnsw1.setText(String.valueOf(editQuest1.getText()));
             }
-        });
+        });*/
 
         return view;
     }
+
+    /*@Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            editQuest1.setText(savedInstanceState.getString("MyFragment1", "lol"));
+            Log.d("tagtagtag", "hallo" + editQuest1.getText().toString());
+
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        Log.d("tagtagtag", "hallo lol");
+        super.onSaveInstanceState(outState);
+        outState.putString("MyFragment1", editQuest1.getText().toString());
+        Log.d("tagtagtag", "hallo" + editQuest1.getText().toString());
+    }*/
+
 }
