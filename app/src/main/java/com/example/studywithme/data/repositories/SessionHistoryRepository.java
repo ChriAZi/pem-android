@@ -17,11 +17,14 @@ import java.util.List;
 public class SessionHistoryRepository {
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference sessionsRef = rootRef.collection(Constants.SESSIONS);
+    private final CollectionReference usersRef = rootRef.collection(Constants.USERS);
+
 
     public LiveData<List<Session>> getSessions(String userId) {
-        DocumentReference userDocument = rootRef.collection(Constants.USERS).document(userId);
+        DocumentReference userDocument = usersRef.document(userId);
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
-        sessionsRef.whereEqualTo("owner", userDocument)
+        sessionsRef
+                .whereEqualTo("owner", userDocument)
                 .addSnapshotListener((snapshot, exception) -> {
                     if (exception != null) {
                         Logger.log("Listen failed." + exception);

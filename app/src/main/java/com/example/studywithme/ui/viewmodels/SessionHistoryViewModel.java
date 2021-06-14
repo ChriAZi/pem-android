@@ -1,7 +1,6 @@
 package com.example.studywithme.ui.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.repositories.SessionHistoryRepository;
