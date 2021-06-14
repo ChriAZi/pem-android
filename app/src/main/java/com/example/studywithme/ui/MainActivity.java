@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private SessionHistoryViewModel sessionHistoryViewModel;
     private SessionCreationViewModel sessionCreationViewModel;
     private User user;
+    private String currSession;
 
 
     @Override
@@ -63,16 +64,27 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         createSessionButton.setOnClickListener(view -> {
             sessionCreationViewModel.createSession(user.getUid(), session);
             startViewModelObservation();
-        });
 
         Button sessionHistoryButton = findViewById(R.id.bt_history);
         sessionHistoryButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, SessionHistoryActivity.class);
             startActivity(intent);
         });
+      });
+        Button startSessionButton = findViewById(R.id.bt_start_session);
+        startSessionButton.setOnClickListener(view -> {
+            startTimerActivity();
+      });
 
         MaterialButton signOutButton = findViewById(R.id.bt_sign_out);
         signOutButton.setOnClickListener(view -> firebaseAuth.signOut());
+    }
+
+    private void startTimerActivity() {
+        Intent i = new Intent(MainActivity.this, TimerActivity.class);
+        i.putExtra(Constants.USER, user);
+        i.putExtra(Constants.SESSION_ID, currSession);
+        MainActivity.this.startActivity(i);
     }
 
     private User getUserFromIntent() {
@@ -84,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         SessionTask sessionTask2 = new SessionTask("Subtask2", false);
         SessionSetting ownerSetting = new SessionSetting(
                 "TestSession",
-                "TestGoal",
+                "MyGoal",
                 new ArrayList<SessionCategory>() {{
                     add(SessionCategory.HOBBY);
                 }},
@@ -94,7 +106,19 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         add(sessionTask2);
                     }
                 });
-        return new Session(20, new Timestamp(new Date()), false, null, null, ownerSetting, null);
+        SessionSetting partnerSetting = new SessionSetting(
+                "TestSession",
+                "PartnerGoal",
+                new ArrayList<SessionCategory>() {{
+                    add(SessionCategory.UNIVERSITY);
+                }},
+                new ArrayList<SessionTask>() {
+                    {
+                        add(sessionTask1);
+                        add(sessionTask2);
+                    }
+                });
+        return new Session(20, new Timestamp(new Date()), false, null, null, ownerSetting, partnerSetting);
     }
 
     private void startViewModelObservation() {
@@ -102,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             TextView testView = findViewById(R.id.tv_session_id);
             String sessionId = session.getUid();
             testView.setText(sessionId);
+            currSession = sessionId;
+            Session.setIdInPreferences(session.getUid(), this);
         });
         sessionCreationViewModel.getCurrentUser(User.getIdFromPreferences(this)).observe(this, user -> {
             ToastMaster.showToast(this, "Current User: " + user.getName());
