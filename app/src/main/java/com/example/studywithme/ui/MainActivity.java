@@ -119,6 +119,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         add(sessionTask1);
                         add(sessionTask2);
                     }
+                },
+                60);
+        //return new Session(20, new Timestamp(new Date()), false, null, null, ownerSetting, null);
+
                 });
         return new Session(20, true, null, null, ownerSetting, null);
     }
