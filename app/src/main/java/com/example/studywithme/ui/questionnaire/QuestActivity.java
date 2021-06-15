@@ -18,12 +18,21 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
+import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.data.models.SessionSetting;
+import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.viewmodels.SessionCreationViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.security.acl.Owner;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class QuestActivity extends AppCompatActivity {
 
@@ -34,13 +43,13 @@ public class QuestActivity extends AppCompatActivity {
     private FragmentManager fm;
     private int page = 0;
     private SessionCreationViewModel sessionCreationViewModel;
+    private DocumentReference owner;
     private User user;
     private String session2;
     private Session session;
     private SessionSetting setting;
     private String uID;
-    TextView textTimer,creatorName,partnerName,creatorGoal,partnerGoal,creatorWork,partnerWork;
-    String[] allValues;
+    //TextView textTimer,creatorName,partnerName,creatorGoal,partnerGoal,creatorWork,partnerWork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,14 +62,10 @@ public class QuestActivity extends AppCompatActivity {
         question3 = new Quest3Fragment();
         question4 = new Quest4Fragment();
 
-        if (savedInstanceState != null) {
-            //Restore the fragment's instance
-            question1 = getSupportFragmentManager().getFragment(savedInstanceState, "myFragment1");
-            question2 = getSupportFragmentManager().getFragment(savedInstanceState, "myFragment2");
-            question3 = getSupportFragmentManager().getFragment(savedInstanceState, "myFragment3");
-            question4 = getSupportFragmentManager().getFragment(savedInstanceState, "myFragment4");
-
-        }
+        /*
+        getCurrentSession();
+        getCurrentUser();
+        */
 
         fm = getSupportFragmentManager();
         fm.beginTransaction().add(R.id.questLayout, question1).commit();
@@ -68,7 +73,6 @@ public class QuestActivity extends AppCompatActivity {
         setupViewPager();
         pageChange();
 
-        partnerGoal = findViewById(R.id.partnerGoal);
         btnPrev = findViewById(R.id.btnPrev);
         btnPrev.setEnabled(false);
         btnNext = findViewById(R.id.btnNext);
@@ -84,42 +88,42 @@ public class QuestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem()+1, true);
+                if(btnNext.getText() == "Submit") {
+                    Log.d("lookhere", "TODO: communicate with firebase");
+                    // initViewModel();
+                }
             }
         });
-
-        /*sessionCreationViewModel.getCurrentSession();
-        getCurrentUser();
-        initViewModel();*/
     }
 
     /**
      * observes the current session and sets the variables to the current values
      * but does not work yet
      */
+    /*
     private void initViewModel(){
-        sessionCreationViewModel = new ViewModelProvider(this).get(SessionCreationViewModel.class);
         sessionCreationViewModel.getCurrentSession().observe(this, sessions -> {
-            textTimer.setText(sessions.getDuration());
-            creatorName.setText((CharSequence) sessions.getOwner());
-            creatorWork.setText((CharSequence) sessions.getOwnerSetting().getCategories());
-            creatorGoal.setText(sessions.getOwnerSetting().getGoal());
-            partnerName.setText((CharSequence) sessions.getPartner());
-            partnerWork.setText((CharSequence) sessions.getPartnerSetting().getCategories());
-            partnerGoal.setText(sessions.getPartnerSetting().getGoal());
-
+            owner = sessions.getOwner();
         });
+        SessionTask sessionTask1 = new SessionTask("Subtask1", true);
+        SessionTask sessionTask2 = new SessionTask("Subtask2", true);
+        setting = new SessionSetting
+                ("testgoal",
+                new ArrayList<SessionCategory>() {{add(SessionCategory.HOBBY);}},
+                        new ArrayList<SessionTask>() {{add(sessionTask1); add(sessionTask2);}},
+                        60
+                );
+        session = new Session(new Timestamp(new Date()), false, owner, setting);
+        sessionCreationViewModel = new ViewModelProvider(this).get(SessionCreationViewModel.class);
+        sessionCreationViewModel.createSession(user.getUid(), session);
     }
-
-    /*private void initViewModels() {
-        sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
-        sessionHistoryViewModel.getSessions(user.getUid()).observe(this, sessions -> {
-            partnerGoal.setText(session2);
-        });
-        creatorName.setText(user.getName());
-    }*/
 
     private void getCurrentUser() {
     }
+
+    private void getCurrentSession() {
+        // session = Session.getIdFromPreferences(this);
+    } */
 
     private void pageChange() {
 
@@ -133,7 +137,6 @@ public class QuestActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 page = position;
                 fm.beginTransaction().replace(R.id.questLayout, adapter.list_fragments[position]).addToBackStack(null).commit();
-
 
                 switch (position) {
                     case 0:
@@ -177,8 +180,6 @@ public class QuestActivity extends AppCompatActivity {
 
     private class Adapter extends PagerAdapter {
         Context context;
-        //Fragment question1, question2, question3, question4;
-        //LayoutInflater inflater;
 
         public Adapter(Context context) {
             this.context = context;
@@ -214,13 +215,6 @@ public class QuestActivity extends AppCompatActivity {
     }
 
     /*@Override
-    protected void onSaveInstanceState (Bundle outState) {
-        Log.d("tagtagtag", allValues.toString());
-        outState.putStringArray("allValues", allValues);
-        super.onSaveInstanceState(outState);
-    }*/
-
-    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -230,6 +224,6 @@ public class QuestActivity extends AppCompatActivity {
         getSupportFragmentManager().putFragment(outState, "myFragment3", question3);
         getSupportFragmentManager().putFragment(outState, "myFragment4", question4);
 
-    }
+    }*/
 
 }

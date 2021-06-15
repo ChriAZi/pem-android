@@ -72,16 +72,6 @@ public class Quest4Fragment extends Fragment {
         final View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_quest4, container, false);
-        //listView = view.findViewById(R.id.toDoList);
-
-        //taskList = new ArrayList<>();
-        //tasksAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, taskList);
-        //listView.setAdapter(tasksAdapter);
-
-        if (savedInstanceState != null) {
-            // Restore last state for checked position.
-            editQuest4.setText(savedInstanceState.getString("MyFragment4", ""));
-        }
 
         return view;
     }

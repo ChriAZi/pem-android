@@ -7,6 +7,7 @@ public class SessionSetting implements Serializable {
     private String uid;
     private String name;
     private String goal;
+    private int duration;
     private List<SessionCategory> categories;
     private List<SessionTask> tasks;
 
@@ -14,11 +15,13 @@ public class SessionSetting implements Serializable {
 
     }
 
-    public SessionSetting(String name, String goal, List<SessionCategory> categories, List<SessionTask> tasks) {
+    //TODO String name in the beginning
+    public SessionSetting(String name, String goal, List<SessionCategory> categories, List<SessionTask> tasks, int duration) {
         this.name = name;
         this.goal = goal;
         this.categories = categories;
         this.tasks = tasks;
+        this.duration = duration;
     }
 
     public String getUid() {
@@ -59,5 +62,13 @@ public class SessionSetting implements Serializable {
 
     public void setTasks(List<SessionTask> tasks) {
         this.tasks = tasks;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

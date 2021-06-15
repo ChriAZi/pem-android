@@ -30,9 +30,6 @@ public class Quest2Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private EditText editQuest2;
-    private TextView tvAnsw2;
-    //private Button submitCatBtn;
-
 
     public Quest2Fragment() {
         // Required empty public constructor
@@ -71,22 +68,6 @@ public class Quest2Fragment extends Fragment {
         final View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_quest2, container, false);
-
-        //editQuest2 = view.findViewById(R.id.editQuest2);
-        tvAnsw2 = view.findViewById(R.id.tvAnsw2);
-        //submitCatBtn = view.findViewById(R.id.btnSubmit2);
-
-        /*submitCatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvAnsw2.setText(String.valueOf(editQuest2.getText()));
-            }
-        });*/
-
-        if (savedInstanceState != null) {
-            // Restore last state for checked position.
-            editQuest2.setText(savedInstanceState.getString("MyFragment2", "lol"));
-        }
 
         // Get a reference to the AutoCompleteTextView in the layout
         AutoCompleteTextView autoView = (AutoCompleteTextView) view.findViewById(R.id.autoEditQuest2);

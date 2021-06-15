@@ -99,13 +99,6 @@ public class Quest3Fragment extends Fragment {
             }
         });
 
-
-
-
-        /*ArrayAdapter<String> itemsAdapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_listview, items);
-        ListView listView = (ListView) view.findViewById(R.id.toDoList);
-        listView.setAdapter(itemsAdapter);
-*/
         //taskList = new ArrayList<>();
         tasksAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, taskList);
         listView.setAdapter(tasksAdapter);
