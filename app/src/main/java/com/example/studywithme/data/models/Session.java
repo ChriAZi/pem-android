@@ -1,5 +1,10 @@
 package com.example.studywithme.data.models;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.example.studywithme.utils.Constants;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -100,5 +105,17 @@ public class Session implements Serializable {
 
     public void setPartnerSetting(SessionSetting partnerSetting) {
         this.partnerSetting = partnerSetting;
+    }
+
+    public static String getIdFromPreferences(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(Constants.SESSION_ID, null);
+    }
+
+    public static void setIdInPreferences(String sessionId, Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constants.SESSION_ID, sessionId);
+        editor.apply();
     }
 }
