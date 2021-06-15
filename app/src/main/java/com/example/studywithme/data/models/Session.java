@@ -36,9 +36,7 @@ public class Session implements Serializable {
         this.partnerSetting = partnerSetting;
     }
 
-    public Session(Timestamp startedAt, boolean active, DocumentReference owner, SessionSetting ownerSetting) {
-        this.startedAt = startedAt;
-        this.active = active;
+    public Session(DocumentReference owner, SessionSetting ownerSetting) {
         this.owner = owner;
         this.ownerSetting = ownerSetting;
     }

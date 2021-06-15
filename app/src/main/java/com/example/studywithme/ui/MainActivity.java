@@ -22,12 +22,10 @@ import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.ToastMaster;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -119,10 +117,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         add(sessionTask1);
                         add(sessionTask2);
                     }
-                },
-                60);
-        //return new Session(20, new Timestamp(new Date()), false, null, null, ownerSetting, null);
-
                 });
         return new Session(20, true, null, null, ownerSetting, null);
     }
@@ -130,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private SessionSetting createSessionSetting() {
         SessionTask sessionTask1 = new SessionTask("PartnerTask1", true);
         SessionTask sessionTask2 = new SessionTask("PartnerTask2", false);
-        SessionSetting partnerSetting = new SessionSetting(
+        return new SessionSetting(
                 "PartnerSession",
                 "PartnerGoal",
                 new ArrayList<SessionCategory>() {{
@@ -142,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         add(sessionTask2);
                     }
                 });
-        return partnerSetting;
     }
 
     @Override

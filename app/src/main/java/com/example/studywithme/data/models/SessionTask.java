@@ -3,7 +3,6 @@ package com.example.studywithme.data.models;
 import java.io.Serializable;
 
 public class SessionTask implements Serializable {
-    // private String uid;
     private String description;
     private boolean done;
 
@@ -15,14 +14,6 @@ public class SessionTask implements Serializable {
         this.description = description;
         this.done = done;
     }
-
-    /*public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }*/
 
     public String getDescription() {
         return description;
