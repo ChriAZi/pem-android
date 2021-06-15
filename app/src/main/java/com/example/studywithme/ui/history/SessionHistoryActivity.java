@@ -26,7 +26,7 @@ public class SessionHistoryActivity extends AppCompatActivity {
     private void initViewModel() {
         String userId = User.getIdFromPreferences(this);
         sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
-        sessionHistoryViewModel.getSessions(userId).observe(this, sessions -> {
+        sessionHistoryViewModel.getPastSessions(userId).observe(this, sessions -> {
             SessionHistoryAdapter adapter = new SessionHistoryAdapter(sessions);
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             recyclerView.setAdapter(adapter);

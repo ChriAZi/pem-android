@@ -20,6 +20,7 @@ import com.example.studywithme.ui.authentication.AuthActivity;
 import com.example.studywithme.ui.history.SessionHistoryActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
+import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.ToastMaster;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private QuestionnaireViewModel questionnaireViewModel;
+    private TimerViewModel timerViewModel;
     private User user;
 
 
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private void initViewModel() {
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
+        timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
     }
 
     @SuppressLint("SetTextI18n")
@@ -84,6 +87,15 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         Button startTimerButton = findViewById(R.id.bt_start_timer);
         startTimerButton.setOnClickListener(view -> {
             startTimerActivity();
+        });
+
+        Button endSessionButton = findViewById(R.id.bt_end_session);
+        endSessionButton.setOnClickListener(view -> {
+            timerViewModel.endSession(Session.getIdFromPreferences(this)).observe(this, finished -> {
+                if (finished) {
+                    ToastMaster.showToast(this, "Session finished!");
+                }
+            });
         });
 
         Button sessionHistoryButton = findViewById(R.id.bt_history);

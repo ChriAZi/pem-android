@@ -20,11 +20,12 @@ public class SessionHistoryRepository {
     private final CollectionReference usersRef = rootRef.collection(Constants.USERS);
 
 
-    public LiveData<List<Session>> getSessions(String userId) {
+    public LiveData<List<Session>> getPastSessions(String userId) {
         DocumentReference userDocument = usersRef.document(userId);
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
         sessionsRef
                 .whereEqualTo("owner", userDocument)
+                .whereEqualTo("active", false)
                 .addSnapshotListener((snapshot, exception) -> {
                     if (exception != null) {
                         Logger.log("Listen failed." + exception);

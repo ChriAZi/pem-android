@@ -16,8 +16,8 @@ public class SessionHistoryViewModel extends AbstractViewModel {
         sessionHistoryRepository = new SessionHistoryRepository();
     }
 
-    public LiveData<List<Session>> getSessions(String userId) {
-        sessions = sessionHistoryRepository.getSessions(userId);
+    public LiveData<List<Session>> getPastSessions(String userId) {
+        sessions = sessionHistoryRepository.getPastSessions(userId);
         return sessions;
     }
 }

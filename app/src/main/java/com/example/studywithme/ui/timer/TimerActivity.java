@@ -152,7 +152,7 @@ public class TimerActivity extends AppCompatActivity {
 
     private void initViewModels() {
         sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
-        sessionHistoryViewModel.getSessions(user.getUid()).observe(this, sessions -> {
+        sessionHistoryViewModel.getPastSessions(user.getUid()).observe(this, sessions -> {
             partnerGoal.setText(session2);
         });
         creatorName.setText(user.getName());
