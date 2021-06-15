@@ -16,6 +16,7 @@ public class Session implements Serializable {
     private int duration;
     private Timestamp startedAt;
     private boolean active;
+    private boolean isPublic;
 
     private DocumentReference owner;
     private DocumentReference partner;
@@ -26,10 +27,9 @@ public class Session implements Serializable {
 
     }
 
-    public Session(int duration, Timestamp startedAt, boolean active, DocumentReference owner, DocumentReference partner, SessionSetting ownerSetting, SessionSetting partnerSetting) {
+    public Session(int duration, boolean isPublic, DocumentReference owner, DocumentReference partner, SessionSetting ownerSetting, SessionSetting partnerSetting) {
         this.duration = duration;
-        this.startedAt = startedAt;
-        this.active = active;
+        this.isPublic = isPublic;
         this.owner = owner;
         this.partner = partner;
         this.ownerSetting = ownerSetting;
@@ -100,12 +100,20 @@ public class Session implements Serializable {
         this.partnerSetting = partnerSetting;
     }
 
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
     public static String getIdFromPreferences(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(Constants.SESSION_ID, null);
     }
 
-    public static void setIdInPreferences(String sessionId, Context context) {
+    public static void setIdInPreferences(Context context, String sessionId) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(Constants.SESSION_ID, sessionId);

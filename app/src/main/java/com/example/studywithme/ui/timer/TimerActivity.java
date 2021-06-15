@@ -1,4 +1,4 @@
-package com.example.studywithme.ui;
+package com.example.studywithme.ui.timer;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -17,7 +17,7 @@ import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
-import com.example.studywithme.ui.viewmodels.SessionCreationViewModel;
+import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.utils.Constants;
 import com.google.firebase.Timestamp;
@@ -27,7 +27,7 @@ import java.util.Date;
 
 public class TimerActivity extends AppCompatActivity {
     ProgressBar progressBar;
-    TextView textTimer,creatorName,partnerName,creatorGoal,partnerGoal,creatorWork,partnerWork,started;
+    TextView textTimer, creatorName, partnerName, creatorGoal, partnerGoal, creatorWork, partnerWork, started;
     Button start;
     Button stop;
     EditText et_timer;
@@ -36,7 +36,7 @@ public class TimerActivity extends AppCompatActivity {
     int progress;
     int endTime = 250;
     private String TAG = "TimerActivity";
-    private SessionCreationViewModel sessionCreationViewModel;
+    private QuestionnaireViewModel questionnaireViewModel;
     private SessionHistoryViewModel sessionHistoryViewModel;
     public AbstractViewModel abstractViewModel;
     private User user;
@@ -70,7 +70,6 @@ public class TimerActivity extends AppCompatActivity {
         started = findViewById(R.id.started);
 
 
-
         getCurrentSession();
         getCurrentUser();
         //initAbstractViewModel();
@@ -97,16 +96,16 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void getCurrentUser() {
-       // user = User.getIdFromPreferences(this);
+        // user = User.getIdFromPreferences(this);
         Bundle extras = getIntent().getExtras();
-        if(extras == null) {
-            user= null;
+        if (extras == null) {
+            user = null;
             session2 = null;
         } else {
-            user= (User) extras.get(Constants.USER);
+            user = (User) extras.get(Constants.USER);
             session2 = (String) extras.get(Constants.SESSION_ID);
             Log.d(TAG, String.valueOf(user));
-            Log.d(TAG,String.valueOf(session));
+            Log.d(TAG, String.valueOf(session));
 
         }
     }
@@ -124,11 +123,10 @@ public class TimerActivity extends AppCompatActivity {
     }
 
 
-
     /**
      * observes the current session and sets the variables to the current values
      */
-    private void initViewModel(){
+    private void initViewModel() {
         abstractViewModel = new ViewModelProvider(this).get(AbstractViewModel.class);
         abstractViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
 
@@ -136,19 +134,19 @@ public class TimerActivity extends AppCompatActivity {
             creatorName.setText(user.getName());
             creatorWork.setText(session.getOwnerSetting().getCategories().get(0).toString());
             creatorGoal.setText(session.getOwnerSetting().getGoal());
-           // partnerName.setText(session.getPartner().toString());
+            // partnerName.setText(session.getPartner().toString());
             partnerWork.setText(session.getPartnerSetting().getCategories().get(0).toString());
             partnerGoal.setText(session.getPartnerSetting().getGoal());
 
 
-          //  started.setText("Session started");
-            if(!active){
+            //  started.setText("Session started");
+            if (!active) {
                 session.setActive(false);
-            }else{
+            } else {
                 session.setActive(true);
             }
 
-             });
+        });
     }
 
 
@@ -164,7 +162,7 @@ public class TimerActivity extends AppCompatActivity {
     /**
      * starts timer from database timer duration
      */
-    private void startTimer(String duration){
+    private void startTimer(String duration) {
         if (duration.length() > 0) {
             myProgress = 0;
 
@@ -181,7 +179,7 @@ public class TimerActivity extends AppCompatActivity {
             countdownTimer = new CountDownTimer(60 * endTime * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    setProgress(progress, endTime*60);
+                    setProgress(progress, endTime * 60);
                     progress = progress + 1;
                     int seconds = (int) (millisUntilFinished / 1000) % 60;
                     int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
@@ -212,9 +210,9 @@ public class TimerActivity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-                    setProgress(progress, endTime*60);
+                    setProgress(progress, endTime * 60);
                     textTimer.setText("Finished");
-                   // started.setText("Session finished");
+                    // started.setText("Session finished");
                 }
             };
             countdownTimer.start();
@@ -229,7 +227,7 @@ public class TimerActivity extends AppCompatActivity {
      * starts countdown & progress bar timer with time given from the input field
      */
     private void startTimer() {
-        if (et_timer.getText().toString().length() > 0 || textTimer.getText() != "00:00" ){
+        if (et_timer.getText().toString().length() > 0 || textTimer.getText() != "00:00") {
             myProgress = 0;
 
             try {
@@ -239,9 +237,9 @@ public class TimerActivity extends AppCompatActivity {
 
             }
             String timeInterval = "";
-            if(et_timer.getText().toString().length() >0){
-            timeInterval = et_timer.getText().toString();}
-            else{
+            if (et_timer.getText().toString().length() > 0) {
+                timeInterval = et_timer.getText().toString();
+            } else {
                 timeInterval = textTimer.getText().toString();
             }
             progress = 1;
@@ -250,7 +248,7 @@ public class TimerActivity extends AppCompatActivity {
             countdownTimer = new CountDownTimer(60 * endTime * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    setProgress(progress, endTime*60);
+                    setProgress(progress, endTime * 60);
                     progress = progress + 1;
                     int seconds = (int) (millisUntilFinished / 1000) % 60;
                     int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
@@ -281,14 +279,14 @@ public class TimerActivity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-                    setProgress(progress, endTime*60);
+                    setProgress(progress, endTime * 60);
                     textTimer.setText("Finished");
-                   // started.setText("Session inactive");
+                    // started.setText("Session inactive");
                 }
             };
             countdownTimer.start();
             active = true;
-            Long tsLong = System.currentTimeMillis()/1000;
+            Long tsLong = System.currentTimeMillis() / 1000;
             String ts = tsLong.toString();
             SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyyhhmmss");
             String dateString = formatter.format(new Date(tsLong));
@@ -303,6 +301,7 @@ public class TimerActivity extends AppCompatActivity {
 
     /**
      * sets the circular progress bar correctly
+     *
      * @param startTime
      * @param endTime
      */
