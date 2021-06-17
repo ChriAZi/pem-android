@@ -27,7 +27,7 @@
         <activity android:name=".ui.authentication.AuthActivity" />
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.history.SessionHistoryActivity" />
-        <activity android:name=".ui.TimerActivity"/>
+        <activity android:name=".ui.timer.TimerActivity"/>
     </application>
 
 </manifest>

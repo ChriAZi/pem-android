@@ -1,8 +1,6 @@
 package com.example.studywithme.ui.questionnaire;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,22 +9,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.SessionTask;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -122,7 +112,7 @@ public class Quest3Fragment extends Fragment {
         EditText editQuest3 = view.findViewById(R.id.editQuest3);
         String todoText = editQuest3.getText().toString();
 
-        if (!(todoText.equals(""))){
+        if (!(todoText.equals(""))) {
             tasksAdapter.add(todoText);
             editQuest3.setText("");
         } else {

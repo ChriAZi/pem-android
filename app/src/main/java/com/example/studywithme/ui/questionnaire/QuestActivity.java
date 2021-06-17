@@ -7,32 +7,20 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
-import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.data.models.SessionSetting;
-import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
-import com.example.studywithme.ui.viewmodels.SessionCreationViewModel;
-import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
-import com.google.firebase.Timestamp;
+import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.google.firebase.firestore.DocumentReference;
-
-import org.jetbrains.annotations.NotNull;
-
-import java.security.acl.Owner;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Date;
 
 public class QuestActivity extends AppCompatActivity {
 
@@ -42,7 +30,7 @@ public class QuestActivity extends AppCompatActivity {
     private Adapter adapter;
     private FragmentManager fm;
     private int page = 0;
-    private SessionCreationViewModel sessionCreationViewModel;
+    private QuestionnaireViewModel questionnaireViewModel;
     private DocumentReference owner;
     private User user;
     private String session2;
@@ -80,15 +68,15 @@ public class QuestActivity extends AppCompatActivity {
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem()-1, true);
+                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1, true);
             }
         });
 
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem()+1, true);
-                if(btnNext.getText() == "Submit") {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+                if (btnNext.getText() == "Submit") {
                     Log.d("lookhere", "TODO: communicate with firebase");
                     // initViewModel();
                 }
@@ -124,7 +112,6 @@ public class QuestActivity extends AppCompatActivity {
     private void getCurrentSession() {
         // session = Session.getIdFromPreferences(this);
     } */
-
     private void pageChange() {
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -198,19 +185,18 @@ public class QuestActivity extends AppCompatActivity {
         }
 
         @Override
-        public boolean isViewFromObject(@NonNull @NotNull View view, @NonNull @NotNull Object object) {
+        public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
             return false;
         }
 
         @NonNull
-        @NotNull
         @Override
-        public Object instantiateItem(@NonNull @NotNull ViewGroup container, int position) {
+        public Object instantiateItem(@NonNull ViewGroup container, int position) {
             return context;
         }
 
         @Override
-        public void destroyItem(@NonNull @NotNull ViewGroup container, int position, @NonNull @NotNull Object object) {
+        public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         }
     }
 
