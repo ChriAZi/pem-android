@@ -1,7 +1,6 @@
 package com.example.studywithme.ui.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.repositories.SessionHistoryRepository;
@@ -17,8 +16,8 @@ public class SessionHistoryViewModel extends AbstractViewModel {
         sessionHistoryRepository = new SessionHistoryRepository();
     }
 
-    public LiveData<List<Session>> getSessions(String userId) {
-        sessions = sessionHistoryRepository.getSessions(userId);
+    public LiveData<List<Session>> getPastSessions(String userId) {
+        sessions = sessionHistoryRepository.getPastSessions(userId);
         return sessions;
     }
 }

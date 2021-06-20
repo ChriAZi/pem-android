@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.questionnaire.Quest1Fragment"
+    android:id="@+id/fragmentQuest3">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="80px"
+        android:padding="50px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#516c8d"
+        android:textColor="#FFFFFF"
+        >
+
+        <TextView
+            android:id="@+id/hlFrag4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4"
+            android:textSize="20dp"
+            android:layout_margin="20px"
+            android:textColor="#FFFFFF"
+            />
+
+        <TextView
+            android:id="@+id/tvQuest4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="left|center"
+            android:text="How much time?"
+            android:textSize="25dp"
+            android:textStyle="normal"
+            android:layout_margin="20px"
+            android:textColor="#FFFFFF"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/editQuest4"
+            android:hint="Enter your duration in minutes"
+            android:layout_margin="20px"
+            android:textColorHint="#FFFFFF"
+            android:textColor="#FFFFFF"
+            android:inputType="number"
+            />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

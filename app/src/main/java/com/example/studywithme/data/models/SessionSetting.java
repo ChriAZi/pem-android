@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class SessionSetting implements Serializable {
-    private String uid;
     private String name;
     private String goal;
+    private int duration;
     private List<SessionCategory> categories;
     private List<SessionTask> tasks;
 
@@ -19,14 +19,6 @@ public class SessionSetting implements Serializable {
         this.goal = goal;
         this.categories = categories;
         this.tasks = tasks;
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
     }
 
     public String getName() {
@@ -59,5 +51,13 @@ public class SessionSetting implements Serializable {
 
     public void setTasks(List<SessionTask> tasks) {
         this.tasks = tasks;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }

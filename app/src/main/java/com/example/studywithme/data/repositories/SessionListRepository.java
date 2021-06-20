@@ -7,25 +7,22 @@ import com.example.studywithme.data.models.Session;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.Logger;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SessionHistoryRepository {
+public class SessionListRepository {
+
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference sessionsRef = rootRef.collection(Constants.SESSIONS);
-    private final CollectionReference usersRef = rootRef.collection(Constants.USERS);
 
-
-    public LiveData<List<Session>> getPastSessions(String userId) {
-        DocumentReference userDocument = usersRef.document(userId);
+    public LiveData<List<Session>> getPublicSessions() {
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
         sessionsRef
-                .whereEqualTo("owner", userDocument)
-                .whereEqualTo("active", false)
+                .whereEqualTo("public", true)
+                .whereEqualTo("active", true)
                 .addSnapshotListener((snapshot, exception) -> {
                     if (exception != null) {
                         Logger.log("Listen failed." + exception);
@@ -44,4 +41,5 @@ public class SessionHistoryRepository {
                 });
         return sessions;
     }
+
 }

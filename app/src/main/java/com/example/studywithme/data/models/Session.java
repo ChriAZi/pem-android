@@ -16,6 +16,7 @@ public class Session implements Serializable {
     private int duration;
     private Timestamp startedAt;
     private boolean active;
+    private boolean isPublic;
 
     private DocumentReference owner;
     private DocumentReference partner;
@@ -26,6 +27,7 @@ public class Session implements Serializable {
 
     }
 
+<<<<<<< HEAD
     public Session(String uid, int duration,DocumentReference owner) {
           this.duration = duration;
           this.uid =uid;
@@ -34,13 +36,20 @@ public class Session implements Serializable {
     }
 
     public Session(int duration, Timestamp startedAt, boolean active, DocumentReference owner, DocumentReference partner, SessionSetting ownerSetting, SessionSetting partnerSetting) {
+=======
+    public Session(int duration, boolean isPublic, DocumentReference owner, DocumentReference partner, SessionSetting ownerSetting, SessionSetting partnerSetting) {
+>>>>>>> d2d2e717a8674c1d423603d0a702dacf8d6d2220
         this.duration = duration;
-        this.startedAt = startedAt;
-        this.active = active;
+        this.isPublic = isPublic;
         this.owner = owner;
         this.partner = partner;
         this.ownerSetting = ownerSetting;
         this.partnerSetting = partnerSetting;
+    }
+
+    public Session(DocumentReference owner, SessionSetting ownerSetting) {
+        this.owner = owner;
+        this.ownerSetting = ownerSetting;
     }
 
     public String getUid() {
@@ -107,12 +116,27 @@ public class Session implements Serializable {
         this.partnerSetting = partnerSetting;
     }
 
+<<<<<<< HEAD
+=======
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
+    }
+
+>>>>>>> d2d2e717a8674c1d423603d0a702dacf8d6d2220
     public static String getIdFromPreferences(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         return sp.getString(Constants.SESSION_ID, null);
     }
 
+<<<<<<< HEAD
     public static void setIdInPreferences(String sessionId, Context context) {
+=======
+    public static void setIdInPreferences(Context context, String sessionId) {
+>>>>>>> d2d2e717a8674c1d423603d0a702dacf8d6d2220
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sp.edit();
         editor.putString(Constants.SESSION_ID, sessionId);
