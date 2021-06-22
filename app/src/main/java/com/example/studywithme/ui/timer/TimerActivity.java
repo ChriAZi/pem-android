@@ -114,6 +114,7 @@ public class TimerActivity extends AppCompatActivity {
         try {
             countdownTimer.cancel();
             active = false;
+            //Timerviewmodel end Session (bool)
 
         } catch (Exception e) {
 
@@ -135,16 +136,10 @@ public class TimerActivity extends AppCompatActivity {
             creatorWork.setText(session.getOwnerSetting().getCategories().get(0).toString());
             creatorGoal.setText(session.getOwnerSetting().getGoal());
             // partnerName.setText(session.getPartner().toString());
-            partnerWork.setText(session.getPartnerSetting().getCategories().get(0).toString());
-            partnerGoal.setText(session.getPartnerSetting().getGoal());
+          //  partnerWork.setText(session.getPartnerSetting().getCategories().get(0).toString());
+          //  partnerGoal.setText(session.getPartnerSetting().getGoal());
 
 
-            //  started.setText("Session started");
-            if (!active) {
-                session.setActive(false);
-            } else {
-                session.setActive(true);
-            }
 
         });
     }
