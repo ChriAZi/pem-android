@@ -20,6 +20,7 @@ import com.example.studywithme.ui.authentication.AuthActivity;
 import com.example.studywithme.ui.history.SessionHistoryActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
+import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.ToastMaster;
@@ -32,8 +33,8 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private QuestionnaireViewModel questionnaireViewModel;
     private TimerViewModel timerViewModel;
+    private SessionListViewModel sessionListViewModel;
     private User user;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +57,18 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private void initViewModel() {
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
     }
 
     @SuppressLint("SetTextI18n")
     private void initViews() {
         TextView textView = findViewById(R.id.tv_username);
         textView.setText("Username: " + user.getName());
+
+        TextView session_list_view = findViewById(R.id.tv_session_list);
+        sessionListViewModel.getPublicSessions().observe(this, containers -> {
+            session_list_view.setText(containers.get(0).getOwner().getEmail());
+        });
 
         Button createPublicSession = findViewById(R.id.bt_create_public_session);
         createPublicSession.setOnClickListener(view -> {

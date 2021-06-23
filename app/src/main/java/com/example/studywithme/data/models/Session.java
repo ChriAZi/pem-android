@@ -6,7 +6,6 @@ import android.preference.PreferenceManager;
 
 import com.example.studywithme.utils.Constants;
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentReference;
 
 import java.io.Serializable;
 
@@ -18,8 +17,8 @@ public class Session implements Serializable {
     private boolean active;
     private boolean isPublic;
 
-    private DocumentReference owner;
-    private DocumentReference partner;
+    private User owner;
+    private User partner;
     private SessionSetting ownerSetting;
     private SessionSetting partnerSetting;
 
@@ -27,7 +26,7 @@ public class Session implements Serializable {
 
     }
 
-    public Session(int duration, boolean isPublic, DocumentReference owner, DocumentReference partner, SessionSetting ownerSetting, SessionSetting partnerSetting) {
+    public Session(int duration, boolean isPublic, User owner, User partner, SessionSetting ownerSetting, SessionSetting partnerSetting) {
         this.duration = duration;
         this.isPublic = isPublic;
         this.owner = owner;
@@ -36,7 +35,7 @@ public class Session implements Serializable {
         this.partnerSetting = partnerSetting;
     }
 
-    public Session(DocumentReference owner, SessionSetting ownerSetting) {
+    public Session(User owner, SessionSetting ownerSetting) {
         this.owner = owner;
         this.ownerSetting = ownerSetting;
     }
@@ -57,11 +56,11 @@ public class Session implements Serializable {
         return active;
     }
 
-    public DocumentReference getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public DocumentReference getPartner() {
+    public User getPartner() {
         return partner;
     }
 
@@ -89,11 +88,11 @@ public class Session implements Serializable {
         this.active = active;
     }
 
-    public void setOwner(DocumentReference owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
-    public void setPartner(DocumentReference partner) {
+    public void setPartner(User partner) {
         this.partner = partner;
     }
 
