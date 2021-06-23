@@ -64,10 +64,11 @@ public class QuestionnaireRepository {
                         .update(
                                 "partner", partnerTask.getResult().toObject(User.class),
                                 "public", false,
-                                "partnerSetting.name", settings.getName(),
+                                "partnerSetting", settings
+                                /*"partnerSetting.name", settings.getName(),
                                 "partnerSetting.goal", settings.getGoal(),
                                 "partnerSetting.categories", settings.getCategories(),
-                                "partnerSetting.tasks", settings.getTasks()
+                                "partnerSetting.tasks", settings.getTasks()*/
                         )
                         .addOnCompleteListener(updateTask -> {
                             if (updateTask.isSuccessful()) {

@@ -22,17 +22,22 @@ public class Session implements Serializable {
     private SessionSetting ownerSetting;
     private SessionSetting partnerSetting;
 
+    private SessionReflection ownerReflection;
+    private SessionReflection partnerReflection;
+
     public Session() {
 
     }
 
-    public Session(int duration, boolean isPublic, User owner, User partner, SessionSetting ownerSetting, SessionSetting partnerSetting) {
+    public Session(int duration, boolean isPublic, User owner, User partner, SessionSetting ownerSetting, SessionSetting partnerSetting, SessionReflection ownerReflection, SessionReflection partnerReflection) {
         this.duration = duration;
         this.isPublic = isPublic;
         this.owner = owner;
         this.partner = partner;
         this.ownerSetting = ownerSetting;
         this.partnerSetting = partnerSetting;
+        this.ownerReflection = ownerReflection;
+        this.partnerReflection = partnerReflection;
     }
 
     public Session(User owner, SessionSetting ownerSetting) {
@@ -110,6 +115,22 @@ public class Session implements Serializable {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public SessionReflection getOwnerReflection() {
+        return ownerReflection;
+    }
+
+    public SessionReflection getPartnerReflection() {
+        return partnerReflection;
+    }
+
+    public void setOwnerReflection(SessionReflection ownerReflection) {
+        this.ownerReflection = ownerReflection;
+    }
+
+    public void setPartnerReflection(SessionReflection partnerReflection) {
+        this.partnerReflection = partnerReflection;
     }
 
     public static String getIdFromPreferences(Context context) {

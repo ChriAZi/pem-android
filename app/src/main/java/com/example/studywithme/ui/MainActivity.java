@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.SessionCategory;
+import com.example.studywithme.data.models.SessionReflection;
 import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
@@ -20,6 +21,7 @@ import com.example.studywithme.ui.authentication.AuthActivity;
 import com.example.studywithme.ui.history.SessionHistoryActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
+import com.example.studywithme.ui.viewmodels.ReflectionViewModel;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.example.studywithme.utils.Constants;
@@ -28,12 +30,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private QuestionnaireViewModel questionnaireViewModel;
     private TimerViewModel timerViewModel;
     private SessionListViewModel sessionListViewModel;
+    private ReflectionViewModel reflectionViewModel;
     private User user;
 
     @Override
@@ -58,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        reflectionViewModel = new ViewModelProvider(this).get(ReflectionViewModel.class);
     }
 
     @SuppressLint("SetTextI18n")
@@ -105,6 +110,16 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             });
         });
 
+        Button addReflectionButton = findViewById(R.id.bt_add_reflection);
+        addReflectionButton.setOnClickListener(view -> {
+            SessionReflection reflection = createSessionReflection();
+            reflectionViewModel.addReflection(User.getIdFromPreferences(this), Session.getIdFromPreferences(this), reflection).observe(this, added -> {
+                if (added) {
+                    ToastMaster.showToast(this, "Reflection added!");
+                }
+            });
+        });
+
         Button sessionHistoryButton = findViewById(R.id.bt_history);
         sessionHistoryButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, SessionHistoryActivity.class);
@@ -137,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         add(sessionTask2);
                     }
                 });
-        return new Session(20, true, null, null, ownerSetting, null);
+        return new Session(20, true, null, null, ownerSetting, null, null, null);
     }
 
     private SessionSetting createSessionSetting() {
@@ -155,6 +170,14 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                         add(sessionTask2);
                     }
                 });
+    }
+
+    private SessionReflection createSessionReflection() {
+        List<String> distractions = new ArrayList<String>() {{
+            add("Doorbell");
+            add("Smartphone");
+        }};
+        return new SessionReflection("Everything", distractions);
     }
 
     @Override
