@@ -7,7 +7,6 @@ import com.example.studywithme.data.models.Session;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.Logger;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -19,12 +18,10 @@ public class SessionHistoryRepository {
     private final CollectionReference sessionsRef = rootRef.collection(Constants.SESSIONS);
     private final CollectionReference usersRef = rootRef.collection(Constants.USERS);
 
-
     public LiveData<List<Session>> getPastSessions(String userId) {
-        DocumentReference userDocument = usersRef.document(userId);
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
         sessionsRef
-                .whereEqualTo("owner", userDocument)
+                .whereEqualTo("owner.uid", userId)
                 .whereEqualTo("active", false)
                 .addSnapshotListener((snapshot, exception) -> {
                     if (exception != null) {
