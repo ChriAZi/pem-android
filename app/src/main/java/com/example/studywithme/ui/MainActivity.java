@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
@@ -19,6 +18,7 @@ import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.authentication.AuthActivity;
 import com.example.studywithme.ui.history.SessionHistoryActivity;
+import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.ReflectionViewModel;
@@ -32,7 +32,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class MainActivity extends NavigationActivity implements FirebaseAuth.AuthStateListener {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private QuestionnaireViewModel questionnaireViewModel;
     private TimerViewModel timerViewModel;
@@ -178,6 +178,16 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             add("Smartphone");
         }};
         return new SessionReflection("Everything", distractions);
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_home;
     }
 
     @Override

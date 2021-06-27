@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
@@ -25,7 +26,7 @@ import com.google.firebase.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TimerActivity extends AppCompatActivity {
+public class TimerActivity extends NavigationActivity {
     ProgressBar progressBar;
     TextView textTimer, creatorName, partnerName, creatorGoal, partnerGoal, creatorWork, partnerWork, started;
     Button start;
@@ -310,6 +311,16 @@ public class TimerActivity extends AppCompatActivity {
         progressBar.setSecondaryProgress(endTime);
         progressBar.setProgress(startTime);
 
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_timer;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_timer;
     }
 
 }

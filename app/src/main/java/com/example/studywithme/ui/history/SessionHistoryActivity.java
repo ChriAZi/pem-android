@@ -2,23 +2,23 @@ package com.example.studywithme.ui.history;
 
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 
-public class SessionHistoryActivity extends AppCompatActivity {
+public class SessionHistoryActivity extends NavigationActivity {
     private SessionHistoryViewModel sessionHistoryViewModel;
     private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.session_list);
+        setContentView(R.layout.activity_session_history);
         recyclerView = findViewById(R.id.rv_session_list);
         initViewModel();
     }
@@ -31,5 +31,15 @@ public class SessionHistoryActivity extends AppCompatActivity {
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             recyclerView.setAdapter(adapter);
         });
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_session_history;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_history;
     }
 }

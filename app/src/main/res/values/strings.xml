@@ -2,6 +2,9 @@
     <string name="app_name">StudyWithMe</string>
     <string name="sign_in_heading">Sign In</string>
     <string name="sign_out">Sign Out</string>
+    <string name="navigation_timer">Timer</string>
+    <string name="navigation_home">Home</string>
+    <string name="navigation_history">History</string>
     <string-array name="categories">
         <item>WORK</item>
         <item>UNIVERSITY</item>
