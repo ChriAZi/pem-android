@@ -53,6 +53,20 @@
             android:backgroundTint="#516c8d"
             android:textColor="#FFFFFF"
             />
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Submit"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:backgroundTint="#244160"
+            android:textColor="#FFFFFF"
+            />
+
     </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

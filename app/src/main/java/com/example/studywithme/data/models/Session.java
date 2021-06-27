@@ -36,6 +36,12 @@ public class Session implements Serializable {
         this.partnerSetting = partnerSetting;
     }
 
+    public Session(int duration, boolean isPublic, SessionSetting ownerSetting) {
+        this.duration = duration;
+        this.isPublic = isPublic;
+        this.ownerSetting = ownerSetting;
+    }
+
     public Session(DocumentReference owner, SessionSetting ownerSetting) {
         this.owner = owner;
         this.ownerSetting = ownerSetting;

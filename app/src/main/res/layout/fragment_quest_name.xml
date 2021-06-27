@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.questionnaire.Quest1Fragment"
-    android:id="@+id/fragmentQuest1">
+    android:id="@+id/questionNameFrag">
 
     <LinearLayout
         android:layout_width="match_parent"

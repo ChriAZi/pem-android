@@ -1,6 +1,7 @@
 package com.example.studywithme.ui.questionnaire;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,20 +13,32 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
+import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.data.models.SessionSetting;
+import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 
-public class QuestActivity extends AppCompatActivity {
+import java.sql.Date;
+import java.util.ArrayList;
 
-    private Fragment question1, question2, question3, question4;
-    private Button btnNext, btnPrev;
+public class QuestActivity extends AppCompatActivity
+        implements QuestNameFragment.QuestNameFragmentListener,
+        Quest1Fragment.Quest1FragmentListener,
+        Quest3Fragment.Quest3FragmentListener,
+        Quest4Fragment.Quest4FragmentListener,
+        QuestPublicFragment.QuestPublicFragmentListener{
+
+    private Fragment questionName, question1, question2, question3, question4, questionPublic;
+    private Button btnNext, btnPrev, btnSubmit;
     private ViewPager viewPager;
     private Adapter adapter;
     private FragmentManager fm;
@@ -35,20 +48,25 @@ public class QuestActivity extends AppCompatActivity {
     private User user;
     private String session2;
     private Session session;
-    private SessionSetting setting;
+    private SessionSetting ownerSetting;
     private String uID;
+    private int frduration = 0;
+    private String frname, frgoal = "";
+    private ArrayList<SessionTask> frtasks;
+    private boolean frPublic = false;
     //TextView textTimer,creatorName,partnerName,creatorGoal,partnerGoal,creatorWork,partnerWork;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("tagtagtag", "onCreate: ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest);
 
+        questionName = new QuestNameFragment();
         question1 = new Quest1Fragment();
         question2 = new Quest2Fragment();
         question3 = new Quest3Fragment();
         question4 = new Quest4Fragment();
+        questionPublic = new QuestPublicFragment();
 
         /*
         getCurrentSession();
@@ -56,7 +74,7 @@ public class QuestActivity extends AppCompatActivity {
         */
 
         fm = getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.questLayout, question1).commit();
+        fm.beginTransaction().add(R.id.questLayout, questionName).commit();
 
         setupViewPager();
         pageChange();
@@ -64,6 +82,9 @@ public class QuestActivity extends AppCompatActivity {
         btnPrev = findViewById(R.id.btnPrev);
         btnPrev.setEnabled(false);
         btnNext = findViewById(R.id.btnNext);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        btnSubmit.setVisibility(View.GONE);
+
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,10 +97,15 @@ public class QuestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
-                if (btnNext.getText() == "Submit") {
-                    Log.d("lookhere", "TODO: communicate with firebase");
-                    // initViewModel();
-                }
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+
+                initViewModel();
             }
         });
     }
@@ -88,30 +114,42 @@ public class QuestActivity extends AppCompatActivity {
      * observes the current session and sets the variables to the current values
      * but does not work yet
      */
-    /*
+
     private void initViewModel(){
-        sessionCreationViewModel.getCurrentSession().observe(this, sessions -> {
-            owner = sessions.getOwner();
-        });
-        SessionTask sessionTask1 = new SessionTask("Subtask1", true);
-        SessionTask sessionTask2 = new SessionTask("Subtask2", true);
-        setting = new SessionSetting
-                ("testgoal",
-                new ArrayList<SessionCategory>() {{add(SessionCategory.HOBBY);}},
-                        new ArrayList<SessionTask>() {{add(sessionTask1); add(sessionTask2);}},
-                        60
-                );
-        session = new Session(new Timestamp(new Date()), false, owner, setting);
-        sessionCreationViewModel = new ViewModelProvider(this).get(SessionCreationViewModel.class);
-        sessionCreationViewModel.createSession(user.getUid(), session);
+
+        //receive data from fragment interfaces
+        String name = frname;
+        String goal = frgoal;
+        ArrayList<SessionCategory> categories = receiveCategories();
+        Log.d("receive", "cat: "+null);
+        ArrayList<SessionTask> tasks = frtasks;
+        int duration = frduration;
+        boolean isPublic = frPublic;
+        Log.d("receive", "public: "+frPublic);
+
+
+        ownerSetting = new SessionSetting(name, goal, categories, tasks);
+        session = new Session(120, frPublic, ownerSetting);
+
+        questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
+
+
+        /*questionnaireViewModel.startSession(User.getIdFromPreferences(this), session).observe(this, sessionId -> {
+            if(sessionId != null) {
+                //timer activity starten
+            }
+        });*/
     }
 
-    private void getCurrentUser() {
+    private ArrayList<SessionCategory> receiveCategories(){
+        return new ArrayList<SessionCategory>() {{add(SessionCategory.HOBBY);}};
     }
 
-    private void getCurrentSession() {
-        // session = Session.getIdFromPreferences(this);
-    } */
+    private boolean receivePublic(){
+        return true;
+    }
+
+
     private void pageChange() {
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -128,27 +166,25 @@ public class QuestActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         btnPrev.setEnabled(false);
-                        btnNext.setEnabled(true);
-                        btnNext.setText("Next");
-                        btnNext.setBackgroundColor(Color.parseColor("#516c8d"));
+                        //btnNext.setEnabled(true);
+                        //btnNext.setBackgroundColor(Color.parseColor("#516c8d"));
+                        btnNext.setVisibility(View.VISIBLE);
+                        btnSubmit.setVisibility(View.GONE);
                         break;
-                    case 1:
+                    case 1: case 2: case 3: case 4:
                         btnPrev.setEnabled(true);
-                        btnNext.setEnabled(true);
+                        //btnNext.setEnabled(true);
                         btnNext.setText("Next");
-                        btnNext.setBackgroundColor(Color.parseColor("#516c8d"));
+                        //btnNext.setBackgroundColor(Color.parseColor("#516c8d"));
+                        btnNext.setVisibility(View.VISIBLE);
+                        btnSubmit.setVisibility(View.GONE);
                         break;
-                    case 2:
+                    case 5:
                         btnPrev.setEnabled(true);
-                        btnNext.setEnabled(true);
-                        btnNext.setText("Next");
-                        btnNext.setBackgroundColor(Color.parseColor("#516c8d"));
-                        break;
-                    case 3:
-                        btnPrev.setEnabled(true);
-                        btnNext.setText("Submit");
-                        btnNext.setBackgroundColor(Color.parseColor("#244160"));
-
+                        btnNext.setVisibility(View.GONE);
+                        //btnNext.setBackgroundColor(Color.parseColor("#244160"));
+                        btnSubmit.setVisibility(View.VISIBLE);
+                        //btnSubmit.setVisibility(View.GONE);
                         break;
                 }
             }
@@ -165,6 +201,27 @@ public class QuestActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
+    @Override
+    public void getName(String input) {
+        frname = input;
+    }
+
+    @Override
+    public void getGoal(String input) {
+        frgoal = input;
+    }
+
+    @Override
+    public void getTasks(ArrayList<SessionTask> input) { frtasks = input; }
+
+    @Override
+    public void getDuration(int input) { frduration = input; }
+
+    @Override
+    public void getPublic(boolean input) {
+        frPublic = input;
+    }
+
     private class Adapter extends PagerAdapter {
         Context context;
 
@@ -173,10 +230,12 @@ public class QuestActivity extends AppCompatActivity {
         }
 
         public Fragment[] list_fragments = {
+                questionName,
                 question1,
                 question2,
                 question3,
-                question4
+                question4,
+                questionPublic
         };
 
         @Override
@@ -200,16 +259,5 @@ public class QuestActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "myFragment1", question1);
-        getSupportFragmentManager().putFragment(outState, "myFragment2", question2);
-        getSupportFragmentManager().putFragment(outState, "myFragment3", question3);
-        getSupportFragmentManager().putFragment(outState, "myFragment4", question4);
-
-    }*/
 
 }

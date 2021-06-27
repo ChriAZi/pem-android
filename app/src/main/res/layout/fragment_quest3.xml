@@ -23,7 +23,7 @@
             android:id="@+id/hlFrag3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3"
+            android:text="4"
             android:textSize="20dp"
             android:layout_margin="20px"
             android:textColor="#FFFFFF"

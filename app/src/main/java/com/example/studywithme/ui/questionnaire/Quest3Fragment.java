@@ -1,5 +1,6 @@
 package com.example.studywithme.ui.questionnaire;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,10 @@ import java.util.List;
  */
 public class Quest3Fragment extends Fragment {
 
+    public interface Quest3FragmentListener {
+        void getTasks(ArrayList<SessionTask> input);
+    }
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,10 +40,13 @@ public class Quest3Fragment extends Fragment {
     private String mParam2;
 
     private List<SessionTask> tasks;
-    private ArrayList<String> taskList;
+    private ArrayList<SessionTask> taskList;
+    private ArrayList<String> taskDesc;
     private ArrayAdapter<String> tasksAdapter;
     private ListView listView;
     private Button submitTodoBtn;
+    private Quest3Fragment.Quest3FragmentListener listener;
+
 
     public Quest3Fragment() {
         // Required empty public constructor
@@ -69,6 +77,7 @@ public class Quest3Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        taskDesc = new ArrayList<>();
         taskList = new ArrayList<>();
 
     }
@@ -80,17 +89,20 @@ public class Quest3Fragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_quest3, container, false);
         listView = view.findViewById(R.id.toDoList);
+        EditText editQuest3 = view.findViewById(R.id.editQuest3);
         submitTodoBtn = view.findViewById(R.id.btnSubmit3);
 
         submitTodoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addTodo(view);
+                taskList.add(new SessionTask(editQuest3.getText().toString(), false));
+                listener.getTasks(taskList);
             }
         });
 
         //taskList = new ArrayList<>();
-        tasksAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, taskList);
+        tasksAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, taskDesc);
         listView.setAdapter(tasksAdapter);
         setUpListViewListener();
 
@@ -102,6 +114,7 @@ public class Quest3Fragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 taskList.remove(position);
+                taskDesc.remove(position);
                 tasksAdapter.notifyDataSetChanged();
                 return true;
             }
@@ -118,6 +131,22 @@ public class Quest3Fragment extends Fragment {
         } else {
             //TODO
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof Quest3Fragment.Quest3FragmentListener) {
+            listener = (Quest3Fragment.Quest3FragmentListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement FragmentAListener");
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 
 }
