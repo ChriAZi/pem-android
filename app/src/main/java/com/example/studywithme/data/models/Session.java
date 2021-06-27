@@ -18,22 +18,28 @@ public class Session implements Serializable {
     private boolean active;
     private boolean isPublic;
 
-    private DocumentReference owner;
-    private DocumentReference partner;
+    private User owner;
+    private User partner;
     private SessionSetting ownerSetting;
     private SessionSetting partnerSetting;
 
-    public Session() {
+    private SessionReflection ownerReflection;
+    private SessionReflection partnerReflection;
 
+    private DocumentReference own;
+
+    public Session() {
     }
 
-    public Session(int duration, boolean isPublic, DocumentReference owner, DocumentReference partner, SessionSetting ownerSetting, SessionSetting partnerSetting) {
+    public Session(int duration, boolean isPublic, User owner, User partner, SessionSetting ownerSetting, SessionSetting partnerSetting, SessionReflection ownerReflection, SessionReflection partnerReflection) {
         this.duration = duration;
         this.isPublic = isPublic;
         this.owner = owner;
         this.partner = partner;
         this.ownerSetting = ownerSetting;
         this.partnerSetting = partnerSetting;
+        this.ownerReflection = ownerReflection;
+        this.partnerReflection = partnerReflection;
     }
 
     public Session(int duration, boolean isPublic, SessionSetting ownerSetting) {
@@ -42,7 +48,12 @@ public class Session implements Serializable {
         this.ownerSetting = ownerSetting;
     }
 
-    public Session(DocumentReference owner, SessionSetting ownerSetting) {
+    public Session(DocumentReference own, SessionSetting ownerSetting) {
+        this.own = own;
+        this.ownerSetting = ownerSetting;
+    }
+
+    public Session(User owner, SessionSetting ownerSetting) {
         this.owner = owner;
         this.ownerSetting = ownerSetting;
     }
@@ -63,11 +74,11 @@ public class Session implements Serializable {
         return active;
     }
 
-    public DocumentReference getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public DocumentReference getPartner() {
+    public User getPartner() {
         return partner;
     }
 
@@ -95,11 +106,11 @@ public class Session implements Serializable {
         this.active = active;
     }
 
-    public void setOwner(DocumentReference owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
-    public void setPartner(DocumentReference partner) {
+    public void setPartner(User partner) {
         this.partner = partner;
     }
 
@@ -117,6 +128,22 @@ public class Session implements Serializable {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public SessionReflection getOwnerReflection() {
+        return ownerReflection;
+    }
+
+    public SessionReflection getPartnerReflection() {
+        return partnerReflection;
+    }
+
+    public void setOwnerReflection(SessionReflection ownerReflection) {
+        this.ownerReflection = ownerReflection;
+    }
+
+    public void setPartnerReflection(SessionReflection partnerReflection) {
+        this.partnerReflection = partnerReflection;
     }
 
     public static String getIdFromPreferences(Context context) {

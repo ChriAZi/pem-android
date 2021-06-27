@@ -41,12 +41,12 @@ public class AuthRepository {
 
     public MutableLiveData<User> createUserIfNotExists(User authenticatedUser) {
         MutableLiveData<User> newUser = new MutableLiveData<>();
-        DocumentReference uidRef = usersRef.document(authenticatedUser.getUid());
-        uidRef.get().addOnCompleteListener(uidTask -> {
+        DocumentReference uidReference = usersRef.document(authenticatedUser.getUid());
+        uidReference.get().addOnCompleteListener(uidTask -> {
             if (uidTask.isSuccessful()) {
                 DocumentSnapshot document = uidTask.getResult();
                 if (!document.exists()) {
-                    uidRef.set(authenticatedUser).addOnCompleteListener(userCreationTask -> {
+                    uidReference.set(authenticatedUser).addOnCompleteListener(userCreationTask -> {
                         if (userCreationTask.isSuccessful()) {
                             authenticatedUser.setCreated(true);
                             newUser.setValue(authenticatedUser);
