@@ -52,7 +52,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         Session session = sessions.get(position);
         holder.sessionStart.setText(session.getStartedAt().toDate().toString());
         holder.sessionDuration.setText(session.getDuration() + " Minuten");
-        holder.sessionOwner.setText("Owner Name");
+        holder.sessionOwner.setText(session.getOwner().getName());
 
     }
 

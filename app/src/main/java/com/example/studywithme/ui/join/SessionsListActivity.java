@@ -79,9 +79,10 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
         Toast.makeText(this, mSession[position].toString(), Toast.LENGTH_SHORT).show();
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         questionnaireViewModel.joinSession(mSession[position].getUid(), User.getIdFromPreferences(SessionsListActivity.this), mSession[position].getOwnerSetting()).observe(SessionsListActivity.this, joined -> {
+            if(mSession[position].isActive()){
             if (joined) {
                 ToastMaster.showToast(SessionsListActivity.this, "Joined Session" + mSession[position].getUid() + " by " + mSession[position].getOwner());
-           }/* else {
+            }}/* else {
                 ToastMaster.showToast(SessionsListActivity.this, "Something went wrong with joining the session.");
             }*/
         });
