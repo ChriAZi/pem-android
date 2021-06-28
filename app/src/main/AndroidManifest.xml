@@ -14,6 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.StudyWithMe">
+
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/SplashActivityStyle">
@@ -30,8 +31,12 @@
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.history.SessionHistoryActivity" />
         <activity android:name=".ui.timer.TimerActivity" />
+
         <activity android:name=".ui.join.SessionsListActivity" />
         <activity android:name=".ui.MenuActivity1" />
+
+        <activity android:name=".ui.join.SessionsListActivity"/>
+
     </application>
 
 </manifest>

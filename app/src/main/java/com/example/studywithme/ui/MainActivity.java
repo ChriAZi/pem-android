@@ -43,9 +43,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
     private ReflectionViewModel reflectionViewModel;
     private User user;
 
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,6 +151,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     ToastMaster.showToast(this, "Reflection added!");
                 }
             });
+
         });
 
 

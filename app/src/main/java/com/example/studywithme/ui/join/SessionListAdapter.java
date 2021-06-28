@@ -54,7 +54,6 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         holder.sessionDuration.setText(session.getDuration() + " Minuten");
         holder.sessionOwner.setText(session.getOwner().getName());
 
-
     }
 
     public void setData(ArrayList<Session> newsessions){
