@@ -31,6 +31,7 @@
         <activity android:name=".ui.history.SessionHistoryActivity" />
         <activity android:name=".ui.timer.TimerActivity" />
         <activity android:name=".ui.join.SessionsListActivity" />
+        <activity android:name=".ui.MenuActivity1" />
     </application>
 
 </manifest>
