@@ -82,6 +82,15 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         });
     }
 
+    private void storeUserInfo() {
+        user = getUserFromIntent();
+        User.setIdInPreferences(user.getUid(), this);
+    }
+
+    private User getUserFromIntent() {
+        return (User) getIntent().getSerializableExtra(Constants.USER);
+    }
+
     private void initViewModel() {
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
@@ -97,22 +106,18 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         TextView session_list_view = findViewById(R.id.tv_session_list);
         sessionListViewModel.getPublicSessions().observe(this, containers -> {
             session_list_view.setText(containers.get(0).getOwner().getEmail());
-
         });
 
-
-         Button createPublicSession = findViewById(R.id.bt_create_public_session);
+        Button createPublicSession = findViewById(R.id.bt_create_public_session);
         createPublicSession.setOnClickListener(view -> {
             Session publicSession = createSession();
-           questionnaireViewModel.startSession(user.getUid(), publicSession).observe(this, sessionId -> {
+            questionnaireViewModel.startSession(user.getUid(), publicSession).observe(this, sessionId -> {
                 if (sessionId != null) {
-                   Session.setIdInPreferences(this, sessionId);
+                    Session.setIdInPreferences(this, sessionId);
                     ToastMaster.showToast(this, "Session was created with id: " + sessionId);
                 }
             });
-       });
-
-
+        });
 
         Button joinLastSession = findViewById(R.id.bt_join_last_session);
         joinLastSession.setOnClickListener(view -> {
@@ -130,25 +135,25 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         });
         Button joinSessionButton = findViewById(R.id.bt_see_open_sessions);
         joinSessionButton.setOnClickListener(view -> {
-           startSessionListActivity();
+            startSessionListActivity();
         });
         Button endSessionButton = findViewById(R.id.bt_end_session);
         endSessionButton.setOnClickListener(view -> {
-           timerViewModel.endSession(Session.getIdFromPreferences(this)).observe(this, finished -> {
-               if (finished) {
+            timerViewModel.endSession(Session.getIdFromPreferences(this)).observe(this, finished -> {
+                if (finished) {
                     ToastMaster.showToast(this, "Session finished!");
-               }
+                }
             });
-       });
+        });
 
         Button addReflectionButton = findViewById(R.id.bt_add_reflection);
         addReflectionButton.setOnClickListener(view -> {
             SessionReflection reflection = createSessionReflection();
             reflectionViewModel.addReflection(User.getIdFromPreferences(this), Session.getIdFromPreferences(this), reflection).observe(this, added -> {
                 if (added) {
-                   ToastMaster.showToast(this, "Reflection added!");
+                    ToastMaster.showToast(this, "Reflection added!");
                 }
-           });
+            });
         });
 
 
@@ -156,29 +161,6 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         Button signOutButton = findViewById(R.id.bt_sign_out);
         signOutButton.setOnClickListener(view -> firebaseAuth.signOut());
     }
-
-
-
-
-    private SessionReflection createSessionReflection() {
-        List<String> distractions = new ArrayList<String>() {{
-            add("Doorbell");
-            add("Smartphone");
-        }};
-        return new SessionReflection("Everything", distractions);
-    }
-
-    private void storeUserInfo() {
-        user = getUserFromIntent();
-        User.setIdInPreferences(user.getUid(), this);
-    }
-
-    private User getUserFromIntent() {
-        return (User) getIntent().getSerializableExtra(Constants.USER);
-    }
-
-
-
 
     private void startSessionListActivity() {
         Intent i = new Intent(MainActivity.this, SessionsListActivity.class);
@@ -227,7 +209,13 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                 });
     }
 
-
+    private SessionReflection createSessionReflection() {
+        List<String> distractions = new ArrayList<String>() {{
+            add("Doorbell");
+            add("Smartphone");
+        }};
+        return new SessionReflection("Everything", distractions);
+    }
 
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {

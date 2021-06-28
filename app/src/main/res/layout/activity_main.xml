@@ -51,6 +51,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@+id/bt_add_reflection"
         app:layout_constraintVertical_bias="0.484" />
 
     <Button
@@ -58,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/bt_start_timer"
-        android:layout_marginTop="89dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="172dp"
         android:text="End Current Session"
         app:layout_constraintBottom_toTopOf="@+id/bt_sign_out"
@@ -104,7 +105,7 @@
         android:layout_width="191dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_username"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="309dp"
         android:text="@string/sign_out"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
