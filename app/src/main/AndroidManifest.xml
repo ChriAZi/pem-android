@@ -16,18 +16,29 @@
         <activity
             android:name=".ui.splash.SplashActivity"
             android:theme="@style/SplashActivityStyle">
-        <intent-filter>
+        <!--intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        </intent-filter-->
         </activity>
         <activity android:name=".ui.questionnaire.QuestActivity"
             android:exported="true"></activity>
         <activity android:name=".ui.authentication.AuthActivity" />
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.history.SessionHistoryActivity" />
         <activity android:name=".ui.timer.TimerActivity"/>
+        <activity android:name=".ui.reflection.RQuestActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
