@@ -30,25 +30,36 @@
         app:layout_constraintVertical_bias="0.25" />
 
     <Button
+        android:id="@+id/bt_see_open_sessions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show open sessions"
+        app:layout_constraintBottom_toTopOf="@+id/bt_history"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_username"
+        app:layout_constraintVertical_bias="0.413" />
+
+    <Button
         android:id="@+id/bt_start_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Open Timer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.464" />
+        app:layout_constraintVertical_bias="0.499" />
 
     <Button
         android:id="@+id/bt_end_session"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="232dp"
+        android:layout_marginBottom="208dp"
         android:text="End Current Session"
         app:layout_constraintBottom_toTopOf="@+id/bt_sign_out"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button

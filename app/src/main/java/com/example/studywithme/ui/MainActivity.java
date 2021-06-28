@@ -19,7 +19,7 @@ import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.authentication.AuthActivity;
 import com.example.studywithme.ui.history.SessionHistoryActivity;
-import com.example.studywithme.ui.questionnaire.QuestActivity;
+import com.example.studywithme.ui.join.SessionsListActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.ReflectionViewModel;
@@ -101,7 +101,10 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
         startTimerButton.setOnClickListener(view -> {
             startTimerActivity();
         });
-
+        Button joinSessionButton = findViewById(R.id.bt_see_open_sessions);
+        joinSessionButton.setOnClickListener(view -> {
+            startSessionListActivity();
+        });
         Button endSessionButton = findViewById(R.id.bt_end_session);
         endSessionButton.setOnClickListener(view -> {
             timerViewModel.endSession(Session.getIdFromPreferences(this)).observe(this, finished -> {
@@ -129,6 +132,11 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
         Button signOutButton = findViewById(R.id.bt_sign_out);
         signOutButton.setOnClickListener(view -> firebaseAuth.signOut());
+    }
+
+    private void startSessionListActivity() {
+        Intent i = new Intent(MainActivity.this, SessionsListActivity.class);
+        MainActivity.this.startActivity(i);
     }
 
     private void startTimerActivity() {
