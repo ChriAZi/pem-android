@@ -29,17 +29,16 @@ public class SessionListRepository {
                         return;
                     }
                     if (snapshot != null && !snapshot.isEmpty()) {
-                        List<Session> fetchedSessions = new ArrayList<>();
+                        List<Session> fetchedDocuments = new ArrayList<>();
                         for (DocumentSnapshot document : snapshot.getDocuments()) {
                             Session session = document.toObject(Session.class);
-                            fetchedSessions.add(session);
+                            fetchedDocuments.add(session);
                         }
-                        sessions.setValue(fetchedSessions);
+                        sessions.setValue(fetchedDocuments);
                     } else {
                         Logger.log("No data in collection.");
                     }
                 });
         return sessions;
     }
-
 }

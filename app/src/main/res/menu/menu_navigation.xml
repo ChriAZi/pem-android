@@ -7,7 +7,7 @@
         android:icon="@drawable/ic_home"/>
 
     <item
-        android:id="@+id/Session"
+        android:id="@+id/Timer"
         android:title="Timer"
         android:icon="@drawable/ic_timer"/>
     <item

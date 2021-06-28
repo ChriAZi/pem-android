@@ -51,6 +51,8 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
         holder.sessionName.setText(session.getOwnerSetting().getName());
         holder.sessionDuration.setText(session.getDuration() + " Minuten");
         holder.sessionPartner.setText("Test Partner");
+
+
     }
 
     @Override

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,54 +9,13 @@
     tools:context=".ui.MenuActivity1">
 
 
-    <Button
-        android:id="@+id/bt_start_timer"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/shape_circle"
-        android:text="Open Timer"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="370dp" />
-
-    <Button
-        android:id="@+id/bt_end_session"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_below="@+id/bt_start_timer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="61dp"
-        android:background="@drawable/shape_circle"
-        android:text="End Current Session"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.938"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="370dp" />
-
-
-    <Button
-        android:id="@+id/bt_create_public_session"
-        android:layout_width="98dp"
-        android:layout_height="118dp"
-        android:background="@drawable/shape_circle"
-        android:text="Create Public Session"
-
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="370dp" />
-
-    <Button
-        android:id="@+id/bt_join_last_session"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Join Last Created Session"
-        android:layout_below="@+id/bt_end_session"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent" />
+ <TextView
+     android:id="@+id/time_text"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:text="Timer"
+     android:textSize="50sp"
+     />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
@@ -70,6 +28,7 @@
         app:menu="@menu/menu_navigation"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="596dp"
-        tools:ignore="MissingConstraints" />
+         />
+
 
 </RelativeLayout>
