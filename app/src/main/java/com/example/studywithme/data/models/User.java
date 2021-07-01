@@ -87,4 +87,5 @@ public class User implements Serializable {
     public void setCreated(boolean created) {
         isCreated = created;
     }
+
 }

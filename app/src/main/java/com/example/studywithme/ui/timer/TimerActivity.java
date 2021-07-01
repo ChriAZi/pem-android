@@ -19,6 +19,7 @@ import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
+import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.utils.Constants;
 import com.google.firebase.Timestamp;
 
@@ -38,7 +39,7 @@ public class TimerActivity extends AppCompatActivity {
     private String TAG = "TimerActivity";
     private QuestionnaireViewModel questionnaireViewModel;
     private SessionHistoryViewModel sessionHistoryViewModel;
-    public AbstractViewModel abstractViewModel;
+    public SessionListViewModel sessionListViewModel;
     private User user;
     private String session2;
     private Session session;
@@ -114,6 +115,7 @@ public class TimerActivity extends AppCompatActivity {
         try {
             countdownTimer.cancel();
             active = false;
+            endSession();
             //Timerviewmodel end Session (bool)
 
         } catch (Exception e) {
@@ -123,13 +125,23 @@ public class TimerActivity extends AppCompatActivity {
         started.setText("Session stopped!");
     }
 
+    /**
+     * sets the session to inactive and therefore ends it
+     */
+    private void endSession() {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+            session.setActive(false);
+        });
+    }
+
 
     /**
-     * observes the current session and sets the variables to the current values
+     * observes the current session and sets the variables(creator & partner name, work & goal) to the current values
      */
     private void initViewModel() {
-        abstractViewModel = new ViewModelProvider(this).get(AbstractViewModel.class);
-        abstractViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
 
             textTimer.setText(String.valueOf(session.getDuration()));
             creatorName.setText(user.getName());
@@ -145,14 +157,6 @@ public class TimerActivity extends AppCompatActivity {
     }
 
 
-    private void initViewModels() {
-        sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
-        sessionHistoryViewModel.getPastSessions(user.getUid()).observe(this, sessions -> {
-            partnerGoal.setText(session2);
-        });
-        creatorName.setText(user.getName());
-
-    }
 
     /**
      * starts timer from database timer duration
@@ -170,7 +174,7 @@ public class TimerActivity extends AppCompatActivity {
 
             progress = 1;
             endTime = Integer.parseInt(duration); // up to finish time
-
+            setActive(); // set the session active
             countdownTimer = new CountDownTimer(60 * endTime * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -215,6 +219,16 @@ public class TimerActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Please enter your session time", Toast.LENGTH_LONG).show();
         }
+    }
+
+    /**
+     * sets the session active
+     */
+    private void setActive() {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+            session.setActive(true);
+        });
     }
 
 

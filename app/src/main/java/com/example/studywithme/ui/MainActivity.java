@@ -136,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private void startSessionListActivity() {
         Intent i = new Intent(MainActivity.this, SessionsListActivity.class);
+        i.putExtra(Constants.USER, user);
         MainActivity.this.startActivity(i);
     }
 

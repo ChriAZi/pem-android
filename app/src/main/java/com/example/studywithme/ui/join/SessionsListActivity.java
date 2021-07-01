@@ -12,6 +12,7 @@ import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
+import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.ToastMaster;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -45,6 +46,7 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
     private RecyclerView recyclerView;
     private String TAG = "SessionListActivity";
     private Session[] mSession;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,19 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
         setContentView(R.layout.session_list);
         recyclerView = findViewById(R.id.rv_session_list);
         //sessionList = (ListView)findViewById(R.id.listView);
+        getCurrentUser();
         initViewModel();
+    }
+
+    private void getCurrentUser() {
+        Bundle extras = getIntent().getExtras();
+        if (extras == null) {
+            user = null;
+        } else {
+            user = (User) extras.get(Constants.USER);
+            Log.d(TAG, String.valueOf(user));
+
+        }
     }
 
     private void initViewModel() {
@@ -80,10 +94,13 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         questionnaireViewModel.joinSession(mSession[position].getUid(), User.getIdFromPreferences(SessionsListActivity.this), mSession[position].getOwnerSetting()).observe(SessionsListActivity.this, joined -> {
             if(mSession[position].isActive()){
-            if (joined) {
-                ToastMaster.showToast(SessionsListActivity.this, "Joined Session" + mSession[position].getUid() + " by " + mSession[position].getOwner());
-            }}/* else {
-                ToastMaster.showToast(SessionsListActivity.this, "Something went wrong with joining the session.");
-            }*/
-        });
+                if(mSession[position].getOwner().getName() != user.getName()){
+                    // mSession[position].setPartner();
+                    if (joined) {
+                        ToastMaster.showToast(SessionsListActivity.this, "Joined Session" + mSession[position].getUid() + " by " + mSession[position].getOwner());
+                    }else{
+                    ToastMaster.showToast(SessionsListActivity.this, "You can not join your own session");
+                }}
+
+        }});
     }}
