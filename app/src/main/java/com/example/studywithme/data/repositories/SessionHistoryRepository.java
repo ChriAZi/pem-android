@@ -16,7 +16,6 @@ import java.util.List;
 public class SessionHistoryRepository {
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference sessionsRef = rootRef.collection(Constants.SESSIONS);
-    private final CollectionReference usersRef = rootRef.collection(Constants.USERS);
 
     public LiveData<List<Session>> getPastSessions(String userId) {
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();

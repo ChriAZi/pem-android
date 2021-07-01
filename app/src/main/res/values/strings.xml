@@ -7,4 +7,7 @@
         <item>UNIVERSITY</item>
         <item>HOBBY</item>
     </string-array>
+    <string name="navigation_home">Home</string>
+    <string name="navigation_timer">Timer</string>
+    <string name="navigation_history">History</string>
 </resources>

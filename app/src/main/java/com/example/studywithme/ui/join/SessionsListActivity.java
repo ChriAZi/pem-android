@@ -3,39 +3,20 @@ package com.example.studywithme.ui.join;
 import android.os.Bundle;
 
 import com.example.studywithme.data.models.Session;
-import com.example.studywithme.data.models.SessionCategory;
-import com.example.studywithme.data.models.SessionSetting;
-import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
-import com.example.studywithme.ui.history.SessionHistoryAdapter;
-import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
-import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.utils.ToastMaster;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.studywithme.R;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SessionsListActivity extends AppCompatActivity implements SessionListAdapter.ListItemClickListener {
     SessionListViewModel sessionListViewModel;
@@ -50,7 +31,7 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        // setContentView(R.layout.activity_sessions_list);
-        setContentView(R.layout.session_list);
+        setContentView(R.layout.activity_session_history);
         recyclerView = findViewById(R.id.rv_session_list);
         //sessionList = (ListView)findViewById(R.id.listView);
         initViewModel();
