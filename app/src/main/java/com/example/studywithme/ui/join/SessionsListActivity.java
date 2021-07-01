@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.studywithme.R;
@@ -44,19 +45,20 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
     private SessionListAdapter sessionAdapter;
     QuestionnaireViewModel questionnaireViewModel;
     private RecyclerView recyclerView;
-    private String TAG = "SessionListActivity";
+    private TextView hint;
+    private final String TAG = "SessionListActivity";
     private Session[] mSession;
     private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_sessions_list);
-        setContentView(R.layout.session_list);
+        setContentView(R.layout.session_join_list);
         recyclerView = findViewById(R.id.rv_session_list);
-        //sessionList = (ListView)findViewById(R.id.listView);
+        hint = findViewById(R.id.hint1);
         getCurrentUser();
         initViewModel();
+        checkIfSessionsExist();
     }
 
     private void getCurrentUser() {
@@ -70,14 +72,24 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
         }
     }
 
+    private void checkIfSessionsExist(){
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getPublicSessions().observe(this, sessions -> {
+            if(sessions.size() == 0) {
+                hint.setText("No open sessions yet.\n Start your own with the Button below.");
+            }});
+    }
+
     private void initViewModel() {
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
         sessionListViewModel.getPublicSessions().observe(this, sessions -> {
         sessionAdapter = new SessionListAdapter(sessions, this);
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             recyclerView.setAdapter(sessionAdapter);
+            checkIfSessionsExist();
+            hint.setVisibility(View.INVISIBLE);
             mSession = new Session[sessions.size()];
-            for(int i = 0; i < sessions.size(); i++){
+            for (int i = 0; i < sessions.size(); i++) {
                 mSession[i] = sessions.get(i);
             }
 
