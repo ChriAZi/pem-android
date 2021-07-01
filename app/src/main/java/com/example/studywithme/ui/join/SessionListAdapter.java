@@ -21,6 +21,7 @@ import com.example.studywithme.utils.ToastMaster;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -50,10 +51,13 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     @Override
     public void onBindViewHolder(@NonNull SessionListViewHolder holder, int position) {
         Session session = sessions.get(position);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String date = dateFormat.format(session.getStartedAt().toDate());
         if(session.isActive() == true) {
-            holder.sessionStart.setText(session.getStartedAt().toDate().toString());
-            holder.sessionDuration.setText(session.getDuration() + " Minuten");
-            holder.sessionOwner.setText(session.getOwner().getName());
+            holder.sessionStart.setText("Started: " + date);
+            //holder.sessionStart.setText(session.getStartedAt().toDate().toString());
+            holder.sessionDuration.setText("Duration: " + session.getDuration() + " Minutes");
+            holder.sessionOwner.setText("by: " + session.getOwner().getName());
         }
 
     }
