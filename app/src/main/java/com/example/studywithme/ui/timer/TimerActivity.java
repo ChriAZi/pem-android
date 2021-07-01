@@ -1,5 +1,6 @@
 package com.example.studywithme.ui.timer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -14,9 +15,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.ui.navigation.NavigationActivity;
+import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
-import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.ToastMaster;
 import com.google.firebase.Timestamp;
 
@@ -36,16 +37,35 @@ public class TimerActivity extends NavigationActivity {
     private String TAG = "TimerActivity";
     public AbstractViewModel timerViewModel;
     private String userId;
-    private String session_id;
     private Session session;
     private String uID;
     private boolean active = false;
     private Timestamp sessionStart;
+    private String sessionId;
+    private int layoutId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        sessionId = Session.getIdFromPreferences(this);
+        if (sessionId == null) {
+            layoutId = R.layout.activity_timer_empty;
+            super.onCreate(savedInstanceState);
+            initEmptyTimerLayout();
+        } else {
+            layoutId = R.layout.activity_timer;
+            super.onCreate(savedInstanceState);
+            initTimerLayout();
+        }
+        getSupportActionBar().setTitle(R.string.heading_timer);
+    }
+
+    private void initEmptyTimerLayout() {
+        Button startSessionButton = findViewById(R.id.bt_empty_start_session);
+        startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestionnaireActivity.class)));
+    }
+
+    private void initTimerLayout() {
         creatorName = findViewById(R.id.sessionCreator);
         creatorWork = findViewById(R.id.creatorWork);
         creatorGoal = findViewById(R.id.creatorGoal);
@@ -62,23 +82,11 @@ public class TimerActivity extends NavigationActivity {
         et_timer = findViewById(R.id.session_duration);
         started = findViewById(R.id.started);
 
-        getUserAndSessionId();
         initViewModel();
 
         start.setOnClickListener(v -> startTimer());
 
         stop.setOnClickListener(v -> stopTimer());
-    }
-
-    private void getUserAndSessionId() {
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            userId = null;
-            session_id = null;
-        } else {
-            userId = (String) extras.get(Constants.USER_ID);
-            session_id = (String) extras.get(Constants.SESSION_ID);
-        }
     }
 
     private void stopTimer() {
@@ -100,7 +108,7 @@ public class TimerActivity extends NavigationActivity {
      */
     private void initViewModel() {
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
-        timerViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
+        timerViewModel.getActiveSession(sessionId).observe(this, session -> {
             textTimer.setText(String.valueOf(session.getDuration()));
             creatorName.setText(session.getOwner().getName());
             creatorWork.setText(session.getOwnerSetting().getCategories().get(0).toString());
@@ -269,7 +277,7 @@ public class TimerActivity extends NavigationActivity {
 
     @Override
     public int getContentViewId() {
-        return R.layout.activity_timer;
+        return layoutId;
     }
 
     @Override

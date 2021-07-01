@@ -41,6 +41,7 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("Testing View");
         setUserIdFromIntent();
         initViewModel();
         initViews();

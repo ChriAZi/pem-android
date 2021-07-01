@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.PagerAdapter;
@@ -19,10 +18,11 @@ import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.google.firebase.firestore.DocumentReference;
 
-public class QuestActivity extends AppCompatActivity {
+public class QuestionnaireActivity extends NavigationActivity {
 
     private Fragment question1, question2, question3, question4;
     private Button btnNext, btnPrev;
@@ -43,7 +43,6 @@ public class QuestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("tagtagtag", "onCreate: ");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quest);
 
         question1 = new Quest1Fragment();
         question2 = new Quest2Fragment();
@@ -163,6 +162,16 @@ public class QuestActivity extends AppCompatActivity {
         adapter = new Adapter(this);
         viewPager = findViewById(R.id.viewpager);
         viewPager.setAdapter(adapter);
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_questionnaire;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_home;
     }
 
     private class Adapter extends PagerAdapter {

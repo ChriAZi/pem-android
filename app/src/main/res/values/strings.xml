@@ -1,13 +1,28 @@
 <resources>
     <string name="app_name">StudyWithMe</string>
-    <string name="sign_in_heading">Sign In</string>
-    <string name="sign_out">Sign Out</string>
+    <string name="app_description">Feeling to lazy to study alone? Join now and find your study buddy.</string>
+
     <string-array name="categories">
         <item>WORK</item>
         <item>UNIVERSITY</item>
         <item>HOBBY</item>
     </string-array>
+
+    <!-- Navigation -->
     <string name="navigation_home">Home</string>
     <string name="navigation_timer">Timer</string>
     <string name="navigation_history">History</string>
+
+    <!-- Timer -->
+    <string name="empty_timer">Looks like you did not set a timer yet. Why don\'t you start one right now?</string>
+
+    <!-- Headings -->
+    <string name="heading_sign_in">Sign In</string>
+    <string name="heading_timer">Your Timer</string>
+    <string name="heading_history">Your Sessions</string>
+
+    <!-- Buttons -->
+
+    <string name="sign_out">Sign Out</string>
+    <string name="start_session">Start Session</string>
 </resources>

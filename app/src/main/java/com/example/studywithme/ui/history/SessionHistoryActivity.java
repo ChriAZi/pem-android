@@ -18,12 +18,13 @@ import java.util.List;
 
 public class SessionHistoryActivity extends NavigationActivity implements SessionHistoryAdapter.ItemViewHolder.OnItemClickListener {
     private SessionHistoryViewModel sessionHistoryViewModel;
-    private RecyclerView recyclerView;
     private List<Session> sessions;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle(R.string.heading_history);
         recyclerView = findViewById(R.id.rv_session_list);
         initViewModel();
     }
@@ -44,6 +45,7 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
         Intent intent = new Intent(this, SessionDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(Constants.SESSION_ID, sessions.get(0).getUid());
+        bundle.putString(Constants.SESSION_NAME, sessions.get(0).getOwnerSetting().getName());
         intent.putExtras(bundle);
         this.startActivity(intent);
     }

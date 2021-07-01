@@ -1,10 +1,13 @@
 package com.example.studywithme.ui.history;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,13 +36,13 @@ public class SessionDetailActivity extends NavigationActivity {
 
         initViewModel();
         String sessionId = getIntent().getStringExtra(Constants.SESSION_ID);
+        String sessionName = getIntent().getStringExtra(Constants.SESSION_NAME);
+
+        setupActionBar(sessionName);
 
         sessionDetailViewModel.getSession(sessionId).observe(this, session -> {
-            TextView sessionName = findViewById(R.id.tv_heading);
-            sessionName.setText(session.getOwnerSetting().getName());
-
             TextView date = findViewById(R.id.tv_detail_date);
-            date.setText(DateHelper.formatDate(session.getStartedAt().getSeconds()));
+            date.setText(DateHelper.formatDate(session.getStartedAt().toDate().getTime()));
 
             SessionCategory category = session.getOwnerSetting().getCategories().get(0);
             ImageView headerImage = findViewById(R.id.iv_header_image);
@@ -74,6 +77,18 @@ public class SessionDetailActivity extends NavigationActivity {
 
     private void initViewModel() {
         sessionDetailViewModel = new ViewModelProvider(this).get(SessionDetailViewModel.class);
+    }
+
+    private void setupActionBar(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle(title);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent backIntent = new Intent(getApplicationContext(), SessionHistoryActivity.class);
+        startActivityForResult(backIntent, 0);
+        return true;
     }
 
     private void setTasksRecyclerView(List<SessionTask> tasks) {

@@ -10,4 +10,5 @@ public class Constants {
 
     public static final String SESSIONS = "sessions";
     public static final String SESSION_ID = "session_id";
+    public static final String SESSION_NAME = "session_name";
 }
