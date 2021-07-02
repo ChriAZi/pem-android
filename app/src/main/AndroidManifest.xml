@@ -24,14 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.questionnaire.QuestActivity"
-            android:exported="true" />
         <activity android:name=".ui.authentication.AuthActivity" />
         <activity android:name=".ui.MainActivity" />
-        <activity android:name=".ui.history.SessionHistoryActivity" />
+        <activity android:name=".ui.join.SessionsListActivity" />
+        <activity android:name=".ui.questionnaire.QuestionnaireActivity" />
         <activity android:name=".ui.timer.TimerActivity" />
-        <activity android:name=".ui.join.SessionsListActivity"/>
+        <activity android:name=".ui.history.SessionHistoryActivity" />
+        <activity android:name=".ui.history.SessionDetailActivity" />
     </application>
 
 </manifest>

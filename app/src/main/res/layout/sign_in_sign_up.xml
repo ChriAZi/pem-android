@@ -5,15 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="24dp"
+            android:text="@string/app_name"
+            android:textColor="@color/black"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="8sp"
+            android:text="@string/app_description"
+            android:textSize="16dp" />
+
+    </LinearLayout>
+
     <ImageView
         android:id="@+id/iv_sign_in_background_image"
-        android:layout_width="357dp"
-        android:layout_height="376dp"
-        android:layout_marginTop="108dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="308dp"
+        android:layout_height="324dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout4"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/collaboration" />
+        app:srcCompat="@drawable/sign_in"
+        tools:srcCompat="@drawable/sign_in" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/bt_google_sign_in"
@@ -21,13 +51,13 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:layout_marginTop="32dp"
         app:buttonSize="wide"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_sign_in_background_image"
-        app:layout_constraintVertical_bias="0.247">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_sign_in_background_image">
 
     </com.google.android.gms.common.SignInButton>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

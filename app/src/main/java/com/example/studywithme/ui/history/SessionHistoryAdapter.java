@@ -11,6 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
+import com.example.studywithme.utils.DateHelper;
+import com.example.studywithme.utils.StringHelper;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +23,18 @@ import java.util.List;
 public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAdapter.ItemViewHolder> {
 
     private ArrayList<Session> sessions;
+    private final ItemViewHolder.OnItemClickListener onItemClickListener;
 
-    public SessionHistoryAdapter(List<Session> sessions) {
+    public SessionHistoryAdapter(List<Session> sessions, ItemViewHolder.OnItemClickListener onItemClickListener) {
         this.sessions = (ArrayList<Session>) sessions;
+        this.onItemClickListener = onItemClickListener;
     }
 
-    @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public @NotNull ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.session_item, parent, false);
-        return new ItemViewHolder(view);
+        return new ItemViewHolder(view, onItemClickListener);
     }
 
     @Override
@@ -49,8 +54,10 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
                 holder.sessionImage.setImageResource(R.drawable.work_image);
         }
         holder.sessionName.setText(session.getOwnerSetting().getName());
+        holder.sessionDate.setText(DateHelper.formatDate((double) session.getStartedAt().toDate().getTime()));
         holder.sessionDuration.setText(session.getDuration() + " Minuten");
-        holder.sessionPartner.setText("Test Partner");
+        holder.sessionPartner.setText(session.getPartner().getName());
+        holder.sessionCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategories().get(0).name()));
     }
 
     @Override
@@ -58,19 +65,35 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
         return sessions.size();
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView sessionImage;
         private final TextView sessionName;
+        private final TextView sessionDate;
         private final TextView sessionDuration;
         private final TextView sessionPartner;
+        private final TextView sessionCategory;
+        private final OnItemClickListener onItemClickListener;
 
-        public ItemViewHolder(@NonNull View itemView) {
+        public ItemViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             this.sessionImage = itemView.findViewById(R.id.iv_image);
             this.sessionName = itemView.findViewById(R.id.tv_session_name);
-            this.sessionDuration = itemView.findViewById(R.id.tv_session_duration);
-            this.sessionPartner = itemView.findViewById(R.id.tv_session_partner);
+            this.sessionDate = itemView.findViewById(R.id.tv_date);
+            this.sessionDuration = itemView.findViewById(R.id.tv_duration);
+            this.sessionPartner = itemView.findViewById(R.id.tv_partner);
+            this.sessionCategory = itemView.findViewById(R.id.tv_category);
+            this.onItemClickListener = onItemClickListener;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(getAdapterPosition());
+        }
+
+        public interface OnItemClickListener {
+            void onItemClick(int position);
         }
     }
 
