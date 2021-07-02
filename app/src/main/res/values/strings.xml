@@ -18,6 +18,9 @@
 
     <!-- Headings -->
     <string name="heading_sign_in">Sign In</string>
+    <string name="heading_testing">Testing</string>
+    <string name="heading_session_list">All open Sessions</string>
+    <string name="heading_questionnaire">Setup your Session</string>
     <string name="heading_timer">Your Timer</string>
     <string name="heading_history">Your Sessions</string>
 

@@ -17,7 +17,7 @@ import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.authentication.AuthActivity;
-import com.example.studywithme.ui.join.SessionsListActivity;
+import com.example.studywithme.ui.join.SessionListActivity;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
@@ -42,7 +42,6 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Testing View");
         setUserIdFromIntent();
         initViewModel();
         initViews();
@@ -122,7 +121,7 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
     }
 
     private void startSessionListActivity() {
-        Intent i = new Intent(MainActivity.this, SessionsListActivity.class);
+        Intent i = new Intent(MainActivity.this, SessionListActivity.class);
         i.putExtra(Constants.USER, user);
         MainActivity.this.startActivity(i);
     }
@@ -185,6 +184,11 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
     @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_home;
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return getResources().getString(R.string.heading_testing);
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studywithme.R;
@@ -22,7 +23,11 @@ public abstract class NavigationActivity extends AppCompatActivity implements Bo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentViewId());
-        navigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.setTitle(getActionBarTitle());
+        }
+        navigationView = findViewById(R.id.bottom_navigation);
         navigationView.setOnNavigationItemSelectedListener(this);
     }
 
@@ -80,5 +85,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Bo
     public abstract int getContentViewId();
 
     public abstract int getNavigationMenuItemId();
+
+    public abstract String getActionBarTitle();
 }
 

@@ -24,7 +24,6 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle(R.string.heading_history);
         recyclerView = findViewById(R.id.rv_session_list);
         initViewModel();
     }
@@ -58,5 +57,10 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
     @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_history;
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return getResources().getString(R.string.heading_history);
     }
 }

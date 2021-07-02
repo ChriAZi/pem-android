@@ -28,17 +28,16 @@ public class SessionDetailActivity extends NavigationActivity {
     private SessionDetailViewModel sessionDetailViewModel;
     private RecyclerView tasksRecyclerView;
     private RecyclerView distractionsRecyclerView;
+    private String sessionName;
 
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         initViewModel();
         String sessionId = getIntent().getStringExtra(Constants.SESSION_ID);
-        String sessionName = getIntent().getStringExtra(Constants.SESSION_NAME);
-
-        setupActionBar(sessionName);
+        sessionName = getIntent().getStringExtra(Constants.SESSION_NAME);
+        super.onCreate(savedInstanceState);
+        setupActionBar();
 
         sessionDetailViewModel.getSession(sessionId).observe(this, session -> {
             TextView date = findViewById(R.id.tv_detail_date);
@@ -79,10 +78,11 @@ public class SessionDetailActivity extends NavigationActivity {
         sessionDetailViewModel = new ViewModelProvider(this).get(SessionDetailViewModel.class);
     }
 
-    private void setupActionBar(String title) {
+    private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(title);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -105,7 +105,6 @@ public class SessionDetailActivity extends NavigationActivity {
         distractionsRecyclerView.setAdapter(distractionsAdapter);
     }
 
-
     @Override
     public int getContentViewId() {
         return R.layout.activity_session_detail;
@@ -114,5 +113,10 @@ public class SessionDetailActivity extends NavigationActivity {
     @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_history;
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return sessionName;
     }
 }

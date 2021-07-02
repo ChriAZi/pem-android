@@ -9,10 +9,18 @@
         <item name="colorSecondary">@color/lightBlue</item>
         <item name="colorSecondaryVariant">@color/darkBlue</item>
         <item name="colorOnSecondary">@color/white</item>
+        <!-- Bottom Navigation -->
+        <item name="bottomNavigationBackgroundColor">@color/white</item>
+        <item name="bottomNavigationSelectedColor">@color/darkBlue</item>
+        <item name="bottomNavigationUnselectedColor">@color/grey</item>
+        <!-- Bars -->
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+
+        <!-- Animations -->
         <item name="android:windowAnimationStyle">@style/ActivityAnimations</item>
     </style>
+
 
     <style name="SplashActivityStyle" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>

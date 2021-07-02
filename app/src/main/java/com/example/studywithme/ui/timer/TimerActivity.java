@@ -17,12 +17,9 @@ import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
-import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
-import com.example.studywithme.utils.Constants;
-import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.example.studywithme.utils.ToastMaster;
 import com.google.firebase.Timestamp;
 
@@ -65,7 +62,6 @@ public class TimerActivity extends NavigationActivity {
             super.onCreate(savedInstanceState);
             initTimerLayout();
         }
-        getSupportActionBar().setTitle(R.string.heading_timer);
     }
 
     private void initEmptyTimerLayout() {
@@ -115,7 +111,7 @@ public class TimerActivity extends NavigationActivity {
      */
     private void endSession() {
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
-        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
             session.setActive(false);
         });
     }
@@ -210,7 +206,7 @@ public class TimerActivity extends NavigationActivity {
      */
     private void setActive() {
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
-        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
             session.setActive(true);
         });
     }
@@ -313,6 +309,11 @@ public class TimerActivity extends NavigationActivity {
     @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_timer;
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return getResources().getString(R.string.heading_timer);
     }
 
 }

@@ -174,6 +174,11 @@ public class QuestionnaireActivity extends NavigationActivity {
         return R.id.navigation_home;
     }
 
+    @Override
+    public String getActionBarTitle() {
+        return getResources().getString(R.string.heading_questionnaire);
+    }
+
     private class Adapter extends PagerAdapter {
         Context context;
 
