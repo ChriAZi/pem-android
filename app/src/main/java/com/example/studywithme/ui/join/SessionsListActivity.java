@@ -106,13 +106,14 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         questionnaireViewModel.joinSession(mSession[position].getUid(), User.getIdFromPreferences(SessionsListActivity.this), mSession[position].getOwnerSetting()).observe(SessionsListActivity.this, joined -> {
             if(mSession[position].isActive()){
-                if(mSession[position].getOwner().getName() != user.getName()){
-                    // mSession[position].setPartner();
+                if(mSession[position].getOwner().getName().equals(user.getName())) {
+                    ToastMaster.showToast(SessionsListActivity.this, "You can not join your own session");
+                } else {
                     if (joined) {
                         ToastMaster.showToast(SessionsListActivity.this, "Joined Session" + mSession[position].getUid() + " by " + mSession[position].getOwner());
-                    }else{
-                    ToastMaster.showToast(SessionsListActivity.this, "You can not join your own session");
+                        mSession[position].setPartner(user);
+                    }
                 }}
-
-        }});
-    }}
+        });
+}
+}

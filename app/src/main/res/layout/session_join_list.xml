@@ -37,6 +37,7 @@
         android:layout_height="wrap_content"
         android:text="No open sessions yet.\n Start your own with the Button below."
         android:textColor="?colorOnSecondary"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
