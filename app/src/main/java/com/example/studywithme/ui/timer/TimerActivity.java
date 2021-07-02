@@ -14,9 +14,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
+import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
+import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
+import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
+import com.example.studywithme.ui.viewmodels.SessionListViewModel;
+import com.example.studywithme.utils.Constants;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.example.studywithme.utils.ToastMaster;
 import com.google.firebase.Timestamp;
@@ -35,8 +40,11 @@ public class TimerActivity extends NavigationActivity {
     private int progress;
     private int endTime = 250;
     private String TAG = "TimerActivity";
-    public AbstractViewModel timerViewModel;
-    private String userId;
+    private QuestionnaireViewModel questionnaireViewModel;
+    private SessionHistoryViewModel sessionHistoryViewModel;
+    public SessionListViewModel sessionListViewModel;
+    private User user;
+    private String session2;
     private Session session;
     private String uID;
     private boolean active = false;
@@ -85,7 +93,6 @@ public class TimerActivity extends NavigationActivity {
         initViewModel();
 
         start.setOnClickListener(v -> startTimer());
-
         stop.setOnClickListener(v -> stopTimer());
     }
 
@@ -93,6 +100,7 @@ public class TimerActivity extends NavigationActivity {
         try {
             countdownTimer.cancel();
             active = false;
+            endSession();
             //Timerviewmodel end Session (bool)
 
         } catch (Exception e) {
@@ -102,13 +110,24 @@ public class TimerActivity extends NavigationActivity {
         started.setText("Session stopped!");
     }
 
+    /**
+     * sets the session to inactive and therefore ends it
+     */
+    private void endSession() {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+            session.setActive(false);
+        });
+    }
+
 
     /**
-     * observes the current session and sets the variables to the current values
+     * observes the current session and sets the variables(creator & partner name, work & goal) to the current values
      */
     private void initViewModel() {
-        timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
-        timerViewModel.getActiveSession(sessionId).observe(this, session -> {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
+
             textTimer.setText(String.valueOf(session.getDuration()));
             creatorName.setText(session.getOwner().getName());
             creatorWork.setText(session.getOwnerSetting().getCategories().get(0).toString());
@@ -121,6 +140,7 @@ public class TimerActivity extends NavigationActivity {
 
         });
     }
+
 
     /**
      * starts timer from database timer duration
@@ -138,7 +158,7 @@ public class TimerActivity extends NavigationActivity {
 
             progress = 1;
             endTime = Integer.parseInt(duration); // up to finish time
-
+            setActive(); // set the session active
             countdownTimer = new CountDownTimer(60 * endTime * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -183,6 +203,16 @@ public class TimerActivity extends NavigationActivity {
         } else {
             ToastMaster.showToast(getApplicationContext(), "Please enter your session time");
         }
+    }
+
+    /**
+     * sets the session active
+     */
+    private void setActive() {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+            session.setActive(true);
+        });
     }
 
 

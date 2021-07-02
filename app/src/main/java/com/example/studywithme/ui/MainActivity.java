@@ -37,6 +37,7 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
     private TimerViewModel timerViewModel;
     private ReflectionViewModel reflectionViewModel;
     private String userId;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,7 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
 
     private void startSessionListActivity() {
         Intent i = new Intent(MainActivity.this, SessionsListActivity.class);
+        i.putExtra(Constants.USER, user);
         MainActivity.this.startActivity(i);
     }
 
