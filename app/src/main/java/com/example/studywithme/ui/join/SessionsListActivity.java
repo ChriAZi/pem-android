@@ -6,8 +6,8 @@ import android.os.Bundle;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.MainActivity;
-import com.example.studywithme.ui.history.SessionHistoryAdapter;
-import com.example.studywithme.ui.questionnaire.QuestActivity;
+import com.example.studywithme.ui.navigation.NavigationActivity;
+import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
@@ -20,13 +20,16 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.studywithme.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class SessionsListActivity extends AppCompatActivity implements SessionListAdapter.ListItemClickListener {
+public class SessionsListActivity extends NavigationActivity implements SessionListAdapter.ListItemClickListener {
     SessionListViewModel sessionListViewModel;
     ListView sessionList;
     private SessionListAdapter sessionAdapter;
@@ -38,13 +41,14 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
     private Session[] mSession;
     private User user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.session_join_list);
         recyclerView = findViewById(R.id.rv_session_list);
         hint = findViewById(R.id.hint1);
         createSession = findViewById(R.id.create_start_questionaire);
+        getSupportActionBar().setTitle("Open Sessions");
         getCurrentUser();
         initViewModel();
         checkIfSessionsExist();
@@ -59,7 +63,7 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
     }
 
     private void startQuestionaireActivity() {
-        Intent i = new Intent(SessionsListActivity.this, QuestActivity.class);
+        Intent i = new Intent(SessionsListActivity.this, QuestionnaireActivity.class);
         i.putExtra(Constants.USER, user);
         i.putExtra(Constants.SESSION_ID, Session.getIdFromPreferences(this));
         SessionsListActivity.this.startActivity(i);
@@ -120,4 +124,14 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
                 }}
         });
 }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.session_join_list;
+    }
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_home;
+    }
+
 }

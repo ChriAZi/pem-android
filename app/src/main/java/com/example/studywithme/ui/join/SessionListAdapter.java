@@ -38,6 +38,10 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
 
     interface ListItemClickListener{
         void onListItemClick(int position);
+
+        int getContentViewId();
+
+        int getNavigationMenuItemId();
     }
 
     @NonNull

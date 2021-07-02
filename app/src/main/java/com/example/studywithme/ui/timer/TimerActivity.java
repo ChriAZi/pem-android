@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
+import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
@@ -92,7 +93,6 @@ public class TimerActivity extends NavigationActivity {
         initViewModel();
 
         start.setOnClickListener(v -> startTimer());
-
         stop.setOnClickListener(v -> stopTimer());
     }
 
@@ -140,7 +140,6 @@ public class TimerActivity extends NavigationActivity {
 
         });
     }
-
 
 
     /**
