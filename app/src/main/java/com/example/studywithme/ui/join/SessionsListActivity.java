@@ -46,8 +46,8 @@ public class SessionsListActivity extends NavigationActivity implements SessionL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         recyclerView = findViewById(R.id.rv_session_list);
-        hint = findViewById(R.id.hint1);
-        createSession = findViewById(R.id.create_start_questionaire);
+        // hint = findViewById(R.id.hint1);
+        // createSession = findViewById(R.id.create_start_questionaire);
         getSupportActionBar().setTitle("Open Sessions");
         getCurrentUser();
         initViewModel();
