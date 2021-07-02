@@ -1,5 +1,6 @@
 package com.example.studywithme.ui.join;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.studywithme.data.models.Session;
@@ -7,7 +8,10 @@ import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.MainActivity;
 import com.example.studywithme.ui.history.SessionHistoryAdapter;
+import com.example.studywithme.ui.questionnaire.QuestActivity;
+import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
@@ -46,6 +50,7 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
     QuestionnaireViewModel questionnaireViewModel;
     private RecyclerView recyclerView;
     private TextView hint;
+    private FloatingActionButton createSession;
     private final String TAG = "SessionListActivity";
     private Session[] mSession;
     private User user;
@@ -56,9 +61,25 @@ public class SessionsListActivity extends AppCompatActivity implements SessionLi
         setContentView(R.layout.session_join_list);
         recyclerView = findViewById(R.id.rv_session_list);
         hint = findViewById(R.id.hint1);
+        createSession = findViewById(R.id.create_start_questionaire);
         getCurrentUser();
         initViewModel();
         checkIfSessionsExist();
+
+        createSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startQuestionaireActivity();
+            }
+        });
+
+    }
+
+    private void startQuestionaireActivity() {
+        Intent i = new Intent(SessionsListActivity.this, QuestActivity.class);
+        i.putExtra(Constants.USER, user);
+        i.putExtra(Constants.SESSION_ID, Session.getIdFromPreferences(this));
+        SessionsListActivity.this.startActivity(i);
     }
 
     private void getCurrentUser() {
