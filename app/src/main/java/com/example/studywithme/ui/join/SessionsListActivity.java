@@ -49,9 +49,10 @@ public class SessionsListActivity extends NavigationActivity implements SessionL
         hint = findViewById(R.id.hint1);
         createSession = findViewById(R.id.create_start_questionaire);
         getSupportActionBar().setTitle("Open Sessions");
-        getCurrentUser();
         initViewModel();
         checkIfSessionsExist();
+        initCurrentUser();
+
 
         createSession.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +63,13 @@ public class SessionsListActivity extends NavigationActivity implements SessionL
 
     }
 
+    private void initCurrentUser() {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getCurrentUser(User.getIdFromPreferences(this)).observe(this, userCurr -> {
+            user = userCurr;
+        });
+    }
+
     private void startQuestionaireActivity() {
         Intent i = new Intent(SessionsListActivity.this, QuestionnaireActivity.class);
         i.putExtra(Constants.USER, user);
@@ -69,16 +77,6 @@ public class SessionsListActivity extends NavigationActivity implements SessionL
         SessionsListActivity.this.startActivity(i);
     }
 
-    private void getCurrentUser() {
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            user = null;
-        } else {
-            user = (User) extras.get(Constants.USER);
-            Log.d(TAG, String.valueOf(user));
-
-        }
-    }
 
     private void checkIfSessionsExist(){
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
