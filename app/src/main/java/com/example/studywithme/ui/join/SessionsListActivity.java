@@ -46,10 +46,10 @@ public class SessionsListActivity extends NavigationActivity implements SessionL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         recyclerView = findViewById(R.id.rv_session_list);
-        // hint = findViewById(R.id.hint1);
-        // createSession = findViewById(R.id.create_start_questionaire);
+        hint = findViewById(R.id.hint1);
+        createSession = findViewById(R.id.create_start_questionaire);
         getSupportActionBar().setTitle("Open Sessions");
-        getCurrentUser();
+        initCurrentUser();
         initViewModel();
         checkIfSessionsExist();
 
@@ -69,15 +69,11 @@ public class SessionsListActivity extends NavigationActivity implements SessionL
         SessionsListActivity.this.startActivity(i);
     }
 
-    private void getCurrentUser() {
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            user = null;
-        } else {
-            user = (User) extras.get(Constants.USER);
-            Log.d(TAG, String.valueOf(user));
-
-        }
+    private void initCurrentUser() {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getCurrentUser(User.getIdFromPreferences(this)).observe(this, userCurr -> {
+            user = userCurr;
+        });
     }
 
     private void checkIfSessionsExist(){
