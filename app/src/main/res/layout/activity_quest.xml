@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/questLayout">
+    android:id="@+id/questLayout"
+    android:background="@color/darkBlue">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
@@ -41,6 +42,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:backgroundTint="#7f9abd"
             android:textColor="#FFFFFF"
+            android:elevation="40dp"
             />
 
         <Button
@@ -52,6 +54,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:backgroundTint="#516c8d"
             android:textColor="#FFFFFF"
+            android:elevation="40dp"
             />
 
         <Button
@@ -63,6 +66,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:backgroundTint="#244160"
             android:textColor="#FFFFFF"
+            android:elevation="40dp"
             />
 
     </LinearLayout>
