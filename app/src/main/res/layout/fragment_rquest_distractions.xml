@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.questionnaire.Quest1Fragment"
-    android:id="@+id/fragmentQuest3">
+    android:id="@+id/fragmentRQuestDistractions">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,14 +15,13 @@
         android:padding="50px"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-
         >
 
         <TextView
             android:id="@+id/hlFrag3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4"
+            android:text="2"
             android:textSize="20dp"
             android:layout_margin="10px"
             android:textColor="@color/darkGrey"
@@ -34,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center"
-            android:text="Add some subtasks?"
+            android:text="Did you get distracted?"
             android:textSize="25dp"
             android:textStyle="bold"
             android:layout_margin="10px"
@@ -42,37 +41,37 @@
             />
 
         <ImageView
-            android:id="@+id/iv_subtasks"
+            android:id="@+id/iv_distractions"
             android:layout_width="357dp"
             android:layout_height="376dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/choose_re"
+            tools:srcCompat="@drawable/starry_window"
             android:layout_gravity="center"
             />
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editQuest3"
-            android:hint="Enter a subtask"
+            android:id="@+id/reditQuestDistractions"
+            android:hint="Enter your distractions"
             android:layout_margin="10px"
             android:textColor="@color/darkGrey"
             />
 
         <Button
-            android:id="@+id/btnSubmit3"
+            android:id="@+id/btnSubmitDist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Add ToDo" />
+            android:text="Add Distraction" />
 
         <ListView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toDoList"
-            android:textColor="#FFFFFF"
+            android:id="@+id/distList"
+            android:textColor="@color/darkGrey"
             />
 
     </LinearLayout>

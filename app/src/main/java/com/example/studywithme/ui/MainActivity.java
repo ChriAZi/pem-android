@@ -19,6 +19,7 @@ import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.authentication.AuthActivity;
 import com.example.studywithme.ui.join.SessionsListActivity;
 import com.example.studywithme.ui.navigation.NavigationActivity;
+import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.ReflectionViewModel;
@@ -116,6 +117,10 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
 
         });
 
+        Button startQuestionnaireButton = findViewById(R.id.bt_start_questionnaire);
+        startQuestionnaireButton.setOnClickListener(view -> {
+            startQuestionnaireActivity();
+        });
 
         Button signOutButton = findViewById(R.id.bt_sign_out);
         signOutButton.setOnClickListener(view -> firebaseAuth.signOut());
@@ -129,6 +134,13 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
 
     private void startTimerActivity() {
         Intent i = new Intent(MainActivity.this, TimerActivity.class);
+        i.putExtra(Constants.USER_ID, userId);
+        i.putExtra(Constants.SESSION_ID, Session.getIdFromPreferences(this));
+        MainActivity.this.startActivity(i);
+    }
+
+    private void startQuestionnaireActivity() {
+        Intent i = new Intent(MainActivity.this, QuestionnaireActivity.class);
         i.putExtra(Constants.USER_ID, userId);
         i.putExtra(Constants.SESSION_ID, Session.getIdFromPreferences(this));
         MainActivity.this.startActivity(i);

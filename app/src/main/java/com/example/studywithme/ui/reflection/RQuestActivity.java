@@ -1,16 +1,14 @@
-package com.example.studywithme.ui.questionnaire;
+package com.example.studywithme.ui.reflection;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,54 +17,46 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
-import com.example.studywithme.data.models.SessionCategory;
+import com.example.studywithme.data.models.SessionReflection;
 import com.example.studywithme.data.models.SessionSetting;
-import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
-import com.example.studywithme.ui.timer.TimerActivity;
+import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
+import com.example.studywithme.ui.viewmodels.ReflectionViewModel;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 
-public class QuestionnaireActivity extends NavigationActivity
-        implements QuestNameFragment.QuestNameFragmentListener,
-        Quest1Fragment.Quest1FragmentListener,
-        Quest3Fragment.Quest3FragmentListener,
-        Quest4Fragment.Quest4FragmentListener,
-        QuestPublicFragment.QuestPublicFragmentListener{
+public class RQuestActivity extends NavigationActivity
+        implements RQuestAchievedFragment.RQuestAchievedFragmentListener,
+        RQuestDistractionsFragment.RQuestDistractionsFragmentListener{
 
-    private Fragment questionName, question1, question2, question3, question4, questionPublic;
+    private Fragment questionAchieved, questionDistractions;
     private Button btnNext, btnPrev, btnSubmit;
     private ViewPager viewPager;
     private Adapter adapter;
     private FragmentManager fm;
     private int page = 0;
-    private QuestionnaireViewModel questionnaireViewModel;
+    private ReflectionViewModel reflectionViewModel;
+    private AbstractViewModel abstractViewModel;
+    private SessionReflection refSession;
     private DocumentReference owner;
     private User user;
     private String session2;
     private Session session;
     private SessionSetting ownerSetting;
     private String uID;
-    private int frduration = 0;
-    private String frname, frgoal = "";
-    private ArrayList<SessionCategory> frcategories;
-    private ArrayList<SessionTask> frtasks;
-    private boolean frpublic = false;
-    //TextView textTimer,creatorName,partnerName,creatorGoal,partnerGoal,creatorWork,partnerWork;
+    private String frAchieved;
+    private ArrayList<String> frDistractions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_reflection);
 
-        questionName = new QuestNameFragment();
-        question1 = new Quest1Fragment();
-        question2 = new Quest2Fragment();
-        question3 = new Quest3Fragment();
-        question4 = new Quest4Fragment();
-        questionPublic = new QuestPublicFragment();
+        questionAchieved = new RQuestAchievedFragment();
+        questionDistractions = new RQuestDistractionsFragment();
 
         /*
         getCurrentSession();
@@ -74,17 +64,16 @@ public class QuestionnaireActivity extends NavigationActivity
         */
 
         fm = getSupportFragmentManager();
-        fm.beginTransaction().add(R.id.questLayout, questionName).commit();
+        fm.beginTransaction().add(R.id.rquestLayout, questionAchieved).commit();
 
         setupViewPager();
         pageChange();
 
-        btnPrev = findViewById(R.id.btnPrev);
+        btnPrev = findViewById(R.id.rbtnPrev);
         btnPrev.setEnabled(false);
-        btnNext = findViewById(R.id.btnNext);
-        btnSubmit = findViewById(R.id.btnSubmit);
+        btnNext = findViewById(R.id.rbtnNext);
+        btnSubmit = findViewById(R.id.rbtnSubmit);
         btnSubmit.setVisibility(View.GONE);
-
 
         btnPrev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,10 +93,19 @@ public class QuestionnaireActivity extends NavigationActivity
             @Override
             public void onClick(View v) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
-
-                initViewModel(v);
+                initViewModel();
             }
         });
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_reflection;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_home;
     }
 
     /**
@@ -115,41 +113,28 @@ public class QuestionnaireActivity extends NavigationActivity
      * but does not work yet
      */
 
-    private void initViewModel(View v){
-
-        frcategories.add(SessionCategory.UNIVERSITY);
+    private void initViewModel(){
 
         //receive data from fragment interfaces
-        String name = frname;
-        String goal = frgoal;
-        ArrayList<SessionCategory> categories = frcategories;
-        Log.d("receive", "cat: "+null);
-        ArrayList<SessionTask> tasks = frtasks;
-        int duration = frduration;
-        boolean isPublic = frpublic;
+        String achieved = frAchieved;
+        ArrayList<String> distractions = frDistractions;
+        Log.d("receive", "public: "+frDistractions+frAchieved);
 
+        /*abstractViewModel = new ViewModelProvider(this).get(AbstractViewModel.class);
+        abstractViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
+        */
+        refSession = new SessionReflection(frAchieved, frDistractions);
 
-        ownerSetting = new SessionSetting(name, goal, categories, tasks);
-        session = new Session(120, frpublic, ownerSetting);
+        reflectionViewModel = new ViewModelProvider(this).get(ReflectionViewModel.class);
 
-        questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
+        String sessionid = Session.getIdFromPreferences(this);
 
-
-        questionnaireViewModel.startSession(User.getIdFromPreferences(this), session).observe(this, sessionId -> {
+        reflectionViewModel.addReflection(User.getIdFromPreferences(this), sessionid, refSession).observe(this, sessionId -> {
             if(sessionId != null) {
-                startTimer(v);        }
+                //welche activity starten? "Congrats on your achievements" view?
+            }
         });
-    }
 
-    private void startTimer(View view) {
-        Intent intent = new Intent(this, TimerActivity.class);
-        intent.putExtra("Extra_name", frname);
-        intent.putExtra("Extra_goal", frgoal);
-        intent.putExtra("Extra_categories", frcategories);
-        intent.putExtra("Extra_tasks", frtasks);
-        intent.putExtra("Extra_duration", frduration);
-        intent.putExtra("Extra_public", frpublic);
-        startActivity(intent);
     }
 
     private void pageChange() {
@@ -163,7 +148,7 @@ public class QuestionnaireActivity extends NavigationActivity
             @Override
             public void onPageSelected(int position) {
                 page = position;
-                fm.beginTransaction().replace(R.id.questLayout, adapter.list_fragments[position]).addToBackStack(null).commit();
+                fm.beginTransaction().replace(R.id.rquestLayout, adapter.list_fragments[position]).addToBackStack(null).commit();
 
                 switch (position) {
                     case 0:
@@ -173,15 +158,7 @@ public class QuestionnaireActivity extends NavigationActivity
                         btnNext.setVisibility(View.VISIBLE);
                         btnSubmit.setVisibility(View.GONE);
                         break;
-                    case 1: case 2: case 3: case 4:
-                        btnPrev.setEnabled(true);
-                        //btnNext.setEnabled(true);
-                        btnNext.setText("Next");
-                        //btnNext.setBackgroundColor(Color.parseColor("#516c8d"));
-                        btnNext.setVisibility(View.VISIBLE);
-                        btnSubmit.setVisibility(View.GONE);
-                        break;
-                    case 5:
+                    case 1:
                         btnPrev.setEnabled(true);
                         btnNext.setVisibility(View.GONE);
                         //btnNext.setBackgroundColor(Color.parseColor("#244160"));
@@ -199,39 +176,18 @@ public class QuestionnaireActivity extends NavigationActivity
 
     private void setupViewPager() {
         adapter = new Adapter(this);
-        viewPager = findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.rviewpager);
         viewPager.setAdapter(adapter);
     }
 
     @Override
-    public void getName(String input) {
-        frname = input;
+    public void getAchieved(String input) {
+        frAchieved = input;
     }
 
     @Override
-    public void getGoal(String input) {
-        frgoal = input;
-    }
+    public void getDistractions(ArrayList<String> input) { frDistractions = input; }
 
-    @Override
-    public void getTasks(ArrayList<SessionTask> input) { frtasks = input; }
-
-    @Override
-    public void getDuration(int input) { frduration = input; }
-
-    @Override
-    public void getPublic(boolean input) {
-        frpublic = input;
-    }
-
-    public int getContentViewId() {
-        return R.layout.activity_questionnaire;
-    }
-
-    @Override
-    public int getNavigationMenuItemId() {
-        return R.id.navigation_home;
-}
 
     private class Adapter extends PagerAdapter {
         Context context;
@@ -241,12 +197,8 @@ public class QuestionnaireActivity extends NavigationActivity
         }
 
         public Fragment[] list_fragments = {
-                questionName,
-                question1,
-                question2,
-                question3,
-                question4,
-                questionPublic
+                questionAchieved,
+                questionDistractions,
         };
 
         @Override
