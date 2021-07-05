@@ -12,6 +12,7 @@ import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
+import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.ToastMaster;
 
@@ -34,6 +35,7 @@ public class SessionsListActivity extends NavigationActivity implements SessionL
     ListView sessionList;
     private SessionListAdapter sessionAdapter;
     QuestionnaireViewModel questionnaireViewModel;
+    TimerViewModel timerViewModel;
     private RecyclerView recyclerView;
     private TextView hint;
     private FloatingActionButton createSession;
@@ -97,6 +99,16 @@ public class SessionsListActivity extends NavigationActivity implements SessionL
                 mSession[i] = sessions.get(i);
             }
 
+        });
+    }
+
+    /**
+     * ends the session
+     */
+    public void endSession() {
+        timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
+        timerViewModel.endSession(Session.getIdFromPreferences(this)).observe(this, finished ->{
+            ToastMaster.showToast(SessionsListActivity.this, "Session ended");
         });
     }
 

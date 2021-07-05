@@ -36,19 +36,19 @@ public class TimerActivity extends NavigationActivity {
     Button stop;
     EditText et_timer;
     CountDownTimer countdownTimer;
+    private Timestamp sessionStart;
     private int myProgress = 0;
     private int progress;
     private int endTime = 250;
+    private String newtime;
     private String TAG = "TimerActivity";
-    private QuestionnaireViewModel questionnaireViewModel;
-    private SessionHistoryViewModel sessionHistoryViewModel;
+    private TimerViewModel timerViewModel;
     public SessionListViewModel sessionListViewModel;
     private User user;
     private String session2;
     private Session session;
     private String uID;
     private boolean active = false;
-    private Timestamp sessionStart;
     private String sessionId;
     private int layoutId;
 
@@ -56,6 +56,9 @@ public class TimerActivity extends NavigationActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sessionId = Session.getIdFromPreferences(this);
+
+        //check if User joined the active session
+
         if (sessionId == null) {
             layoutId = R.layout.activity_timer_empty;
             super.onCreate(savedInstanceState);
@@ -92,7 +95,7 @@ public class TimerActivity extends NavigationActivity {
 
         initViewModel();
 
-        start.setOnClickListener(v -> startTimer());
+        //start.setOnClickListener(v -> startTimer());
         stop.setOnClickListener(v -> stopTimer());
     }
 
@@ -111,13 +114,16 @@ public class TimerActivity extends NavigationActivity {
     }
 
     /**
-     * sets the session to inactive and therefore ends it
+     * ends the session
      */
     private void endSession() {
-        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
-        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
-            session.setActive(false);
-        });
+        timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
+        timerViewModel.endSession(Session.getIdFromPreferences(this)).observe(this, finished -> {
+            if (finished) {
+                Toast.makeText(getApplicationContext(), "Session finished", Toast.LENGTH_LONG).show();
+                initViewModel();
+            }
+        } );
     }
 
 
@@ -129,6 +135,7 @@ public class TimerActivity extends NavigationActivity {
         sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
 
             textTimer.setText(String.valueOf(session.getDuration()));
+            sessionStart = session.getStartedAt();
             creatorName.setText(session.getOwner().getName());
             creatorWork.setText(session.getOwnerSetting().getCategories().get(0).toString());
             creatorGoal.setText(session.getOwnerSetting().getGoal());
@@ -137,73 +144,13 @@ public class TimerActivity extends NavigationActivity {
                 partnerWork.setText(session.getPartnerSetting().getCategories().get(0).toString());
                 partnerGoal.setText(session.getPartnerSetting().getGoal());
             }
+            startTimer();
 
         });
     }
 
 
-    /**
-     * starts timer from database timer duration
-     */
-    private void startTimer(String duration) {
-        if (duration.length() > 0) {
-            myProgress = 0;
 
-            try {
-                countdownTimer.cancel();
-
-            } catch (Exception e) {
-
-            }
-
-            progress = 1;
-            endTime = Integer.parseInt(duration); // up to finish time
-            setActive(); // set the session active
-            countdownTimer = new CountDownTimer(60 * endTime * 1000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    setProgress(progress, endTime * 60);
-                    progress = progress + 1;
-                    int seconds = (int) (millisUntilFinished / 1000) % 60;
-                    int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
-                    int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
-                    String newtime = hours + ":" + minutes + ":" + seconds;
-
-                    //sets the countdown timer depending on length of seconds, minutes and hours
-                    if (newtime.equals("0:0:0")) {
-                        textTimer.setText("00:00:00");
-                    } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(minutes).length() == 1) && (String.valueOf(seconds).length() == 1)) {
-                        textTimer.setText("0" + hours + ":0" + minutes + ":0" + seconds);
-                    } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(minutes).length() == 1)) {
-                        textTimer.setText("0" + hours + ":0" + minutes + ":" + seconds);
-                    } else if ((String.valueOf(hours).length() == 1) && (String.valueOf(seconds).length() == 1)) {
-                        textTimer.setText("0" + hours + ":" + minutes + ":0" + seconds);
-                    } else if ((String.valueOf(minutes).length() == 1) && (String.valueOf(seconds).length() == 1)) {
-                        textTimer.setText(hours + ":0" + minutes + ":0" + seconds);
-                    } else if (String.valueOf(hours).length() == 1) {
-                        textTimer.setText("0" + hours + ":" + minutes + ":" + seconds);
-                    } else if (String.valueOf(minutes).length() == 1) {
-                        textTimer.setText(hours + ":0" + minutes + ":" + seconds);
-                    } else if (String.valueOf(seconds).length() == 1) {
-                        textTimer.setText(hours + ":" + minutes + ":0" + seconds);
-                    } else {
-                        textTimer.setText(hours + ":" + minutes + ":" + seconds);
-                    }
-                }
-
-                @Override
-                public void onFinish() {
-                    setProgress(progress, endTime * 60);
-                    textTimer.setText("Finished");
-                    // started.setText("Session finished");
-                }
-            };
-            countdownTimer.start();
-
-        } else {
-            ToastMaster.showToast(getApplicationContext(), "Please enter your session time");
-        }
-    }
 
     /**
      * sets the session active
@@ -246,7 +193,7 @@ public class TimerActivity extends NavigationActivity {
                     int seconds = (int) (millisUntilFinished / 1000) % 60;
                     int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
                     int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
-                    String newtime = hours + ":" + minutes + ":" + seconds;
+                     newtime = hours + ":" + minutes + ":" + seconds;
 
                     //sets the countdown timer depending on length of seconds, minutes and hours
                     if (newtime.equals("0:0:0")) {
@@ -274,18 +221,12 @@ public class TimerActivity extends NavigationActivity {
                 public void onFinish() {
                     setProgress(progress, endTime * 60);
                     textTimer.setText("Finished");
-                    // started.setText("Session inactive");
+                    countdownTimer.cancel();
+                    endSession();
                 }
             };
             countdownTimer.start();
             active = true;
-            Long tsLong = System.currentTimeMillis() / 1000;
-            String ts = tsLong.toString();
-            SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyyyhhmmss");
-            String dateString = formatter.format(new Date(tsLong));
-            sessionStart = new Timestamp(new Date());
-
-            Log.d("Timestamp", sessionStart.toString());
             started.setText("Session active");
         } else {
             Toast.makeText(getApplicationContext(), "Please enter your session time", Toast.LENGTH_LONG).show();
