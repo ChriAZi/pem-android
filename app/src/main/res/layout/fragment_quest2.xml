@@ -11,11 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="80px"
+        android:layout_margin="40px"
         android:padding="50px"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="#516c8d">
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/hlFrag2"
@@ -23,8 +22,8 @@
             android:layout_height="wrap_content"
             android:text="3"
             android:textSize="20dp"
-            android:layout_margin="20px"
-            android:textColor="#FFFFFF"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
             />
 
         <TextView
@@ -34,9 +33,9 @@
             android:gravity="left|center"
             android:text="What categories are you working for?"
             android:textSize="25dp"
-            android:textStyle="normal"
-            android:layout_margin="20px"
-            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
             />
 
         <!--EditText
@@ -47,14 +46,24 @@
             android:layout_margin="20px"
             /-->
 
+        <ImageView
+            android:id="@+id/iv_sign_in_background_image"
+            android:layout_width="357dp"
+            android:layout_height="376dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/right_direction"
+            android:layout_gravity="center"
+            />
+
         <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/autoEditQuest2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter matching categories"
-            android:textColorHint="#FFFFFF"
             android:layout_margin="20px"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/darkGrey"
             />
 
         <TextView

@@ -11,13 +11,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="80px"
+        android:layout_margin="40px"
         android:padding="50px"
-        android:layout_marginStart="4dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         >
+
+        <ImageView
+            android:id="@+id/iv_sign_in_background_image"
+            android:layout_width="357dp"
+            android:layout_height="376dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/work_time"
+            android:layout_gravity="center"
+            />
 
         <Button
             android:id="@+id/btnSubmitPublic"
@@ -30,7 +40,7 @@
             android:padding="40dp"
             android:text="Start a Public Session"
             android:textColor="#FFFFFF"
-
+            android:elevation="5dp"
             />
 
         <Button
@@ -45,7 +55,11 @@
             android:outlineAmbientShadowColor="@color/black"
             android:padding="40dp"
             android:text="Start a Private Session"
-            android:textColor="#244160" />
+            android:textColor="#244160"
+            android:elevation="2dp"
+            />
+
+
 
 
     </LinearLayout>

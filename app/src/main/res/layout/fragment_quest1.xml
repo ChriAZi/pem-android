@@ -6,21 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".ui.questionnaire.Quest1Fragment"
     android:id="@+id/fragmentQuest1"
-    android:background="@color/darkBlue"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="80px"
+        android:layout_margin="40px"
         android:padding="50px"
-        android:layout_marginStart="4dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/question_field"
         android:elevation="40dp"
-
         >
 
         <TextView
@@ -29,8 +25,8 @@
             android:layout_height="wrap_content"
             android:text="2"
             android:textSize="20dp"
-            android:layout_margin="20px"
-            android:textColor="@color/whiteGrey"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
             />
 
         <TextView
@@ -40,9 +36,20 @@
             android:gravity="left|center"
             android:text="What would you like to work on?"
             android:textSize="25dp"
-            android:textStyle="normal"
-            android:layout_margin="20px"
-            android:textColor="@color/whiteGrey"
+            android:textStyle="bold"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
+            />
+
+        <ImageView
+            android:id="@+id/iv_sign_in_background_image"
+            android:layout_width="357dp"
+            android:layout_height="376dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/counting_stars"
+            android:layout_gravity="center"
             />
 
         <EditText
@@ -50,9 +57,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter your goals"
-            android:layout_margin="20px"
-            android:textColorHint="@color/white"
-            android:textColor="@color/whiteGrey"
+            android:layout_margin="10px"
+            android:textColorHint="@color/darkGrey"
+            android:textColor="@color/darkGrey"
 
             />
 
@@ -64,7 +71,7 @@
             android:text=""
             android:textSize="25dp"
             android:textStyle="normal"
-            android:layout_margin="20px"
+            android:layout_margin="10px"
             />
         <!--Button
             android:id="@+id/btnSubmit1"

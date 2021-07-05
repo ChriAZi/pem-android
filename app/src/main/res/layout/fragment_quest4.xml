@@ -11,12 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="80px"
+        android:layout_margin="40px"
         android:padding="50px"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#516c8d"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/darkGrey"
         >
 
         <TextView
@@ -25,8 +24,8 @@
             android:layout_height="wrap_content"
             android:text="5"
             android:textSize="20dp"
-            android:layout_margin="20px"
-            android:textColor="#FFFFFF"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
             />
 
         <TextView
@@ -34,21 +33,32 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center"
-            android:text="How much time?"
+            android:text="How much time would you like to take?"
             android:textSize="25dp"
-            android:textStyle="normal"
-            android:layout_margin="20px"
-            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
             />
+
+        <ImageView
+            android:id="@+id/iv_sign_in_background_image"
+            android:layout_width="357dp"
+            android:layout_height="376dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/season_change"
+            android:layout_gravity="center"
+            />
+
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/editQuest4"
             android:hint="Enter your duration in minutes"
-            android:layout_margin="20px"
-            android:textColorHint="#FFFFFF"
-            android:textColor="#FFFFFF"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
             android:inputType="number"
             />
 

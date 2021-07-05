@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/questLayout"
-    android:background="@color/darkBlue">
+    android:id="@+id/questLayout">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
