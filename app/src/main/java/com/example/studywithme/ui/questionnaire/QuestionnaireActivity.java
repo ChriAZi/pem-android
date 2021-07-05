@@ -8,10 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,15 +23,14 @@ import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
-public class QuestActivity extends AppCompatActivity
+public class QuestionnaireActivity extends NavigationActivity
         implements QuestNameFragment.QuestNameFragmentListener,
         Quest1Fragment.Quest1FragmentListener,
         Quest3Fragment.Quest3FragmentListener,
@@ -62,7 +60,6 @@ public class QuestActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quest);
 
         questionName = new QuestNameFragment();
         question1 = new Quest1Fragment();
@@ -226,6 +223,15 @@ public class QuestActivity extends AppCompatActivity
     public void getPublic(boolean input) {
         frpublic = input;
     }
+
+    public int getContentViewId() {
+        return R.layout.activity_questionnaire;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_home;
+}
 
     private class Adapter extends PagerAdapter {
         Context context;

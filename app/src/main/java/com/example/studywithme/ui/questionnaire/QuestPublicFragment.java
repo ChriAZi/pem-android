@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -76,6 +77,8 @@ public class QuestPublicFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_quest_public, container, false);
         //editQuestPublic = view.findViewById(R.id.editQuestPublic);
 
+        ImageView backgroundImage = view.findViewById(R.id.iv_public);
+        backgroundImage.setImageResource(R.drawable.work_time);
         submitPublic = view.findViewById(R.id.btnSubmitPublic);
         submitPrivate = view.findViewById(R.id.btnSubmitPrivate);
 

@@ -10,13 +10,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="80px"
+        android:layout_margin="40px"
         android:padding="50px"
         android:layout_marginStart="4dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="#516c8d"
         >
 
         <TextView
@@ -25,8 +24,8 @@
             android:layout_height="wrap_content"
             android:text="1"
             android:textSize="20dp"
-            android:layout_margin="20px"
-            android:textColor="#FFFFFF"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
             />
 
         <TextView
@@ -34,11 +33,22 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="left|center"
-            android:text="What did you achieve?"
+            android:text="What went good and bad?"
             android:textSize="25dp"
-            android:textStyle="normal"
-            android:layout_margin="20px"
-            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
+            />
+
+        <ImageView
+            android:id="@+id/iv_achieved"
+            android:layout_width="357dp"
+            android:layout_height="376dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/celebration"
+            android:layout_gravity="center"
             />
 
         <EditText
@@ -46,9 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter your achievements"
-            android:layout_margin="20px"
-            android:textColorHint="#FFFFFF"
-            android:textColor="#FFFFFF"
+            android:layout_margin="10px"
+            android:textColor="@color/darkGrey"
 
             />
 
@@ -60,7 +69,7 @@
             android:text=""
             android:textSize="25dp"
             android:textStyle="normal"
-            android:layout_margin="20px"
+            android:layout_margin="10px"
             />
     </LinearLayout>
 

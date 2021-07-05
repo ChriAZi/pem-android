@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
@@ -88,6 +89,9 @@ public class Quest3Fragment extends Fragment {
         final View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_quest3, container, false);
+
+        ImageView backgroundImage = view.findViewById(R.id.iv_subtasks);
+        backgroundImage.setImageResource(R.drawable.choose_re);
         listView = view.findViewById(R.id.toDoList);
         EditText editQuest3 = view.findViewById(R.id.editQuest3);
         submitTodoBtn = view.findViewById(R.id.btnSubmit3);

@@ -1,58 +1,79 @@
 package com.example.studywithme.ui.timer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.navigation.NavigationActivity;
+import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
+import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.utils.Constants;
+import com.example.studywithme.ui.viewmodels.TimerViewModel;
+import com.example.studywithme.utils.ToastMaster;
 import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class TimerActivity extends AppCompatActivity {
+public class TimerActivity extends NavigationActivity {
     ProgressBar progressBar;
     TextView textTimer, creatorName, partnerName, creatorGoal, partnerGoal, creatorWork, partnerWork, started;
     Button start;
     Button stop;
     EditText et_timer;
     CountDownTimer countdownTimer;
-    int myProgress = 0;
-    int progress;
-    int endTime = 250;
+    private int myProgress = 0;
+    private int progress;
+    private int endTime = 250;
     private String TAG = "TimerActivity";
     private QuestionnaireViewModel questionnaireViewModel;
     private SessionHistoryViewModel sessionHistoryViewModel;
-    public AbstractViewModel abstractViewModel;
+    public SessionListViewModel sessionListViewModel;
     private User user;
     private String session2;
     private Session session;
     private String uID;
     private boolean active = false;
     private Timestamp sessionStart;
+    private String sessionId;
+    private int layoutId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timer);
+        sessionId = Session.getIdFromPreferences(this);
+        if (sessionId == null) {
+            layoutId = R.layout.activity_timer_empty;
+            super.onCreate(savedInstanceState);
+            initEmptyTimerLayout();
+        } else {
+            layoutId = R.layout.activity_timer;
+            super.onCreate(savedInstanceState);
+            initTimerLayout();
+        }
+        getSupportActionBar().setTitle(R.string.heading_timer);
+    }
 
+    private void initEmptyTimerLayout() {
+        Button startSessionButton = findViewById(R.id.bt_empty_start_session);
+        startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestionnaireActivity.class)));
+    }
 
+    private void initTimerLayout() {
         creatorName = findViewById(R.id.sessionCreator);
         creatorWork = findViewById(R.id.creatorWork);
         creatorGoal = findViewById(R.id.creatorGoal);
@@ -69,51 +90,17 @@ public class TimerActivity extends AppCompatActivity {
         et_timer = findViewById(R.id.session_duration);
         started = findViewById(R.id.started);
 
-
-        getCurrentSession();
-        getCurrentUser();
-        //initAbstractViewModel();
         initViewModel();
 
-
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startTimer();
-            }
-        });
-
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopTimer();
-            }
-        });
-    }
-
-    private void getCurrentSession() {
-        // session = Session.getIdFromPreferences(this);
-    }
-
-    private void getCurrentUser() {
-        // user = User.getIdFromPreferences(this);
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            user = null;
-            session2 = null;
-        } else {
-            user = (User) extras.get(Constants.USER);
-            session2 = (String) extras.get(Constants.SESSION_ID);
-            Log.d(TAG, String.valueOf(user));
-            Log.d(TAG, String.valueOf(session));
-
-        }
+        start.setOnClickListener(v -> startTimer());
+        stop.setOnClickListener(v -> stopTimer());
     }
 
     private void stopTimer() {
         try {
             countdownTimer.cancel();
             active = false;
+            endSession();
             //Timerviewmodel end Session (bool)
 
         } catch (Exception e) {
@@ -123,20 +110,30 @@ public class TimerActivity extends AppCompatActivity {
         started.setText("Session stopped!");
     }
 
+    /**
+     * sets the session to inactive and therefore ends it
+     */
+    private void endSession() {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+            session.setActive(false);
+        });
+    }
+
 
     /**
-     * observes the current session and sets the variables to the current values
+     * observes the current session and sets the variables(creator & partner name, work & goal) to the current values
      */
     private void initViewModel() {
-        abstractViewModel = new ViewModelProvider(this).get(AbstractViewModel.class);
-        abstractViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
 
             textTimer.setText(String.valueOf(session.getDuration()));
-            creatorName.setText(user.getName());
+            creatorName.setText(session.getOwner().getName());
             creatorWork.setText(session.getOwnerSetting().getCategories().get(0).toString());
             creatorGoal.setText(session.getOwnerSetting().getGoal());
-            if(session.getPartner() != null) {
-                partnerName.setText(session.getPartner().toString());
+            if (session.getPartner() != null) {
+                partnerName.setText(session.getPartner().getName());
                 partnerWork.setText(session.getPartnerSetting().getCategories().get(0).toString());
                 partnerGoal.setText(session.getPartnerSetting().getGoal());
             }
@@ -144,15 +141,6 @@ public class TimerActivity extends AppCompatActivity {
         });
     }
 
-
-    private void initViewModels() {
-        sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
-        sessionHistoryViewModel.getPastSessions(user.getUid()).observe(this, sessions -> {
-            partnerGoal.setText(session2);
-        });
-        creatorName.setText(user.getName());
-
-    }
 
     /**
      * starts timer from database timer duration
@@ -170,7 +158,7 @@ public class TimerActivity extends AppCompatActivity {
 
             progress = 1;
             endTime = Integer.parseInt(duration); // up to finish time
-
+            setActive(); // set the session active
             countdownTimer = new CountDownTimer(60 * endTime * 1000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -213,8 +201,18 @@ public class TimerActivity extends AppCompatActivity {
             countdownTimer.start();
 
         } else {
-            Toast.makeText(getApplicationContext(), "Please enter your session time", Toast.LENGTH_LONG).show();
+            ToastMaster.showToast(getApplicationContext(), "Please enter your session time");
         }
+    }
+
+    /**
+     * sets the session active
+     */
+    private void setActive() {
+        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+            session.setActive(true);
+        });
     }
 
 
@@ -305,6 +303,16 @@ public class TimerActivity extends AppCompatActivity {
         progressBar.setSecondaryProgress(endTime);
         progressBar.setProgress(startTime);
 
+    }
+
+    @Override
+    public int getContentViewId() {
+        return layoutId;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_timer;
     }
 
 }

@@ -33,6 +33,7 @@ public class AuthActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_in_sign_up);
+        getSupportActionBar().hide();
         initViews();
         initAuthViewModel();
         initGoogleSignInClient();
@@ -56,7 +57,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private void initViews() {
         ImageView backgroundImage = findViewById(R.id.iv_sign_in_background_image);
-        backgroundImage.setImageResource(R.drawable.collaboration);
+        backgroundImage.setImageResource(R.drawable.sign_in);
         SignInButton googleSignInButton = findViewById(R.id.bt_google_sign_in);
         googleSignInButton.setOnClickListener(v -> signIn());
     }
@@ -91,7 +92,7 @@ public class AuthActivity extends AppCompatActivity {
             if (authenticatedUser.isNew()) {
                 createNewUser(authenticatedUser);
             } else {
-                goToMainActivity(authenticatedUser);
+                goToMainActivity(authenticatedUser.getUid());
             }
         });
     }
@@ -102,13 +103,13 @@ public class AuthActivity extends AppCompatActivity {
             if (user.isCreated()) {
                 ToastMaster.showToast(this, user.getName());
             }
-            goToMainActivity(user);
+            goToMainActivity(user.getUid());
         });
     }
 
-    private void goToMainActivity(User user) {
+    private void goToMainActivity(String userId) {
         Intent intent = new Intent(AuthActivity.this, MainActivity.class);
-        intent.putExtra(Constants.USER, user);
+        intent.putExtra(Constants.USER_ID, userId);
         startActivity(intent);
         finish();
     }

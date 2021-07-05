@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -70,6 +71,9 @@ public class Quest4Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view;
         view = inflater.inflate(R.layout.fragment_quest4, container, false);
+
+        ImageView backgroundImage = view.findViewById(R.id.iv_duration);
+        backgroundImage.setImageResource(R.drawable.season_change);
         editQuest4 = view.findViewById(R.id.editQuest4);
         editQuest4.addTextChangedListener(new TextWatcher() {
 

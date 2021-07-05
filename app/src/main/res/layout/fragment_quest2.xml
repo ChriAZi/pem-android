@@ -47,7 +47,7 @@
             /-->
 
         <ImageView
-            android:id="@+id/iv_sign_in_background_image"
+            android:id="@+id/iv_categories"
             android:layout_width="357dp"
             android:layout_height="376dp"
             app:layout_constraintEnd_toEndOf="parent"

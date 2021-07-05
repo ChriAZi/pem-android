@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
@@ -85,6 +86,8 @@ public class RQuestDistractionsFragment extends Fragment {
         final View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_rquest_distractions, container, false);
+        ImageView backgroundImage = view.findViewById(R.id.iv_distractions);
+        backgroundImage.setImageResource(R.drawable.starry_window);
         listView = view.findViewById(R.id.distList);
         EditText editQuest3 = view.findViewById(R.id.reditQuestDistractions);
         submitDistBtn = view.findViewById(R.id.btnSubmitDist);

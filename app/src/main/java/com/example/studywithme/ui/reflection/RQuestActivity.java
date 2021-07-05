@@ -20,6 +20,7 @@ import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.SessionReflection;
 import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.ReflectionViewModel;
@@ -27,7 +28,7 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 
-public class RQuestActivity extends AppCompatActivity
+public class RQuestActivity extends NavigationActivity
         implements RQuestAchievedFragment.RQuestAchievedFragmentListener,
         RQuestDistractionsFragment.RQuestDistractionsFragmentListener{
 
@@ -95,6 +96,16 @@ public class RQuestActivity extends AppCompatActivity
                 initViewModel();
             }
         });
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_reflection;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_home;
     }
 
     /**

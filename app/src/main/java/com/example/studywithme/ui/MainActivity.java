@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
@@ -18,12 +17,12 @@ import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.authentication.AuthActivity;
-import com.example.studywithme.ui.history.SessionHistoryActivity;
 import com.example.studywithme.ui.join.SessionsListActivity;
+import com.example.studywithme.ui.navigation.NavigationActivity;
+import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.ReflectionViewModel;
-import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.ToastMaster;
@@ -33,53 +32,46 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements FirebaseAuth.AuthStateListener {
+public class MainActivity extends NavigationActivity implements FirebaseAuth.AuthStateListener {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private QuestionnaireViewModel questionnaireViewModel;
     private TimerViewModel timerViewModel;
-    private SessionListViewModel sessionListViewModel;
     private ReflectionViewModel reflectionViewModel;
+    private String userId;
     private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        storeUserInfo();
+        getSupportActionBar().setTitle("Testing View");
+        setUserIdFromIntent();
         initViewModel();
         initViews();
     }
 
-    private void storeUserInfo() {
-        user = getUserFromIntent();
-        User.setIdInPreferences(user.getUid(), this);
-    }
-
-    private User getUserFromIntent() {
-        return (User) getIntent().getSerializableExtra(Constants.USER);
+    private void setUserIdFromIntent() {
+        if (getIntent().hasExtra(Constants.USER_ID)) {
+            userId = (String) getIntent().getSerializableExtra(Constants.USER_ID);
+            User.setIdInPreferences(userId, this);
+        }
+        userId = User.getIdFromPreferences(this);
     }
 
     private void initViewModel() {
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
-        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
         reflectionViewModel = new ViewModelProvider(this).get(ReflectionViewModel.class);
     }
 
     @SuppressLint("SetTextI18n")
     private void initViews() {
         TextView textView = findViewById(R.id.tv_username);
-        textView.setText("Username: " + user.getName());
-
-        TextView session_list_view = findViewById(R.id.tv_session_list);
-        sessionListViewModel.getPublicSessions().observe(this, containers -> {
-            session_list_view.setText(containers.get(0).getOwner().getEmail());
-        });
+        textView.setText("User-Id: " + userId);
 
         Button createPublicSession = findViewById(R.id.bt_create_public_session);
         createPublicSession.setOnClickListener(view -> {
             Session publicSession = createSession();
-            questionnaireViewModel.startSession(user.getUid(), publicSession).observe(this, sessionId -> {
+            questionnaireViewModel.startSession(userId, publicSession).observe(this, sessionId -> {
                 if (sessionId != null) {
                     Session.setIdInPreferences(this, sessionId);
                     ToastMaster.showToast(this, "Session was created with id: " + sessionId);
@@ -122,12 +114,12 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
                     ToastMaster.showToast(this, "Reflection added!");
                 }
             });
+
         });
 
-        Button sessionHistoryButton = findViewById(R.id.bt_history);
-        sessionHistoryButton.setOnClickListener(view -> {
-            Intent intent = new Intent(this, SessionHistoryActivity.class);
-            startActivity(intent);
+        Button startQuestionnaireButton = findViewById(R.id.bt_start_questionnaire);
+        startQuestionnaireButton.setOnClickListener(view -> {
+            startQuestionnaireActivity();
         });
 
         Button signOutButton = findViewById(R.id.bt_sign_out);
@@ -136,12 +128,20 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
 
     private void startSessionListActivity() {
         Intent i = new Intent(MainActivity.this, SessionsListActivity.class);
+        i.putExtra(Constants.USER, user);
         MainActivity.this.startActivity(i);
     }
 
     private void startTimerActivity() {
         Intent i = new Intent(MainActivity.this, TimerActivity.class);
-        i.putExtra(Constants.USER, user);
+        i.putExtra(Constants.USER_ID, userId);
+        i.putExtra(Constants.SESSION_ID, Session.getIdFromPreferences(this));
+        MainActivity.this.startActivity(i);
+    }
+
+    private void startQuestionnaireActivity() {
+        Intent i = new Intent(MainActivity.this, QuestionnaireActivity.class);
+        i.putExtra(Constants.USER_ID, userId);
         i.putExtra(Constants.SESSION_ID, Session.getIdFromPreferences(this));
         MainActivity.this.startActivity(i);
     }
@@ -187,6 +187,16 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuth.Auth
             add("Smartphone");
         }};
         return new SessionReflection("Everything", distractions);
+    }
+
+    @Override
+    public int getContentViewId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public int getNavigationMenuItemId() {
+        return R.id.navigation_home;
     }
 
     @Override

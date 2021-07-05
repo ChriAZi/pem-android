@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -73,6 +74,10 @@ public class RQuestAchievedFragment extends Fragment {
         final View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_rquest_achieved, container, false);
+
+        ImageView backgroundImage = view.findViewById(R.id.iv_achieved);
+        backgroundImage.setImageResource(R.drawable.celebration);
+
         editQuest1 = view.findViewById(R.id.reditQuestAchieved);
         editQuest1.addTextChangedListener(new TextWatcher() {
 

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/questLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/questLayout">
+    android:layout_height="match_parent">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,6 +26,7 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal"
         android:padding="10px"
+        android:layout_marginBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -34,26 +34,26 @@
 
         <Button
             android:id="@+id/btnPrev"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Prev"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:backgroundTint="#7f9abd"
-            android:textColor="#FFFFFF"
-            android:elevation="40dp"
+            android:elevation="5dp"
+            android:text="Prev"
+            android:textColor="#FFFFFF" />
             />
 
         <Button
             android:id="@+id/btnNext"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Next"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:backgroundTint="#516c8d"
-            android:textColor="#FFFFFF"
-            android:elevation="40dp"
+            android:elevation="5dp"
+            android:text="Next"
+            android:textColor="#FFFFFF" />
             />
 
         <Button
@@ -65,11 +65,12 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:backgroundTint="#244160"
             android:textColor="#FFFFFF"
-            android:elevation="40dp"
+            android:elevation="5dp"
             />
+
 
     </LinearLayout>
 
-
+    <include layout="@layout/bottom_navigation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

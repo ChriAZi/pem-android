@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -75,6 +76,10 @@ public class QuestNameFragment extends Fragment {
         final View view;
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_quest_name, container, false);
+
+        ImageView backgroundImage = view.findViewById(R.id.iv_name);
+        backgroundImage.setImageResource(R.drawable.startup_life);
+
         editQuestName = view.findViewById(R.id.editQuestName);
 
         editQuestName.addTextChangedListener(new TextWatcher() {
