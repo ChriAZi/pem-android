@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studywithme.R;
+import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestActivity;
@@ -18,11 +19,15 @@ import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.utils.Constants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SessionListActivity extends NavigationActivity implements SessionListAdapter.ItemViewHolder.OnItemClickListener {
     SessionListViewModel sessionListViewModel;
     private RecyclerView recyclerView;
     private ImageView backgroundImage;
     private TextView hint;
+    private List<Session> sessions = new ArrayList<>();
 
 
     @Override
@@ -59,12 +64,14 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
                 SessionListAdapter sessionAdapter = new SessionListAdapter(sessions, this);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(sessionAdapter);
+                this.sessions = sessions;
             }
         });
     }
 
     @Override
     public void onItemClick(int position) {
+        Session.setIdInPreferences(this, sessions.get(0).getUid());
         startQuestionnaireActivity(true);
     }
 

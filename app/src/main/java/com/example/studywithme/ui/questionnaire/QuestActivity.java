@@ -19,17 +19,12 @@ public class QuestActivity extends NavigationActivity {
         setupViewPager();
         Bundle extras = getIntent().getExtras();
         joining = (boolean) extras.get(Constants.JOINING);
-        if (joining) {
-            // load different view pager
-        } else {
-            // load default view pager
-        }
     }
 
     private void setupViewPager() {
         DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);
         ViewPager viewPager = findViewById(R.id.view_pager);
-        QuestViewPagerAdapter questViewPagerAdapter = new QuestViewPagerAdapter(getSupportFragmentManager());
+        QuestViewPagerAdapter questViewPagerAdapter = new QuestViewPagerAdapter(getSupportFragmentManager(), joining);
         viewPager.setAdapter(questViewPagerAdapter);
         dotsIndicator.setViewPager(viewPager);
     }

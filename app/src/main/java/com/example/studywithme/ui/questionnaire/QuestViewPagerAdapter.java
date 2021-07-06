@@ -7,41 +7,65 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 public class QuestViewPagerAdapter extends FragmentPagerAdapter {
 
-    public QuestViewPagerAdapter(FragmentManager fragmentManager) {
-        // ViewPager is deprecated but we don't care
+    private final boolean joining;
+
+    public QuestViewPagerAdapter(FragmentManager fragmentManager, boolean joining) {
         super(fragmentManager);
+        this.joining = joining;
     }
 
     @Override
     public int getCount() {
-        // shitty but works
-        return 6;
+        if (joining) {
+            return 3;
+        } else {
+            return 6;
+        }
     }
 
     @NonNull
     public Fragment getItem(int position) {
         Fragment fragment;
-        switch (position) {
-            case 0:
-                fragment = new QuestNameFragment();
-                break;
-            case 1:
-                fragment = new QuestGoalFragment();
-                break;
-            case 2:
-                fragment = new QuestCategoryFragment();
-                break;
-            case 3:
-                fragment = new QuestTaskFragment();
-                break;
-            case 4:
-                fragment = new QuestDurationFragment();
-                break;
-            case 5:
-                fragment = new QuestSessionStartFragment();
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + position);
+        if (joining) {
+            switch (position) {
+                case 0:
+                    fragment = new QuestGoalFragment();
+                    break;
+                case 1:
+                    fragment = new QuestCategoryFragment();
+                    break;
+                case 2:
+                    fragment = new QuestTaskFragment();
+                    break;
+                case 3:
+                    fragment = new QuestSessionStartFragment(joining);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + position);
+            }
+        } else {
+            switch (position) {
+                case 0:
+                    fragment = new QuestNameFragment();
+                    break;
+                case 1:
+                    fragment = new QuestGoalFragment();
+                    break;
+                case 2:
+                    fragment = new QuestCategoryFragment();
+                    break;
+                case 3:
+                    fragment = new QuestTaskFragment();
+                    break;
+                case 4:
+                    fragment = new QuestDurationFragment();
+                    break;
+                case 5:
+                    fragment = new QuestSessionStartFragment(joining);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + position);
+            }
         }
         return fragment;
     }

@@ -19,7 +19,6 @@ import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
-import com.example.studywithme.ui.MainActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.utils.Constants;
@@ -30,8 +29,11 @@ import java.util.Set;
 
 public class QuestSessionStartFragment extends Fragment {
 
-    public QuestSessionStartFragment() {
-        // Required empty public constructor
+    private final boolean joining;
+    private QuestionnaireViewModel questionnaireViewModel;
+
+    public QuestSessionStartFragment(boolean joining) {
+        this.joining = joining;
     }
 
     @Override
@@ -44,30 +46,54 @@ public class QuestSessionStartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quest_start_session, container, false);
 
+        initViewModel();
+
         ImageView backgroundImage = view.findViewById(R.id.iv_public);
         backgroundImage.setImageResource(R.drawable.work_time);
 
-        Button submitPublic = view.findViewById(R.id.btnSubmitPublic);
-        Button submitPrivate = view.findViewById(R.id.btnSubmitPrivate);
+        Button submitPublicButton = view.findViewById(R.id.bt_submit_public);
+        Button submitPrivateButton = view.findViewById(R.id.bt_submit_private);
+        Button submitJoiningButton = view.findViewById(R.id.bt_submit_joining);
 
-        submitPublic.setOnClickListener(v -> startSessionForTimer(true));
+        submitPublicButton.setOnClickListener(v -> startSessionForTimer(true, joining));
+        submitPrivateButton.setOnClickListener(v -> startSessionForTimer(false, joining));
+        submitPrivateButton.setOnClickListener(v -> startSessionForTimer(false, joining));
 
-        submitPrivate.setOnClickListener(v -> startSessionForTimer(false));
-
+        if (joining) {
+            submitPublicButton.setVisibility(View.GONE);
+            submitPrivateButton.setVisibility(View.GONE);
+            submitJoiningButton.setVisibility(View.VISIBLE);
+        } else {
+            submitPublicButton.setVisibility(View.VISIBLE);
+            submitPrivateButton.setVisibility(View.VISIBLE);
+            submitJoiningButton.setVisibility(View.GONE);
+        }
         return view;
     }
 
-    private void startSessionForTimer(boolean isPublic) {
-        SessionSetting ownerSetting = new SessionSetting(getSessionName(), getSessionGoal(), SessionCategory.HOBBY, getSessionTasks());
-        Session session = new Session(getSessionDuration(), isPublic, ownerSetting);
+    private void initViewModel() {
+        questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
+    }
 
-        QuestionnaireViewModel questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
-        questionnaireViewModel.startSession(User.getIdFromPreferences(getContext()), session).observe(getViewLifecycleOwner(), sessionId -> {
-            if (sessionId != null) {
-                Session.setIdInPreferences(getContext(), sessionId);
-                startTimerActivity();
-            }
-        });
+    private void startSessionForTimer(boolean isPublic, boolean joining) {
+        String userId = User.getIdFromPreferences(getContext());
+        SessionSetting setting = new SessionSetting(getSessionName(), getSessionGoal(), getSessionCategory() != null ? getSessionCategory() : SessionCategory.HOBBY, getSessionTasks());
+        if (joining) {
+            String sessionId = Session.getIdFromPreferences(getContext());
+            questionnaireViewModel.joinSession(sessionId, userId, setting).observe(getViewLifecycleOwner(), joined -> {
+                if (joined) {
+                    Session.setIdInPreferences(getContext(), sessionId);
+                }
+            });
+        } else {
+            Session session = new Session(getSessionDuration(), isPublic, setting);
+            questionnaireViewModel.startSession(userId, session).observe(getViewLifecycleOwner(), sessionId -> {
+                if (sessionId != null) {
+                    Session.setIdInPreferences(getContext(), sessionId);
+                    startTimerActivity();
+                }
+            });
+        }
     }
 
     private void startTimerActivity() {
