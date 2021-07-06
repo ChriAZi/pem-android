@@ -129,6 +129,7 @@ public class QuestionnaireActivity extends NavigationActivity
         boolean isPublic = frpublic;
 
 
+
         ownerSetting = new SessionSetting(name, goal, categories, tasks);
         session = new Session(120, frpublic, ownerSetting);
 
@@ -141,6 +142,8 @@ public class QuestionnaireActivity extends NavigationActivity
         });
     }
 
+
+
     private void startTimer(View view) {
         Intent intent = new Intent(this, TimerActivity.class);
         intent.putExtra("Extra_name", frname);
@@ -149,7 +152,7 @@ public class QuestionnaireActivity extends NavigationActivity
         intent.putExtra("Extra_tasks", frtasks);
         intent.putExtra("Extra_duration", frduration);
         intent.putExtra("Extra_public", frpublic);
-        startActivity(intent);
+        QuestionnaireActivity.this.startActivity(intent);
     }
 
     private void pageChange() {
