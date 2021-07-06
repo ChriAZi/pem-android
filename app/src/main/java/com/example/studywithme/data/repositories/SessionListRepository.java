@@ -18,11 +18,12 @@ public class SessionListRepository {
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference sessionsRef = rootRef.collection(Constants.SESSIONS);
 
-    public LiveData<List<Session>> getPublicSessions() {
+    public LiveData<List<Session>> getPublicSessions(String userId) {
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
         sessionsRef
                 .whereEqualTo("public", true)
                 .whereEqualTo("active", true)
+                .whereNotEqualTo("owner.uid", userId)
                 .addSnapshotListener((snapshot, exception) -> {
                     if (exception != null) {
                         Logger.log("Listen failed." + exception);

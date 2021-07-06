@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studywithme.R;
+import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestActivity;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
@@ -48,7 +49,7 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
     }
 
     private void loadOpenSessions() {
-        sessionListViewModel.getPublicSessions().observe(this, sessions -> {
+        sessionListViewModel.getPublicSessions(User.getIdFromPreferences(this)).observe(this, sessions -> {
             if (sessions.isEmpty()) {
                 hint.setVisibility(View.VISIBLE);
                 backgroundImage.setVisibility(View.VISIBLE);

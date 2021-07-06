@@ -16,8 +16,8 @@ public class SessionListViewModel extends AbstractViewModel {
         sessionListRepository = new SessionListRepository();
     }
 
-    public LiveData<List<Session>> getPublicSessions() {
-        sessions = sessionListRepository.getPublicSessions();
+    public LiveData<List<Session>> getPublicSessions(String userId) {
+        sessions = sessionListRepository.getPublicSessions(userId);
         return sessions;
     }
 }
