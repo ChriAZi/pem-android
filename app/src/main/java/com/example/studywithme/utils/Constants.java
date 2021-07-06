@@ -12,6 +12,8 @@ public class Constants {
     public static final String SESSION_ID = "session_id";
     public static final String SESSION_NAME = "session_name";
 
+    public static final String JOINING = "joining";
+
     public static final String SESSION_QUEST_NAME = "session_quest_name";
     public static final String SESSION_QUEST_GOAL = "session_quest_goal";
     public static final String SESSION_QUEST_CATEGORY = "session_quest_category";

@@ -6,10 +6,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.MainActivity;
 import com.example.studywithme.ui.authentication.AuthActivity;
-import com.example.studywithme.ui.join.SessionListActivity;
 import com.example.studywithme.ui.viewmodels.SplashViewModel;
 import com.example.studywithme.utils.Constants;
 
@@ -53,8 +51,7 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void startMainActivity(String userId) {
-        //Intent intent = new Intent(SplashActivity.this, MainActivity.class);
-        Intent intent = new Intent(SplashActivity.this, SessionListActivity.class);
+        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
         intent.putExtra(Constants.USER_ID, userId);
         startActivity(intent);
     }

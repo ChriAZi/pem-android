@@ -10,71 +10,37 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
+import com.example.studywithme.utils.StringHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.SessionListViewHolder> {
+public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.ItemViewHolder> {
+
     private ArrayList<Session> sessions;
-    final private ListItemClickListener mOnClickListener;
-    private SessionListActivity sessionListActivity;
+    final private ItemViewHolder.OnItemClickListener onItemClickListener;
 
-    public SessionListAdapter(List<Session> sessions,ListItemClickListener onClickListener) {
+    public SessionListAdapter(List<Session> sessions, ItemViewHolder.OnItemClickListener onItemClickListener) {
         this.sessions = (ArrayList<Session>) sessions;
-        this.mOnClickListener = onClickListener;
-    }
-
-    interface ListItemClickListener{
-        void onListItemClick(int position);
-
-        int getContentViewId();
-
-        int getNavigationMenuItemId();
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
     @Override
-    public SessionListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.session_join_item, parent, false);
-        return new SessionListAdapter.SessionListViewHolder(view);
+        return new ItemViewHolder(view, onItemClickListener);
     }
-
 
 
     @Override
-    public void onBindViewHolder(@NonNull SessionListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Session session = sessions.get(position);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-        String time = String.valueOf(session.getStartedAt().toDate());
-        int sessionDuration = session.getDuration();
-        String date = dateFormat.format(session.getStartedAt().toDate());
-        Date d = session.getStartedAt().toDate();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(d);
-        cal.add(Calendar.MINUTE,sessionDuration);
-        String endTime = dateFormat.format(cal.getTime());
-        //should be called once the time of the session has passed
-        if(System.currentTimeMillis() > d.getTime()){
-            //Session ended
-            session.setActive(false);
-            sessionListActivity.endSession();
-        }
-        if(session.isActive() == true) {
-            holder.sessionStart.setText("Started: " + date);
-           // holder.sessionDuration.setText("Duration: " + session.getDuration() + " Minutes");
-            holder.sessionDuration.setText("Session ends at " + endTime );
-            holder.sessionOwner.setText("by: " + session.getOwner().getName());
-        }
-
-    }
-
-    public void setData(ArrayList<Session> newsessions){
-        this.sessions = newsessions;
-        notifyDataSetChanged();
+        holder.sessionName.setText(session.getOwnerSetting().getName());
+        holder.sessionDuration.setText(session.getDuration() + " Minuten");
+        holder.sessionOwner.setText(session.getOwner().getName());
+        holder.sessionCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategory().name()));
     }
 
     @Override
@@ -83,28 +49,33 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
     }
 
 
-    public class SessionListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final TextView sessionStart;
+        private final TextView sessionName;
         private final TextView sessionDuration;
         private final TextView sessionOwner;
+        private final TextView sessionCategory;
+        private final ItemViewHolder.OnItemClickListener onItemClickListener;
+
         public View layout;
 
-        public SessionListViewHolder(@NonNull View itemView) {
+        public ItemViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-            layout = itemView;
-            this.sessionStart = itemView.findViewById(R.id.session_started_at);
-            this.sessionDuration = itemView.findViewById(R.id.session_duration);
-            this.sessionOwner= itemView.findViewById(R.id.session_owner);
+            this.sessionName = itemView.findViewById(R.id.tv_session_name);
+            this.sessionDuration = itemView.findViewById(R.id.tv_duration);
+            this.sessionOwner = itemView.findViewById(R.id.tv_owner);
+            this.sessionCategory = itemView.findViewById(R.id.tv_category);
+            this.onItemClickListener = onItemClickListener;
             itemView.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View view) {
-            int position = getAdapterPosition();
-            mOnClickListener.onListItemClick(position);
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(getAdapterPosition());
+        }
 
-
+        public interface OnItemClickListener {
+            void onItemClick(int position);
         }
     }
 }

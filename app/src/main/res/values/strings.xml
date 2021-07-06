@@ -16,6 +16,9 @@
     <!-- Timer -->
     <string name="empty_timer">Looks like you did not set a timer yet. Why don\'t you start one right now?</string>
 
+    <!-- History -->
+    <string name="no_partner">No Partner</string>
+
     <!-- Headings -->
     <string name="heading_sign_in">Sign In</string>
     <string name="heading_testing">Testing</string>
@@ -26,7 +29,6 @@
     <string name="heading_reflection">Reflect on your Session</string>
 
     <!-- Buttons -->
-
     <string name="sign_out">Sign Out</string>
     <string name="start_session">Start Session</string>
 </resources>

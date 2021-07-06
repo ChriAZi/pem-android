@@ -6,14 +6,24 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.studywithme.R;
 import com.example.studywithme.ui.navigation.NavigationActivity;
+import com.example.studywithme.utils.Constants;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 public class QuestActivity extends NavigationActivity {
+
+    private boolean joining;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupViewPager();
+        Bundle extras = getIntent().getExtras();
+        joining = (boolean) extras.get(Constants.JOINING);
+        if (joining) {
+            // load different view pager
+        } else {
+            // load default view pager
+        }
     }
 
     private void setupViewPager() {
