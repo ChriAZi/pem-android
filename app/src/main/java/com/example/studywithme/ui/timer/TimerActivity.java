@@ -15,7 +15,7 @@ import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
-import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
+import com.example.studywithme.ui.questionnaire.QuestActivity;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.google.firebase.Timestamp;
@@ -64,7 +64,7 @@ public class TimerActivity extends NavigationActivity {
 
     private void initEmptyTimerLayout() {
         Button startSessionButton = findViewById(R.id.bt_empty_start_session);
-        startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestionnaireActivity.class)));
+        startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestActivity.class)));
     }
 
     private void initTimerLayout() {

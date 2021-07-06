@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
 import com.example.studywithme.R;
-import com.example.studywithme.ui.questionnaire.QuestNameFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,7 +72,7 @@ public class RQuestAchievedFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view;
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_rquest_achieved, container, false);
+        view = inflater.inflate(R.layout.fragment_reflection_quest_achieved, container, false);
 
         ImageView backgroundImage = view.findViewById(R.id.iv_achieved);
         backgroundImage.setImageResource(R.drawable.celebration);

@@ -15,10 +15,8 @@ import android.widget.ListView;
 import androidx.fragment.app.Fragment;
 
 import com.example.studywithme.R;
-import com.example.studywithme.data.models.SessionTask;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,7 +83,7 @@ public class RQuestDistractionsFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view;
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_rquest_distractions, container, false);
+        view = inflater.inflate(R.layout.fragment_reflection_quest_distractions, container, false);
         ImageView backgroundImage = view.findViewById(R.id.iv_distractions);
         backgroundImage.setImageResource(R.drawable.starry_window);
         listView = view.findViewById(R.id.distList);

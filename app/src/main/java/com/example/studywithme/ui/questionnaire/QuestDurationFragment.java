@@ -16,9 +16,12 @@ import androidx.fragment.app.Fragment;
 import com.example.studywithme.R;
 import com.example.studywithme.utils.Constants;
 
-public class QuestNameFragment extends Fragment {
+public class QuestDurationFragment extends Fragment {
 
-    public QuestNameFragment() {
+    private EditText editDuration;
+
+    public QuestDurationFragment() {
+        // Required empty public constructor
     }
 
     @Override
@@ -28,25 +31,25 @@ public class QuestNameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_quest_session_name, container, false);
+        View view = inflater.inflate(R.layout.fragment_quest_session_duration, container, false);
 
-        ImageView backgroundImage = view.findViewById(R.id.iv_name);
-        backgroundImage.setImageResource(R.drawable.startup_life);
+        ImageView backgroundImage = view.findViewById(R.id.iv_duration);
+        backgroundImage.setImageResource(R.drawable.season_change);
 
-        EditText editQuestName = view.findViewById(R.id.et_name);
-        editQuestName.addTextChangedListener(new QuestionNameTextWatcher());
+        editDuration = view.findViewById(R.id.et_duration);
+        editDuration.addTextChangedListener(new QuestionDurationTextWatcher());
 
         return view;
     }
 
-    private void setSessionName(String sessionName) {
+    private void setSessionDuration(int sessionDuration) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(Constants.SESSION_QUEST_NAME, sessionName);
+        editor.putInt(Constants.SESSION_QUEST_DURATION, sessionDuration);
         editor.apply();
     }
 
-    private class QuestionNameTextWatcher implements TextWatcher {
+    private class QuestionDurationTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -55,7 +58,11 @@ public class QuestNameFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            setSessionName(charSequence.toString());
+            int duration = 0;
+            if (!editDuration.getText().toString().equals("")) {
+                duration = Integer.parseInt(editDuration.getText().toString());
+            }
+            setSessionDuration(duration);
         }
 
         @Override
@@ -63,7 +70,5 @@ public class QuestNameFragment extends Fragment {
 
         }
     }
+
 }
-
-
-

@@ -2,66 +2,59 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/questionNameFrag"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.questionnaire.Quest1Fragment"
-    android:id="@+id/fragmentQuest3">
+    tools:context=".ui.questionnaire.QuestGoalFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="40px"
-        android:padding="50px"
+        android:padding="36dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/darkGrey"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/hlFrag4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5"
-            android:textSize="20dp"
-            android:layout_margin="10px"
-            android:textColor="@color/darkGrey"
-            />
-
-        <TextView
-            android:id="@+id/tvQuest4"
+            android:id="@+id/tvQuestName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="left|center"
-            android:text="How much time would you like to take?"
-            android:textSize="25dp"
-            android:textStyle="bold"
             android:layout_margin="10px"
+            android:gravity="left|center"
+            android:text="How do you want to name this session?"
             android:textColor="@color/darkGrey"
-            />
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/iv_duration"
+            android:id="@+id/iv_name"
             android:layout_width="357dp"
             android:layout_height="376dp"
+            android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/season_change"
-            android:layout_gravity="center"
-            />
-
+            tools:srcCompat="@drawable/startup_life" />
 
         <EditText
+            android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/editQuest4"
-            android:hint="Enter your duration in minutes"
             android:layout_margin="10px"
-            android:textColor="@color/darkGrey"
-            android:inputType="number"
-            />
+            android:hint="Enter your session name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="@color/darkGrey" />
 
+        <TextView
+            android:id="@+id/partnerGoal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="20px"
+            android:gravity="left|center"
+            android:text=""
+            android:textSize="25dp"
+            android:textStyle="normal" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

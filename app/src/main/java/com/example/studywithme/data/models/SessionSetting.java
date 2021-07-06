@@ -9,13 +9,13 @@ public class SessionSetting implements Serializable {
     private String goal;
     private int duration;
     private SessionCategory category;
-    private ArrayList<SessionTask> tasks;
+    private List<SessionTask> tasks;
 
     public SessionSetting() {
 
     }
 
-    public SessionSetting(String name, String goal, SessionCategory category, ArrayList<SessionTask> tasks) {
+    public SessionSetting(String name, String goal, SessionCategory category, List<SessionTask> tasks) {
         this.name = name;
         this.goal = goal;
         this.category = category;
@@ -50,7 +50,7 @@ public class SessionSetting implements Serializable {
         return tasks;
     }
 
-    public void setTasks(ArrayList<SessionTask> tasks) {
+    public void setTasks(List<SessionTask> tasks) {
         this.tasks = tasks;
     }
 

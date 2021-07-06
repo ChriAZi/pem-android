@@ -15,7 +15,7 @@ import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
-import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
+import com.example.studywithme.ui.questionnaire.QuestActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
@@ -58,7 +58,7 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
     }
 
     private void startQuestionaireActivity() {
-        Intent i = new Intent(SessionListActivity.this, QuestionnaireActivity.class);
+        Intent i = new Intent(SessionListActivity.this, QuestActivity.class);
         i.putExtra(Constants.USER, user);
         i.putExtra(Constants.SESSION_ID, Session.getIdFromPreferences(this));
         SessionListActivity.this.startActivity(i);

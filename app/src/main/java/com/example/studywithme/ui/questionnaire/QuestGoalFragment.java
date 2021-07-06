@@ -16,9 +16,10 @@ import androidx.fragment.app.Fragment;
 import com.example.studywithme.R;
 import com.example.studywithme.utils.Constants;
 
-public class QuestNameFragment extends Fragment {
+public class QuestGoalFragment extends Fragment {
 
-    public QuestNameFragment() {
+    public QuestGoalFragment() {
+        // Required empty public constructor
     }
 
     @Override
@@ -28,25 +29,25 @@ public class QuestNameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_quest_session_name, container, false);
+        View view = inflater.inflate(R.layout.fragment_quest_session_goal, container, false);
 
-        ImageView backgroundImage = view.findViewById(R.id.iv_name);
-        backgroundImage.setImageResource(R.drawable.startup_life);
+        ImageView backgroundImage = view.findViewById(R.id.iv_goals);
+        backgroundImage.setImageResource(R.drawable.counting_stars);
 
-        EditText editQuestName = view.findViewById(R.id.et_name);
-        editQuestName.addTextChangedListener(new QuestionNameTextWatcher());
+        EditText editSessionGoal = view.findViewById(R.id.et_goal);
+        editSessionGoal.addTextChangedListener(new QuestionGoalTextWatcher());
 
         return view;
     }
 
-    private void setSessionName(String sessionName) {
+    private void setSessionGoal(String sessionGoal) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sp.edit();
-        editor.putString(Constants.SESSION_QUEST_NAME, sessionName);
+        editor.putString(Constants.SESSION_QUEST_GOAL, sessionGoal);
         editor.apply();
     }
 
-    private class QuestionNameTextWatcher implements TextWatcher {
+    private class QuestionGoalTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -55,7 +56,7 @@ public class QuestNameFragment extends Fragment {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            setSessionName(charSequence.toString());
+            setSessionGoal(charSequence.toString());
         }
 
         @Override
@@ -63,7 +64,5 @@ public class QuestNameFragment extends Fragment {
 
         }
     }
+
 }
-
-
-

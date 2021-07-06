@@ -4,30 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.questionnaire.Quest1Fragment"
+    tools:context=".ui.questionnaire.QuestGoalFragment"
     android:id="@+id/questionNameFrag"
     >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="40px"
-        android:padding="50px"
         android:orientation="vertical"
+        android:padding="36dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/iv_public"
-            android:layout_width="357dp"
-            android:layout_height="376dp"
+            android:layout_width="287dp"
+            android:layout_height="291dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/work_time"
-            android:layout_gravity="center"
-            />
+            tools:srcCompat="@drawable/work_time" />
 
         <Button
             android:id="@+id/btnSubmitPublic"
@@ -35,13 +33,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#244160"
-            android:padding="40dp"
-            android:text="Start a Public Session"
-            android:textColor="#FFFFFF"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/darkBlue"
             android:elevation="5dp"
-            />
+            android:padding="20dp"
+            android:text="Start a Public Session"
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/btnSubmitPrivate"
@@ -49,17 +46,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:backgroundTint="#ffffff"
-            android:outlineProvider="background"
-            android:outlineAmbientShadowColor="@color/black"
-            android:padding="40dp"
-            android:text="Start a Private Session"
-            android:textColor="#244160"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/white"
             android:elevation="2dp"
-            />
-
-
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineProvider="background"
+            android:padding="20dp"
+            android:text="Start a Private Session"
+            android:textColor="@color/darkBlue" />
 
 
     </LinearLayout>
