@@ -19,6 +19,7 @@ import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.data.models.SessionSetting;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
+import com.example.studywithme.ui.MainActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.utils.Constants;
@@ -63,6 +64,7 @@ public class QuestSessionStartFragment extends Fragment {
         QuestionnaireViewModel questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         questionnaireViewModel.startSession(User.getIdFromPreferences(getContext()), session).observe(getViewLifecycleOwner(), sessionId -> {
             if (sessionId != null) {
+                Session.setIdInPreferences(getContext(), sessionId);
                 startTimerActivity();
             }
         });

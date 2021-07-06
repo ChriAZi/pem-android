@@ -53,6 +53,7 @@ public class TimerActivity extends NavigationActivity {
     private TimerViewModel timerViewModel1;
     public SessionListViewModel sessionListViewModel;
     public SessionListViewModel sessionListViewModel1;
+    private QuestionnaireViewModel questionnaireViewModel;
     private User user;
     private String session2;
     private Session session;
@@ -79,7 +80,6 @@ public class TimerActivity extends NavigationActivity {
         }
         getSupportActionBar().setTitle(R.string.heading_timer);
     }
-
 
 
     private void initEmptyTimerLayout() {
@@ -183,21 +183,21 @@ public class TimerActivity extends NavigationActivity {
             creatorCategory.setText(session.getOwnerSetting().getCategory().toString());
             creatorGoal.setText(session.getOwnerSetting().getGoal());
             subtask1Creator.setText(session.getOwnerSetting().getTasks().get(0).getDescription());
-            if(session.getOwnerSetting().getTasks().get(1).getDescription() != null){
+           /* if(session.getOwnerSetting().getTasks().get(1).getDescription() != null){
                 subtask2Creator.setText(session.getOwnerSetting().getTasks().get(1).getDescription());
             }else{
                 subtask2Creator.setVisibility(View.INVISIBLE);
-            }
+            } */
            if (session.getPartner() != null) {
                 setLayoutParams();
                 partnerName.setText(session.getPartner().getName());
                 partnerCategory.setText(session.getPartnerSetting().getCategory().toString());
                 subtask1Partner.setText(session.getPartnerSetting().getTasks().get(0).getDescription());
-                if(session.getPartnerSetting().getTasks().get(1).getDescription() !=null) {
+               /* if(session.getPartnerSetting().getTasks().get(1).getDescription() !=null) {
                     subtask2Partner.setText(session.getPartnerSetting().getTasks().get(1).getDescription());
                 }else{
                     subtask2Partner.setVisibility(View.INVISIBLE);
-                }
+                }*/
                 partnerGoal.setText(session.getPartnerSetting().getGoal());
 
                  }else{
