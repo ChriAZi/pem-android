@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Other values-->
-    <attr name="bottomNavigationBackgroundColor" format="reference" />
-    <attr name="bottomNavigationSelectedColor" format="reference" />
-    <attr name="bottomNavigationUnselectedColor" format="reference" />
+    <attr name="navigationBackgroundColor" format="reference" />
+    <attr name="selectedColor" format="reference" />
+    <attr name="unselectedColor" format="reference" />
     <attr name="iconColor" format="reference" />
 </resources>

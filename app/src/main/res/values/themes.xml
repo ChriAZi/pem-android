@@ -10,9 +10,9 @@
         <item name="colorSecondaryVariant">@color/darkBlue</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Bottom Navigation -->
-        <item name="bottomNavigationBackgroundColor">@color/white</item>
-        <item name="bottomNavigationSelectedColor">@color/darkBlue</item>
-        <item name="bottomNavigationUnselectedColor">@color/grey</item>
+        <item name="navigationBackgroundColor">@color/white</item>
+        <item name="selectedColor">@color/darkBlue</item>
+        <item name="unselectedColor">@color/grey</item>
         <!-- Bars -->
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:statusBarColor">@android:color/transparent</item>

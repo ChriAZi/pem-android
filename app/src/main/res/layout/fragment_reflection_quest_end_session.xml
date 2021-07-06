@@ -17,43 +17,29 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/iv_public"
+            android:id="@+id/iv_session_end"
             android:layout_width="287dp"
             android:layout_height="291dp"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/work_time" />
+            tools:srcCompat="@drawable/finalize_session" />
 
         <Button
-            android:id="@+id/btnSubmitPublic"
+            android:id="@+id/bt_submit_reflection"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="250dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/darkBlue"
             android:elevation="5dp"
             android:padding="20dp"
-            android:text="Start a Public Session"
+            android:text="Save Session Reflection"
             android:textColor="@color/white" />
-
-        <Button
-            android:id="@+id/btnSubmitPrivate"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/white"
-            android:elevation="2dp"
-            android:outlineAmbientShadowColor="@color/black"
-            android:outlineProvider="background"
-            android:padding="20dp"
-            android:text="Start a Private Session"
-            android:textColor="@color/darkBlue" />
 
 
     </LinearLayout>

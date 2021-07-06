@@ -20,6 +20,7 @@ import com.example.studywithme.ui.authentication.AuthActivity;
 import com.example.studywithme.ui.join.SessionListActivity;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestActivity;
+import com.example.studywithme.ui.reflection.ReflectionQuestActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.ReflectionViewModel;
@@ -142,6 +143,11 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
         Intent i = new Intent(MainActivity.this, QuestActivity.class);
         i.putExtra(Constants.USER_ID, userId);
         i.putExtra(Constants.SESSION_ID, Session.getIdFromPreferences(this));
+        MainActivity.this.startActivity(i);
+    }
+
+    private void startReflectionActivity() {
+        Intent i = new Intent(MainActivity.this, ReflectionQuestActivity.class);
         MainActivity.this.startActivity(i);
     }
 

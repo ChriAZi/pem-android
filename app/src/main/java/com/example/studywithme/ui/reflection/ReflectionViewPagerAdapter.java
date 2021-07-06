@@ -15,7 +15,7 @@ public class ReflectionViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // shitty but works
-        return 2;
+        return 3;
     }
 
     @NonNull
@@ -27,6 +27,9 @@ public class ReflectionViewPagerAdapter extends FragmentPagerAdapter {
                 break;
             case 1:
                 fragment = new ReflectionQuestDistractionsFragment();
+                break;
+            case 2:
+                fragment = new ReflectionQuestSessionEndFragment();
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + position);

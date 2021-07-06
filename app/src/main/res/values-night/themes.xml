@@ -8,9 +8,9 @@
         <!-- Icons & Button -->
         <item name="iconColor">@color/darkBlue</item>
         <!-- Bottom Navigation -->
-        <item name="bottomNavigationBackgroundColor">@color/darkBlack</item>
-        <item name="bottomNavigationSelectedColor">@color/white</item>
-        <item name="bottomNavigationUnselectedColor">@color/darkGrey</item>
+        <item name="navigationBackgroundColor">@color/darkBlack</item>
+        <item name="selectedColor">@color/white</item>
+        <item name="unselectedColor">@color/darkGrey</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowBackground">@color/black</item>
