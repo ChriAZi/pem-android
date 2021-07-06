@@ -11,14 +11,16 @@ import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
 public class QuestActivity extends NavigationActivity {
 
-    private boolean joining;
+    private boolean joining = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupViewPager();
         Bundle extras = getIntent().getExtras();
-        joining = (boolean) extras.get(Constants.JOINING);
+        if (extras != null) {
+            joining = (boolean) extras.get(Constants.JOINING);
+        }
+        setupViewPager();
     }
 
     private void setupViewPager() {

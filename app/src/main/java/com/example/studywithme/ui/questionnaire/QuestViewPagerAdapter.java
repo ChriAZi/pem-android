@@ -17,7 +17,7 @@ public class QuestViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         if (joining) {
-            return 3;
+            return 4;
         } else {
             return 6;
         }

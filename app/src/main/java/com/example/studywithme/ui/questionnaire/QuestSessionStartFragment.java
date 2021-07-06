@@ -57,7 +57,7 @@ public class QuestSessionStartFragment extends Fragment {
 
         submitPublicButton.setOnClickListener(v -> startSessionForTimer(true, joining));
         submitPrivateButton.setOnClickListener(v -> startSessionForTimer(false, joining));
-        submitPrivateButton.setOnClickListener(v -> startSessionForTimer(false, joining));
+        submitJoiningButton.setOnClickListener(v -> startSessionForTimer(false, joining));
 
         if (joining) {
             submitPublicButton.setVisibility(View.GONE);
@@ -83,6 +83,7 @@ public class QuestSessionStartFragment extends Fragment {
             questionnaireViewModel.joinSession(sessionId, userId, setting).observe(getViewLifecycleOwner(), joined -> {
                 if (joined) {
                     Session.setIdInPreferences(getContext(), sessionId);
+                    startTimerActivity();
                 }
             });
         } else {
@@ -113,7 +114,12 @@ public class QuestSessionStartFragment extends Fragment {
 
     private SessionCategory getSessionCategory() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
-        return SessionCategory.valueOf(sp.getString(Constants.SESSION_QUEST_CATEGORY, null));
+        String sessionCategory = sp.getString(Constants.SESSION_QUEST_CATEGORY, null);
+        if (sessionCategory != null) {
+            return SessionCategory.valueOf(sessionCategory);
+        } else {
+            return SessionCategory.HOBBY;
+        }
     }
 
     private List<SessionTask> getSessionTasks() {
