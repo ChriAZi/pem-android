@@ -3,6 +3,7 @@ package com.example.studywithme.ui.join;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,9 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
         recyclerView = findViewById(R.id.rv_session_list);
         hint = findViewById(R.id.hint1);
         createSession = findViewById(R.id.create_start_questionaire);
+        ImageView backgroundImage = findViewById(R.id.iv_join);
+        backgroundImage.setImageResource(R.drawable.studying);
+
         getSupportActionBar().setTitle("Open Sessions");
         initCurrentUser();
         initViewModel();

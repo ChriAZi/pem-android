@@ -35,17 +35,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No open sessions yet.\n Start your own with the Button below."
-        android:textColor="?colorSecondary"
         android:textAlignment="center"
+        android:textColor="?colorSecondary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rv_session_list" />
+        app:layout_constraintTop_toTopOf="@+id/rv_session_list"
+        app:layout_constraintVertical_bias="0.313" />
+
+    <ImageView
+        android:id="@+id/iv_join"
+        android:layout_width="357dp"
+        android:layout_height="376dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="268dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/studying" />
 
     <include
         android:id="@+id/include2"
         layout="@layout/bottom_navigation"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="329dp" />
+        tools:layout_editor_absoluteY="161dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

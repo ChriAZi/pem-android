@@ -21,7 +21,7 @@ import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
-import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
+import com.example.studywithme.ui.questionnaire.QuestActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
@@ -84,7 +84,7 @@ public class TimerActivity extends NavigationActivity {
 
     private void initEmptyTimerLayout() {
         Button startSessionButton = findViewById(R.id.bt_empty_start_session);
-        startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestionnaireActivity.class)));
+        startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestActivity.class)));
     }
 
     private void initTimerLayout() {
@@ -180,7 +180,7 @@ public class TimerActivity extends NavigationActivity {
             sessionStart = session.getStartedAt();
             sessionNameCreator.setText(session.getOwnerSetting().getName());
             creatorName.setText(session.getOwner().getName());
-            creatorCategory.setText(session.getOwnerSetting().getCategories().get(0).toString());
+            creatorCategory.setText(session.getOwnerSetting().getCategory().toString());
             creatorGoal.setText(session.getOwnerSetting().getGoal());
             subtask1Creator.setText(session.getOwnerSetting().getTasks().get(0).getDescription());
             if(session.getOwnerSetting().getTasks().get(1).getDescription() != null){
@@ -191,7 +191,7 @@ public class TimerActivity extends NavigationActivity {
            if (session.getPartner() != null) {
                 setLayoutParams();
                 partnerName.setText(session.getPartner().getName());
-                partnerCategory.setText(session.getPartnerSetting().getCategories().get(0).toString());
+                partnerCategory.setText(session.getPartnerSetting().getCategory().toString());
                 subtask1Partner.setText(session.getPartnerSetting().getTasks().get(0).getDescription());
                 if(session.getPartnerSetting().getTasks().get(1).getDescription() !=null) {
                     subtask2Partner.setText(session.getPartnerSetting().getTasks().get(1).getDescription());
@@ -330,7 +330,7 @@ public class TimerActivity extends NavigationActivity {
                 @Override
                 public void onFinish() {
                     setProgress(progress, endTime * 60);
-                    textTimer.setText("Finished");
+                    textTimer.setText("Great, session finished successfully!");
                     countdownTimer.cancel();
                     endSession();
                 }
@@ -364,6 +364,11 @@ public class TimerActivity extends NavigationActivity {
     @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_timer;
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return null;
     }
 
 }
