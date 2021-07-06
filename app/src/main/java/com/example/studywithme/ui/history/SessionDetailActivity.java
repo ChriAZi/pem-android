@@ -43,7 +43,7 @@ public class SessionDetailActivity extends NavigationActivity {
             TextView date = findViewById(R.id.tv_detail_date);
             date.setText(DateHelper.formatDate(session.getStartedAt().toDate().getTime()));
 
-            SessionCategory category = session.getOwnerSetting().getCategories().get(0);
+            SessionCategory category = session.getOwnerSetting().getCategory();
             ImageView headerImage = findViewById(R.id.iv_header_image);
             switch (category) {
                 case WORK:
@@ -64,7 +64,7 @@ public class SessionDetailActivity extends NavigationActivity {
             //partner.setText(session.getPartner().getName());
 
             TextView sessionCategory = findViewById(R.id.tv_detail_category);
-            sessionCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategories().get(0).name()));
+            sessionCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategory().name()));
 
             TextView feedbackContent = findViewById(R.id.tv_feedback_content);
             feedbackContent.setText(session.getOwnerReflection().getFeedback());

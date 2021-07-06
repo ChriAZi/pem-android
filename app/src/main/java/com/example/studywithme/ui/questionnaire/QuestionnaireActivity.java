@@ -2,13 +2,11 @@ package com.example.studywithme.ui.questionnaire;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -35,7 +33,7 @@ public class QuestionnaireActivity extends NavigationActivity
         Quest1Fragment.Quest1FragmentListener,
         Quest3Fragment.Quest3FragmentListener,
         Quest4Fragment.Quest4FragmentListener,
-        QuestPublicFragment.QuestPublicFragmentListener{
+        QuestPublicFragment.QuestPublicFragmentListener {
 
     private Fragment questionName, question1, question2, question3, question4, questionPublic;
     private Button btnNext, btnPrev, btnSubmit;
@@ -52,7 +50,7 @@ public class QuestionnaireActivity extends NavigationActivity
     private String uID;
     private int frduration = 0;
     private String frname, frgoal = "";
-    private ArrayList<SessionCategory> frcategories;
+    private SessionCategory frcategory;
     private ArrayList<SessionTask> frtasks;
     private boolean frpublic = false;
     //TextView textTimer,creatorName,partnerName,creatorGoal,partnerGoal,creatorWork,partnerWork;
@@ -115,29 +113,30 @@ public class QuestionnaireActivity extends NavigationActivity
      * but does not work yet
      */
 
-    private void initViewModel(View v){
+    private void initViewModel(View v) {
 
-        frcategories.add(SessionCategory.UNIVERSITY);
+        frcategory = SessionCategory.UNIVERSITY;
 
         //receive data from fragment interfaces
         String name = frname;
         String goal = frgoal;
-        ArrayList<SessionCategory> categories = frcategories;
-        Log.d("receive", "cat: "+null);
+        SessionCategory category = frcategory;
+        Log.d("receive", "cat: " + null);
         ArrayList<SessionTask> tasks = frtasks;
         int duration = frduration;
         boolean isPublic = frpublic;
 
 
-        ownerSetting = new SessionSetting(name, goal, categories, tasks);
+        ownerSetting = new SessionSetting(name, goal, category, tasks);
         session = new Session(120, frpublic, ownerSetting);
 
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
 
 
         questionnaireViewModel.startSession(User.getIdFromPreferences(this), session).observe(this, sessionId -> {
-            if(sessionId != null) {
-                startTimer(v);        }
+            if (sessionId != null) {
+                startTimer(v);
+            }
         });
     }
 
@@ -145,7 +144,7 @@ public class QuestionnaireActivity extends NavigationActivity
         Intent intent = new Intent(this, TimerActivity.class);
         intent.putExtra("Extra_name", frname);
         intent.putExtra("Extra_goal", frgoal);
-        intent.putExtra("Extra_categories", frcategories);
+        intent.putExtra("Extra_categories", frcategory);
         intent.putExtra("Extra_tasks", frtasks);
         intent.putExtra("Extra_duration", frduration);
         intent.putExtra("Extra_public", frpublic);
@@ -173,7 +172,10 @@ public class QuestionnaireActivity extends NavigationActivity
                         btnNext.setVisibility(View.VISIBLE);
                         btnSubmit.setVisibility(View.GONE);
                         break;
-                    case 1: case 2: case 3: case 4:
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
                         btnPrev.setEnabled(true);
                         //btnNext.setEnabled(true);
                         btnNext.setText("Next");
@@ -214,10 +216,14 @@ public class QuestionnaireActivity extends NavigationActivity
     }
 
     @Override
-    public void getTasks(ArrayList<SessionTask> input) { frtasks = input; }
+    public void getTasks(ArrayList<SessionTask> input) {
+        frtasks = input;
+    }
 
     @Override
-    public void getDuration(int input) { frduration = input; }
+    public void getDuration(int input) {
+        frduration = input;
+    }
 
     @Override
     public void getPublic(boolean input) {
@@ -231,7 +237,7 @@ public class QuestionnaireActivity extends NavigationActivity
     @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_home;
-}
+    }
 
     @Override
     public String getActionBarTitle() {

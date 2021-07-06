@@ -108,6 +108,11 @@ public class RQuestActivity extends NavigationActivity
         return R.id.navigation_home;
     }
 
+    @Override
+    public String getActionBarTitle() {
+        return getResources().getString(R.string.heading_reflection);
+    }
+
     /**
      * observes the current session and sets the variables to the current values
      * but does not work yet

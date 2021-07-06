@@ -151,9 +151,7 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
         SessionSetting ownerSetting = new SessionSetting(
                 "TestSession",
                 "MyGoal",
-                new ArrayList<SessionCategory>() {{
-                    add(SessionCategory.HOBBY);
-                }},
+                SessionCategory.HOBBY,
                 new ArrayList<SessionTask>() {
                     {
                         add(sessionTask1);
@@ -169,9 +167,7 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
         return new SessionSetting(
                 "PartnerSession",
                 "PartnerGoal",
-                new ArrayList<SessionCategory>() {{
-                    add(SessionCategory.UNIVERSITY);
-                }},
+                SessionCategory.UNIVERSITY,
                 new ArrayList<SessionTask>() {
                     {
                         add(sessionTask1);

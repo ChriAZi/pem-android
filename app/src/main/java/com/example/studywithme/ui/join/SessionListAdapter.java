@@ -1,43 +1,26 @@
 package com.example.studywithme.ui.join;
 
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
-import com.example.studywithme.data.models.User;
-import com.example.studywithme.ui.history.SessionHistoryAdapter;
-import com.example.studywithme.ui.timer.TimerActivity;
-import com.example.studywithme.ui.viewmodels.AbstractViewModel;
-import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
-import com.example.studywithme.ui.viewmodels.TimerViewModel;
-import com.example.studywithme.utils.ToastMaster;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.sql.Timestamp;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.SessionListViewHolder> {
     private ArrayList<Session> sessions;
     final private ListItemClickListener mOnClickListener;
-    private SessionsListActivity sessionsListActivity;
+    private SessionListActivity sessionListActivity;
 
     public SessionListAdapter(List<Session> sessions,ListItemClickListener onClickListener) {
         this.sessions = (ArrayList<Session>) sessions;
@@ -78,7 +61,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         if(System.currentTimeMillis() > d.getTime()){
             //Session ended
             session.setActive(false);
-            sessionsListActivity.endSession();
+            sessionListActivity.endSession();
         }
         if(session.isActive() == true) {
             holder.sessionStart.setText("Started: " + date);

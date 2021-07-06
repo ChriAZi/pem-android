@@ -3,7 +3,6 @@ package com.example.studywithme.ui.timer;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -17,17 +16,9 @@ import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
-import com.example.studywithme.ui.viewmodels.AbstractViewModel;
-import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
-import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
-import com.example.studywithme.utils.Constants;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
-import com.example.studywithme.utils.ToastMaster;
 import com.google.firebase.Timestamp;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class TimerActivity extends NavigationActivity {
     ProgressBar progressBar;
@@ -123,7 +114,7 @@ public class TimerActivity extends NavigationActivity {
                 Toast.makeText(getApplicationContext(), "Session finished", Toast.LENGTH_LONG).show();
                 initViewModel();
             }
-        } );
+        });
     }
 
 
@@ -137,11 +128,11 @@ public class TimerActivity extends NavigationActivity {
             textTimer.setText(String.valueOf(session.getDuration()));
             sessionStart = session.getStartedAt();
             creatorName.setText(session.getOwner().getName());
-            creatorWork.setText(session.getOwnerSetting().getCategories().get(0).toString());
+            creatorWork.setText(session.getOwnerSetting().getCategory().toString());
             creatorGoal.setText(session.getOwnerSetting().getGoal());
             if (session.getPartner() != null) {
                 partnerName.setText(session.getPartner().getName());
-                partnerWork.setText(session.getPartnerSetting().getCategories().get(0).toString());
+                partnerWork.setText(session.getPartnerSetting().getCategory().toString());
                 partnerGoal.setText(session.getPartnerSetting().getGoal());
             }
             startTimer();
@@ -150,14 +141,12 @@ public class TimerActivity extends NavigationActivity {
     }
 
 
-
-
     /**
      * sets the session active
      */
     private void setActive() {
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
-        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
             session.setActive(true);
         });
     }
@@ -193,7 +182,7 @@ public class TimerActivity extends NavigationActivity {
                     int seconds = (int) (millisUntilFinished / 1000) % 60;
                     int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
                     int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
-                     newtime = hours + ":" + minutes + ":" + seconds;
+                    newtime = hours + ":" + minutes + ":" + seconds;
 
                     //sets the countdown timer depending on length of seconds, minutes and hours
                     if (newtime.equals("0:0:0")) {
@@ -254,6 +243,11 @@ public class TimerActivity extends NavigationActivity {
     @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_timer;
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return getResources().getString(R.string.heading_timer);
     }
 
 }
