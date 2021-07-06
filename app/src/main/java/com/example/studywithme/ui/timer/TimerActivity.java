@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
@@ -187,7 +188,8 @@ public class TimerActivity extends NavigationActivity {
             }else{
                 subtask2Creator.setVisibility(View.INVISIBLE);
             }
-            if (session.getPartner() != null) {
+           if (session.getPartner() != null) {
+                setLayoutParams();
                 partnerName.setText(session.getPartner().getName());
                 partnerCategory.setText(session.getPartnerSetting().getCategories().get(0).toString());
                 subtask1Partner.setText(session.getPartnerSetting().getTasks().get(0).getDescription());
@@ -206,13 +208,58 @@ public class TimerActivity extends NavigationActivity {
                 subtask2Partner.setVisibility(View.INVISIBLE);
                 sessionNamePartner.setVisibility(View.INVISIBLE);
                 creatorName.setGravity(Gravity.CENTER);
+                creatorCategory.setGravity(Gravity.CENTER);
+                creatorGoal.setGravity(Gravity.CENTER);
+                sessionNameCreator.setGravity(Gravity.CENTER);
+                subtask1Creator.setGravity(Gravity.CENTER);
+                subtask2Creator.setGravity(Gravity.CENTER);
+
             }
             startTimer();
 
         });
     }
 
-
+    private void setLayoutParams() {
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params1 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params2 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params3 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params4 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params5 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        params.setMargins(200 , 180, 0, 0);
+        sessionNameCreator.setLayoutParams(params);
+        params1.setMargins(200,280,0,0);
+        creatorGoal.setLayoutParams(params1);
+        params2.setMargins(200,380,0,0);
+        creatorCategory.setLayoutParams(params2);
+        params3.setMargins(200,480,0,0);
+        subtask1Creator.setLayoutParams(params3);
+        if(subtask2Creator != null){
+            params4.setMargins(200,580,0,0);
+            subtask2Creator.setLayoutParams(params4);
+        }
+        params5.setMargins(200,680,0,0);
+        creatorName.setLayoutParams(params5);
+    }
 
 
     /**
