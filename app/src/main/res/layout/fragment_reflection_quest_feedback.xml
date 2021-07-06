@@ -10,53 +10,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="40px"
-        android:padding="50px"
-        android:layout_marginStart="4dp"
         android:orientation="vertical"
+        android:padding="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-
-        <TextView
-            android:id="@+id/rhlFragAchieved"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1"
-            android:textSize="20dp"
-            android:layout_margin="10px"
-            android:textColor="@color/darkGrey"
-            />
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/rtvQuestAchieved"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_margin="10px"
             android:gravity="left|center"
             android:text="What went good and bad?"
-            android:textSize="25dp"
-            android:textStyle="bold"
-            android:layout_margin="10px"
             android:textColor="@color/darkGrey"
-            />
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/iv_achieved"
+            android:id="@+id/iv_feedback"
             android:layout_width="357dp"
             android:layout_height="376dp"
+            android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@drawable/celebration"
-            android:layout_gravity="center"
-            />
+            tools:srcCompat="@drawable/celebration" />
 
         <EditText
-            android:id="@+id/reditQuestAchieved"
+            android:id="@+id/et_feedback"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter your achievements"
             android:layout_margin="10px"
+            android:hint="Enter your achievements"
             android:textColor="@color/darkGrey"
 
             />
@@ -65,12 +51,11 @@
             android:id="@+id/rpartnerGoal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_margin="10px"
             android:gravity="left|center"
             android:text=""
             android:textSize="25dp"
-            android:textStyle="normal"
-            android:layout_margin="10px"
-            />
+            android:textStyle="normal" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

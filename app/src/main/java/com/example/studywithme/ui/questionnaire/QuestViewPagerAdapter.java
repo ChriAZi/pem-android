@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-public class ViewPagerAdapter extends FragmentPagerAdapter {
+public class QuestViewPagerAdapter extends FragmentPagerAdapter {
 
-    public ViewPagerAdapter(FragmentManager fragmentManager) {
+    public QuestViewPagerAdapter(FragmentManager fragmentManager) {
         // ViewPager is deprecated but we don't care
         super(fragmentManager);
     }

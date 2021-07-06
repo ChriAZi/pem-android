@@ -17,4 +17,6 @@ public class Constants {
     public static final String SESSION_QUEST_CATEGORY = "session_quest_category";
     public static final String SESSION_QUEST_TASKS = "session_quest_tasks";
     public static final String SESSION_QUEST_DURATION = "session_quest_duration";
+    public static final String SESSION_QUEST_DISTRACTIONS = "session_quest_distractions";
+    public static final String SESSION_QUEST_FEEDBACK = "session_quest_feedback";
 }
