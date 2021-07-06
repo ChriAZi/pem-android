@@ -1,20 +1,21 @@
 package com.example.studywithme.data.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SessionSetting implements Serializable {
     private String name;
     private String goal;
     private int duration;
-    private List<SessionCategory> categories;
-    private List<SessionTask> tasks;
+    private ArrayList<SessionCategory> categories;
+    private ArrayList<SessionTask> tasks;
 
     public SessionSetting() {
 
     }
 
-    public SessionSetting(String name, String goal, List<SessionCategory> categories, List<SessionTask> tasks) {
+    public SessionSetting(String name, String goal, ArrayList<SessionCategory> categories, ArrayList<SessionTask> tasks) {
         this.name = name;
         this.goal = goal;
         this.categories = categories;
@@ -41,7 +42,7 @@ public class SessionSetting implements Serializable {
         return categories;
     }
 
-    public void setCategories(List<SessionCategory> categories) {
+    public void setCategories(ArrayList<SessionCategory> categories) {
         this.categories = categories;
     }
 
@@ -49,7 +50,7 @@ public class SessionSetting implements Serializable {
         return tasks;
     }
 
-    public void setTasks(List<SessionTask> tasks) {
+    public void setTasks(ArrayList<SessionTask> tasks) {
         this.tasks = tasks;
     }
 

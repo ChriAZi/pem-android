@@ -61,7 +61,7 @@ public class SessionDetailActivity extends NavigationActivity {
             duration.setText(session.getDuration() + " Minuten");
 
             TextView partner = findViewById(R.id.tv_detail_partner);
-            partner.setText(session.getPartner().getName());
+            //partner.setText(session.getPartner().getName());
 
             TextView sessionCategory = findViewById(R.id.tv_detail_category);
             sessionCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategories().get(0).name()));

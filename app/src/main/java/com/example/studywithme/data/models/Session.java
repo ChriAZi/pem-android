@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.example.studywithme.utils.Constants;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.io.Serializable;
 
@@ -25,8 +26,9 @@ public class Session implements Serializable {
     private SessionReflection ownerReflection;
     private SessionReflection partnerReflection;
 
-    public Session() {
+    private DocumentReference own;
 
+    public Session() {
     }
 
     public Session(int duration, boolean isPublic, User owner, User partner, SessionSetting ownerSetting, SessionSetting partnerSetting, SessionReflection ownerReflection, SessionReflection partnerReflection) {
@@ -38,6 +40,17 @@ public class Session implements Serializable {
         this.partnerSetting = partnerSetting;
         this.ownerReflection = ownerReflection;
         this.partnerReflection = partnerReflection;
+    }
+
+    public Session(int duration, boolean isPublic, SessionSetting ownerSetting) {
+        this.duration = duration;
+        this.isPublic = isPublic;
+        this.ownerSetting = ownerSetting;
+    }
+
+    public Session(DocumentReference own, SessionSetting ownerSetting) {
+        this.own = own;
+        this.ownerSetting = ownerSetting;
     }
 
     public Session(User owner, SessionSetting ownerSetting) {

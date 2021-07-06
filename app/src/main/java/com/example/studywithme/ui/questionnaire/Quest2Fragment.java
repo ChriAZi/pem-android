@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.fragment.app.Fragment;
 
@@ -67,6 +68,8 @@ public class Quest2Fragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_quest2, container, false);
 
+        ImageView backgroundImage = view.findViewById(R.id.iv_categories);
+        backgroundImage.setImageResource(R.drawable.right_direction);
         // Get a reference to the AutoCompleteTextView in the layout
         AutoCompleteTextView autoView = (AutoCompleteTextView) view.findViewById(R.id.autoEditQuest2);
         // Get the string array

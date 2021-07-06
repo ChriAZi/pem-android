@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,21 +16,28 @@ import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.history.SessionHistoryAdapter;
+import com.example.studywithme.ui.timer.TimerActivity;
 import com.example.studywithme.ui.viewmodels.AbstractViewModel;
 import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
+import com.example.studywithme.ui.viewmodels.TimerViewModel;
 import com.example.studywithme.utils.ToastMaster;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.SessionListViewHolder> {
     private ArrayList<Session> sessions;
     final private ListItemClickListener mOnClickListener;
+    private SessionsListActivity sessionsListActivity;
 
     public SessionListAdapter(List<Session> sessions,ListItemClickListener onClickListener) {
         this.sessions = (ArrayList<Session>) sessions;
@@ -52,15 +60,30 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         return new SessionListAdapter.SessionListViewHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull SessionListViewHolder holder, int position) {
         Session session = sessions.get(position);
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        String time = String.valueOf(session.getStartedAt().toDate());
+        int sessionDuration = session.getDuration();
         String date = dateFormat.format(session.getStartedAt().toDate());
+        Date d = session.getStartedAt().toDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE,sessionDuration);
+        String endTime = dateFormat.format(cal.getTime());
+        //should be called once the time of the session has passed
+        if(System.currentTimeMillis() > d.getTime()){
+            //Session ended
+            session.setActive(false);
+            sessionsListActivity.endSession();
+        }
         if(session.isActive() == true) {
             holder.sessionStart.setText("Started: " + date);
-            //holder.sessionStart.setText(session.getStartedAt().toDate().toString());
-            holder.sessionDuration.setText("Duration: " + session.getDuration() + " Minutes");
+           // holder.sessionDuration.setText("Duration: " + session.getDuration() + " Minutes");
+            holder.sessionDuration.setText("Session ends at " + endTime );
             holder.sessionOwner.setText("by: " + session.getOwner().getName());
         }
 

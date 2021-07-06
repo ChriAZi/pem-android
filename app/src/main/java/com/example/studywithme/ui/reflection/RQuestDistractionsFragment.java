@@ -1,4 +1,4 @@
-package com.example.studywithme.ui.questionnaire;
+package com.example.studywithme.ui.reflection;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,13 +22,13 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Quest3Fragment#newInstance} factory method to
+ * Use the {@link RQuestDistractionsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Quest3Fragment extends Fragment {
+public class RQuestDistractionsFragment extends Fragment {
 
-    public interface Quest3FragmentListener {
-        void getTasks(ArrayList<SessionTask> input);
+    public interface RQuestDistractionsFragmentListener {
+        void getDistractions(ArrayList<String> input);
     }
 
     // TODO: Rename parameter arguments, choose names that match
@@ -40,16 +40,14 @@ public class Quest3Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private List<SessionTask> tasks;
-    private ArrayList<SessionTask> taskList;
-    private ArrayList<String> taskDesc;
-    private ArrayAdapter<String> tasksAdapter;
+    private ArrayList<String> distList;
+    private ArrayAdapter<String> distAdapter;
     private ListView listView;
-    private Button submitTodoBtn;
-    private Quest3Fragment.Quest3FragmentListener listener;
+    private Button submitDistBtn;
+    private RQuestDistractionsFragment.RQuestDistractionsFragmentListener listener;
 
 
-    public Quest3Fragment() {
+    public RQuestDistractionsFragment() {
         // Required empty public constructor
     }
 
@@ -62,8 +60,8 @@ public class Quest3Fragment extends Fragment {
      * @return A new instance of fragment Quest1.
      */
     // TODO: Rename and change types and number of parameters
-    public static Quest3Fragment newInstance(String param1, String param2) {
-        Quest3Fragment fragment = new Quest3Fragment();
+    public static RQuestDistractionsFragment newInstance(String param1, String param2) {
+        RQuestDistractionsFragment fragment = new RQuestDistractionsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -78,8 +76,7 @@ public class Quest3Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        taskDesc = new ArrayList<>();
-        taskList = new ArrayList<>();
+        distList = new ArrayList<>();
 
     }
 
@@ -88,26 +85,24 @@ public class Quest3Fragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view;
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_quest3, container, false);
+        view = inflater.inflate(R.layout.fragment_rquest_distractions, container, false);
+        ImageView backgroundImage = view.findViewById(R.id.iv_distractions);
+        backgroundImage.setImageResource(R.drawable.starry_window);
+        listView = view.findViewById(R.id.distList);
+        EditText editQuest3 = view.findViewById(R.id.reditQuestDistractions);
+        submitDistBtn = view.findViewById(R.id.btnSubmitDist);
 
-        ImageView backgroundImage = view.findViewById(R.id.iv_subtasks);
-        backgroundImage.setImageResource(R.drawable.choose_re);
-        listView = view.findViewById(R.id.toDoList);
-        EditText editQuest3 = view.findViewById(R.id.editQuest3);
-        submitTodoBtn = view.findViewById(R.id.btnSubmit3);
-
-        submitTodoBtn.setOnClickListener(new View.OnClickListener() {
+        submitDistBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTodo(view);
-                taskList.add(new SessionTask(editQuest3.getText().toString(), false));
-                listener.getTasks(taskList);
+                addDist(view);
+                distList.add(editQuest3.getText().toString());
+                listener.getDistractions(distList);
             }
         });
 
-        //taskList = new ArrayList<>();
-        tasksAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, taskDesc);
-        listView.setAdapter(tasksAdapter);
+        distAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, distList);
+        listView.setAdapter(distAdapter);
         setUpListViewListener();
 
         return view;
@@ -117,20 +112,19 @@ public class Quest3Fragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                taskList.remove(position);
-                taskDesc.remove(position);
-                tasksAdapter.notifyDataSetChanged();
+                distList.remove(position);
+                distAdapter.notifyDataSetChanged();
                 return true;
             }
         });
     }
 
-    private void addTodo(View view) {
-        EditText editQuest3 = view.findViewById(R.id.editQuest3);
-        String todoText = editQuest3.getText().toString();
+    private void addDist(View view) {
+        EditText editQuest3 = view.findViewById(R.id.reditQuestDistractions);
+        String distText = editQuest3.getText().toString();
 
-        if (!(todoText.equals(""))) {
-            tasksAdapter.add(todoText);
+        if (!(distText.equals(""))) {
+            distAdapter.add(distText);
             editQuest3.setText("");
         } else {
             //TODO
@@ -140,8 +134,8 @@ public class Quest3Fragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof Quest3Fragment.Quest3FragmentListener) {
-            listener = (Quest3Fragment.Quest3FragmentListener) context;
+        if (context instanceof RQuestDistractionsFragment.RQuestDistractionsFragmentListener) {
+            listener = (RQuestDistractionsFragment.RQuestDistractionsFragmentListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement FragmentAListener");
