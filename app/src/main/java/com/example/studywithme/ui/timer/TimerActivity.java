@@ -1,32 +1,48 @@
 package com.example.studywithme.ui.timer;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
+import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
-import com.example.studywithme.ui.questionnaire.QuestActivity;
+import com.example.studywithme.ui.questionnaire.QuestionnaireActivity;
+import com.example.studywithme.ui.viewmodels.AbstractViewModel;
+import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
+import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
+import com.example.studywithme.utils.Constants;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
+import com.example.studywithme.utils.ToastMaster;
 import com.google.firebase.Timestamp;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class TimerActivity extends NavigationActivity {
     ProgressBar progressBar;
-    TextView textTimer, creatorName, partnerName, creatorGoal, partnerGoal, creatorWork, partnerWork, started;
+    TextView textTimer, creatorName, partnerName, creatorGoal, partnerGoal, creatorCategory, partnerCategory, started, sessionNameCreator, sessionNamePartner, subtask1Creator, subtask2Creator, subtask1Partner, subtask2Partner ;
     Button start;
     Button stop;
     EditText et_timer;
     CountDownTimer countdownTimer;
+    AlertDialog.Builder builder;
     private Timestamp sessionStart;
     private int myProgress = 0;
     private int progress;
@@ -34,7 +50,9 @@ public class TimerActivity extends NavigationActivity {
     private String newtime;
     private String TAG = "TimerActivity";
     private TimerViewModel timerViewModel;
+    private TimerViewModel timerViewModel1;
     public SessionListViewModel sessionListViewModel;
+    public SessionListViewModel sessionListViewModel1;
     private User user;
     private String session2;
     private Session session;
@@ -47,9 +65,9 @@ public class TimerActivity extends NavigationActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sessionId = Session.getIdFromPreferences(this);
-
+        builder = new AlertDialog.Builder(this);
+        getCurrentUser();
         //check if User joined the active session
-
         if (sessionId == null) {
             layoutId = R.layout.activity_timer_empty;
             super.onCreate(savedInstanceState);
@@ -62,18 +80,26 @@ public class TimerActivity extends NavigationActivity {
         getSupportActionBar().setTitle(R.string.heading_timer);
     }
 
+
+
     private void initEmptyTimerLayout() {
         Button startSessionButton = findViewById(R.id.bt_empty_start_session);
-        startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestActivity.class)));
+        startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestionnaireActivity.class)));
     }
 
     private void initTimerLayout() {
+        sessionNameCreator = findViewById(R.id.sessionNameCreator);
         creatorName = findViewById(R.id.sessionCreator);
-        creatorWork = findViewById(R.id.creatorWork);
+        subtask1Creator = findViewById(R.id.subtaskCreator1);
+        subtask2Creator = findViewById(R.id.subtaskCreator2);
+        creatorCategory = findViewById(R.id.creatorCategory);
         creatorGoal = findViewById(R.id.creatorGoal);
 
+        sessionNamePartner = findViewById(R.id.sessionNamePartner);
         partnerName = findViewById(R.id.partnerName);
-        partnerWork = findViewById(R.id.partnerWork);
+        subtask1Partner = findViewById(R.id.subtaskPartner1);
+        subtask2Partner = findViewById(R.id.subtaskPartner2);
+        partnerCategory= findViewById(R.id.partnerCategory);
         partnerGoal = findViewById(R.id.partnerGoal);
 
 
@@ -95,7 +121,7 @@ public class TimerActivity extends NavigationActivity {
             countdownTimer.cancel();
             active = false;
             endSession();
-            //Timerviewmodel end Session (bool)
+            partnerGaveUp();
 
         } catch (Exception e) {
 
@@ -104,17 +130,42 @@ public class TimerActivity extends NavigationActivity {
         started.setText("Session stopped!");
     }
 
+    private void getCurrentUser() {
+        sessionListViewModel1 = new ViewModelProvider(this).get(SessionListViewModel.class);
+        sessionListViewModel1.getCurrentUser(User.getIdFromPreferences(this)).observe(this, userCurr -> {
+            user = userCurr;
+        });
+
+    }
+
+    private void partnerGaveUp() {
+        timerViewModel1 = new ViewModelProvider(this).get(TimerViewModel.class);
+        timerViewModel1.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
+            if(!session.isPublic()){
+                //do nothing
+            }else{
+                if(session.getOwner().getName().equals(user.getName())){
+                       ToastMaster.showToast(this,"You gave up. I know you can do better.");
+                }else{
+                    if(session.getPartner().getName() == user.getName() && session.getPartner() != null){
+                            ToastMaster.showToast(this,"Your partner gave up! They owe you a beer now!");
+                    }
+                }
+
+            }
+        });
+    }
+
     /**
-     * ends the session
+     * ends the session via TimerviewModel
      */
     private void endSession() {
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
         timerViewModel.endSession(Session.getIdFromPreferences(this)).observe(this, finished -> {
             if (finished) {
                 Toast.makeText(getApplicationContext(), "Session finished", Toast.LENGTH_LONG).show();
-                initViewModel();
             }
-        });
+        } );
     }
 
 
@@ -127,17 +178,87 @@ public class TimerActivity extends NavigationActivity {
 
             textTimer.setText(String.valueOf(session.getDuration()));
             sessionStart = session.getStartedAt();
+            sessionNameCreator.setText(session.getOwnerSetting().getName());
             creatorName.setText(session.getOwner().getName());
-            creatorWork.setText(session.getOwnerSetting().getCategory().toString());
+            creatorCategory.setText(session.getOwnerSetting().getCategories().get(0).toString());
             creatorGoal.setText(session.getOwnerSetting().getGoal());
-            if (session.getPartner() != null) {
+            subtask1Creator.setText(session.getOwnerSetting().getTasks().get(0).getDescription());
+            if(session.getOwnerSetting().getTasks().get(1).getDescription() != null){
+                subtask2Creator.setText(session.getOwnerSetting().getTasks().get(1).getDescription());
+            }else{
+                subtask2Creator.setVisibility(View.INVISIBLE);
+            }
+           if (session.getPartner() != null) {
+                setLayoutParams();
                 partnerName.setText(session.getPartner().getName());
-                partnerWork.setText(session.getPartnerSetting().getCategory().toString());
+                partnerCategory.setText(session.getPartnerSetting().getCategories().get(0).toString());
+                subtask1Partner.setText(session.getPartnerSetting().getTasks().get(0).getDescription());
+                if(session.getPartnerSetting().getTasks().get(1).getDescription() !=null) {
+                    subtask2Partner.setText(session.getPartnerSetting().getTasks().get(1).getDescription());
+                }else{
+                    subtask2Partner.setVisibility(View.INVISIBLE);
+                }
                 partnerGoal.setText(session.getPartnerSetting().getGoal());
+
+                 }else{
+                partnerName.setVisibility(View.INVISIBLE);
+                partnerCategory.setVisibility(View.INVISIBLE);
+                partnerGoal.setVisibility(View.INVISIBLE);
+                subtask1Partner.setVisibility(View.INVISIBLE);
+                subtask2Partner.setVisibility(View.INVISIBLE);
+                sessionNamePartner.setVisibility(View.INVISIBLE);
+                creatorName.setGravity(Gravity.CENTER);
+                creatorCategory.setGravity(Gravity.CENTER);
+                creatorGoal.setGravity(Gravity.CENTER);
+                sessionNameCreator.setGravity(Gravity.CENTER);
+                subtask1Creator.setGravity(Gravity.CENTER);
+                subtask2Creator.setGravity(Gravity.CENTER);
+
             }
             startTimer();
 
         });
+    }
+
+    private void setLayoutParams() {
+        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params1 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params2 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params3 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params4 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        ConstraintLayout.LayoutParams params5 = new ConstraintLayout.LayoutParams(
+                ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT
+        );
+        params.setMargins(200 , 180, 0, 0);
+        sessionNameCreator.setLayoutParams(params);
+        params1.setMargins(200,280,0,0);
+        creatorGoal.setLayoutParams(params1);
+        params2.setMargins(200,380,0,0);
+        creatorCategory.setLayoutParams(params2);
+        params3.setMargins(200,480,0,0);
+        subtask1Creator.setLayoutParams(params3);
+        if(subtask2Creator != null){
+            params4.setMargins(200,580,0,0);
+            subtask2Creator.setLayoutParams(params4);
+        }
+        params5.setMargins(200,680,0,0);
+        creatorName.setLayoutParams(params5);
     }
 
 
@@ -146,7 +267,7 @@ public class TimerActivity extends NavigationActivity {
      */
     private void setActive() {
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
-        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
+        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
             session.setActive(true);
         });
     }
@@ -182,7 +303,7 @@ public class TimerActivity extends NavigationActivity {
                     int seconds = (int) (millisUntilFinished / 1000) % 60;
                     int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
                     int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
-                    newtime = hours + ":" + minutes + ":" + seconds;
+                     newtime = hours + ":" + minutes + ":" + seconds;
 
                     //sets the countdown timer depending on length of seconds, minutes and hours
                     if (newtime.equals("0:0:0")) {
@@ -243,11 +364,6 @@ public class TimerActivity extends NavigationActivity {
     @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_timer;
-    }
-
-    @Override
-    public String getActionBarTitle() {
-        return getResources().getString(R.string.heading_timer);
     }
 
 }
