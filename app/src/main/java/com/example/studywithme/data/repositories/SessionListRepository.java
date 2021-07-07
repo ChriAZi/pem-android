@@ -23,7 +23,7 @@ public class SessionListRepository {
         sessionsRef
                 .whereEqualTo("public", true)
                 .whereEqualTo("active", true)
-                .whereNotEqualTo("owner.uid", userId)
+                //.whereNotEqualTo("owner.uid", userId)
                 .addSnapshotListener((snapshot, exception) -> {
                     if (exception != null) {
                         Logger.log("Listen failed." + exception);
