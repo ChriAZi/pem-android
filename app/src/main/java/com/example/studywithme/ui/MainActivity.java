@@ -153,7 +153,7 @@ public class MainActivity extends NavigationActivity implements FirebaseAuth.Aut
                         add(sessionTask2);
                     }
                 });
-        return new Session(1, true, null, null, ownerSetting, null, null, null);
+        return new Session(5, true, null, null, ownerSetting, null, null, null);
     }
 
     private SessionSetting createSessionSetting() {
