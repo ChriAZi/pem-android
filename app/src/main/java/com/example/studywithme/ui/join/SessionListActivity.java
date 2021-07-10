@@ -37,7 +37,7 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
 
         setUserIdFromIntent();
         setupViews();
-        initViewModels();
+        initViewModel();
         loadOpenSessions();
 
         ExtendedFloatingActionButton createSessionButton = findViewById(R.id.bt_list_create_session);
@@ -59,7 +59,7 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
         hint = findViewById(R.id.tv_list_no_sessions);
     }
 
-    private void initViewModels() {
+    private void initViewModel() {
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
     }
 

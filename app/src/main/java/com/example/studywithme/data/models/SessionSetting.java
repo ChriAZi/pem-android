@@ -1,13 +1,11 @@
 package com.example.studywithme.data.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SessionSetting implements Serializable {
     private String name;
     private String goal;
-    private int duration;
     private SessionCategory category;
     private List<SessionTask> tasks;
 
@@ -52,13 +50,5 @@ public class SessionSetting implements Serializable {
 
     public void setTasks(List<SessionTask> tasks) {
         this.tasks = tasks;
-    }
-
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
     }
 }

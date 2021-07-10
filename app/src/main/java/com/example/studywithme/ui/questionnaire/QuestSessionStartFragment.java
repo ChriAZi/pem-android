@@ -77,7 +77,7 @@ public class QuestSessionStartFragment extends Fragment {
 
     private void startSessionForTimer(boolean isPublic, boolean joining) {
         String userId = User.getIdFromPreferences(getContext());
-        SessionSetting setting = new SessionSetting(getSessionName(), getSessionGoal(), getSessionCategory() != null ? getSessionCategory() : SessionCategory.HOBBY, getSessionTasks());
+        SessionSetting setting = new SessionSetting(getSessionName(), getSessionGoal(), getSessionCategory() != null ? getSessionCategory() : SessionCategory.UNIVERSITY, getSessionTasks());
         if (joining) {
             String sessionId = Session.getIdFromPreferences(getContext());
             questionnaireViewModel.joinSession(sessionId, userId, setting).observe(getViewLifecycleOwner(), joined -> {

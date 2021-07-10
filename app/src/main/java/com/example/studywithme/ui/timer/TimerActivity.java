@@ -71,7 +71,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
         timerViewModel.getActiveSession(sessionId).observe(this, session -> {
             String userId = User.getIdFromPreferences(this);
-            if (session.getPartner() == null) {
+            if (!session.isPublic()) {
                 setTimerForOwner(session, false);
             } else if (session.getOwner().getUid().equals(userId)) {
                 setTimerForOwner(session, true);
@@ -89,6 +89,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
     }
 
     private void setTimerForPartner(Session session) {
+        tasks = session.getPartnerSetting().getTasks();
         setTasksRecyclerView(session.getPartnerSetting().getTasks());
         setViewsForPartner(session);
         setTimer(getRemainingDuration(session));
