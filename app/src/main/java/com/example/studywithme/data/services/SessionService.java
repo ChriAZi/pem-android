@@ -7,9 +7,11 @@ import com.example.studywithme.data.models.Session;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.Logger;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SessionService {
     private static SessionService INSTANCE = null;
@@ -27,20 +29,25 @@ public class SessionService {
     }
 
     public LiveData<Session> getActiveSession(String sessionId) {
-        DocumentReference sessionDocument = sessionsRef.document(sessionId);
         MutableLiveData<Session> session = new MutableLiveData<>();
-        sessionDocument.get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    session.setValue(document.toObject(Session.class));
-                } else {
-                    Logger.log("No such document");
-                }
-            } else {
-                Logger.log("Error fetching data " + task.getException());
-            }
-        });
+        sessionsRef
+                .whereEqualTo("uid", sessionId)
+                .addSnapshotListener((snapshot, exception) -> {
+                    if (exception != null) {
+                        Logger.log("Listen failed." + exception);
+                        return;
+                    }
+                    if (snapshot != null && !snapshot.isEmpty()) {
+                        List<Session> fetchedDocuments = new ArrayList<>();
+                        for (DocumentSnapshot document : snapshot.getDocuments()) {
+                            Session fetchedSession = document.toObject(Session.class);
+                            fetchedDocuments.add(fetchedSession);
+                        }
+                        session.setValue(fetchedDocuments.get(0));
+                    } else {
+                        Logger.log("No data in collection.");
+                    }
+                });
         return session;
     }
 
