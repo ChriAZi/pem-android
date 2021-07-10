@@ -90,19 +90,21 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
 
     private void setTimerForOwner(Session session, boolean hasPartner) {
         tasks = session.getOwnerSetting().getTasks();
-        setTasksRecyclerView(tasks);
         setViewsForOwner(session, hasPartner);
         if (!timerStarted) {
             setTimer(session.getDuration());
+            setTasksRecyclerView(tasks);
+            timerStarted = true;
         }
     }
 
     private void setTimerForPartner(Session session) {
         tasks = session.getPartnerSetting().getTasks();
-        setTasksRecyclerView(session.getPartnerSetting().getTasks());
         setViewsForPartner(session);
         if (!timerStarted) {
             setTimer(getRemainingDuration(session));
+            setTasksRecyclerView(tasks);
+            timerStarted = true;
         }
     }
 
