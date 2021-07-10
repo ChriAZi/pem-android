@@ -25,8 +25,12 @@
         </activity>
         <activity android:name=".ui.authentication.AuthActivity" />
         <activity android:name=".ui.join.SessionListActivity" />
-        <activity android:name=".ui.questionnaire.QuestActivity" />
-        <activity android:name=".ui.reflection.ReflectionQuestActivity" />
+        <activity
+            android:name=".ui.questionnaire.QuestActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.reflection.ReflectionQuestActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ui.timer.TimerActivity" />
         <activity android:name=".ui.history.SessionHistoryActivity" />
         <activity android:name=".ui.history.SessionDetailActivity" />
