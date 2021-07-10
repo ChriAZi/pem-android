@@ -17,7 +17,7 @@ import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestActivity;
 import com.example.studywithme.ui.viewmodels.SessionListViewModel;
 import com.example.studywithme.utils.Constants;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,25 +28,35 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
     private ImageView backgroundImage;
     private TextView hint;
     private List<Session> sessions = new ArrayList<>();
+    private String userId;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setUserIdFromIntent();
         setupViews();
         initViewModels();
         loadOpenSessions();
 
-        FloatingActionButton createSessionButton = findViewById(R.id.bt_create_session);
+        ExtendedFloatingActionButton createSessionButton = findViewById(R.id.bt_list_create_session);
         createSessionButton.setOnClickListener(view -> startQuestionnaireActivity(false));
     }
 
+    private void setUserIdFromIntent() {
+        if (getIntent().hasExtra(Constants.USER_ID)) {
+            userId = (String) getIntent().getSerializableExtra(Constants.USER_ID);
+            User.setIdInPreferences(userId, this);
+        }
+        userId = User.getIdFromPreferences(this);
+    }
+
     private void setupViews() {
-        backgroundImage = findViewById(R.id.iv_join);
+        backgroundImage = findViewById(R.id.iv_list_studying);
         backgroundImage.setImageResource(R.drawable.studying);
         recyclerView = findViewById(R.id.rv_session_list);
-        hint = findViewById(R.id.tv_no_open_session);
+        hint = findViewById(R.id.tv_list_no_sessions);
     }
 
     private void initViewModels() {

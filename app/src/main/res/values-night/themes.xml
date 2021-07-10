@@ -5,8 +5,11 @@
         <item name="colorPrimary">@color/darkBlue</item>
         <item name="colorPrimaryVariant">@color/darkBlack</item>
         <item name="colorOnPrimary">@color/lightGrey</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondaryVariant">@color/darkBlue</item>
         <!-- Icons & Button -->
         <item name="iconColor">@color/darkBlue</item>
+        <item name="colorAccent">@color/darkBlue</item>
         <!-- Bottom Navigation -->
         <item name="navigationBackgroundColor">@color/darkBlack</item>
         <item name="selectedColor">@color/white</item>

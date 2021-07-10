@@ -28,10 +28,9 @@ public class QuestTaskFragment extends Fragment {
     private ArrayAdapter<String> tasksAdapter;
     private ListView listView;
     private EditText editTextTasks;
-
+    private QuestActivity parentActivity;
 
     public QuestTaskFragment() {
-        // Required empty public constructor
     }
 
     @Override
@@ -51,28 +50,30 @@ public class QuestTaskFragment extends Fragment {
         listView.setAdapter(tasksAdapter);
 
         editTextTasks = view.findViewById(R.id.et_tasks);
+        parentActivity = (QuestActivity) getActivity();
 
         Button submitTasksButton = view.findViewById(R.id.bt_submit_tasks);
         submitTasksButton.setOnClickListener(v -> {
             String taskDescription = editTextTasks.getText().toString();
-            addTodoToListView(taskDescription);
+            addTodoToListView(taskDescription, parentActivity);
         });
 
-        setUpListViewListener();
-
+        setUpListViewListener(parentActivity);
         return view;
     }
 
-    private void addTodoToListView(String description) {
+    private void addTodoToListView(String description, QuestActivity parentActivity) {
         if (!(description.equals(""))) {
+            parentActivity.setTaskAdded(true);
             tasksAdapter.add(description);
             editTextTasks.setText("");
             setSessionTasks(taskList);
         }
     }
 
-    private void setUpListViewListener() {
+    private void setUpListViewListener(QuestActivity parentActivity) {
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            parentActivity.setTaskAdded(false);
             taskList.remove(position);
             tasksAdapter.notifyDataSetChanged();
             return true;
@@ -86,5 +87,4 @@ public class QuestTaskFragment extends Fragment {
         editor.putStringSet(Constants.SESSION_QUEST_TASKS, tasksSet);
         editor.apply();
     }
-
 }

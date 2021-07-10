@@ -31,8 +31,9 @@
         <ImageView
             android:id="@+id/iv_subtasks"
             android:layout_width="wrap_content"
-            android:layout_height="325dp"
+            android:layout_height="240dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -67,9 +68,10 @@
                 android:text="Add"/>
         </LinearLayout>
 
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="180dp"
+            android:layout_marginBottom="64dp"
             android:fillViewport="true">
 
             <ListView

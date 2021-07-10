@@ -6,8 +6,8 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.studywithme.ui.MainActivity;
 import com.example.studywithme.ui.authentication.AuthActivity;
+import com.example.studywithme.ui.join.SessionListActivity;
 import com.example.studywithme.ui.viewmodels.SplashViewModel;
 import com.example.studywithme.utils.Constants;
 
@@ -45,13 +45,13 @@ public class SplashActivity extends AppCompatActivity {
     private void getUserFromDatabase(String id) {
         splashViewModel.setUserFromUid(id);
         splashViewModel.getUser().observe(this, user -> {
-            startMainActivity(user.getUid());
+            startSessionListActivity(user.getUid());
             finish();
         });
     }
 
-    private void startMainActivity(String userId) {
-        Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+    private void startSessionListActivity(String userId) {
+        Intent intent = new Intent(SplashActivity.this, SessionListActivity.class);
         intent.putExtra(Constants.USER_ID, userId);
         startActivity(intent);
     }

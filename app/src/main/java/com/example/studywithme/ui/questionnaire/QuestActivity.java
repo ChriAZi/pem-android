@@ -1,11 +1,7 @@
 package com.example.studywithme.ui.questionnaire;
 
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -20,6 +16,7 @@ public class QuestActivity extends NavigationActivity {
     private boolean joining = false;
     private ViewPager viewPager;
     private int currentPage;
+    private boolean taskAdded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +54,33 @@ public class QuestActivity extends NavigationActivity {
         viewPager.addOnPageChangeListener(listener);
     }
 
+    private void validate(Fragment position, int currentPage) {
+        if (position instanceof QuestNameFragment) {
+            EditText etName = findViewById(R.id.et_name);
+            if (etName.getText().toString().trim().length() == 0) {
+                viewPager.setCurrentItem(currentPage);
+            }
+        } else if (position instanceof QuestGoalFragment) {
+            EditText etGoal = (EditText) findViewById(R.id.et_goal);
+            if (etGoal.getText().toString().trim().length() == 0) {
+                viewPager.setCurrentItem(currentPage);
+            }
+        } else if (position instanceof QuestTaskFragment) {
+            if (!taskAdded) {
+                viewPager.setCurrentItem(currentPage);
+            }
+        } else if (position instanceof QuestDurationFragment) {
+            EditText etDuration = (EditText) findViewById(R.id.et_duration);
+            if (etDuration.getText().toString().trim().length() == 0) {
+                viewPager.setCurrentItem(currentPage);
+            }
+        }
+    }
+
+    public void setTaskAdded(boolean taskAdded) {
+        this.taskAdded = taskAdded;
+    }
+
     @Override
     public int getContentViewId() {
         return R.layout.activity_quest;
@@ -71,29 +95,4 @@ public class QuestActivity extends NavigationActivity {
     public String getActionBarTitle() {
         return getResources().getString(R.string.heading_questionnaire);
     }
-
-    public void validate(Fragment position, int currentPage) {
-            if(position instanceof QuestNameFragment){
-                EditText etName = findViewById(R.id.et_name);
-                if(etName.getText().toString().trim().length() == 0) {
-                    viewPager.setCurrentItem(currentPage);
-                }
-            }else if(position instanceof QuestGoalFragment) {
-                EditText etGoal = (EditText) findViewById(R.id.et_goal);
-                if(etGoal.getText().toString().trim().length() == 0) {
-                    viewPager.setCurrentItem(currentPage);
-                }
-            }else if(position instanceof QuestCategoryFragment) {
-
-            }else if(position instanceof QuestTaskFragment) {
-
-            }else if(position instanceof QuestDurationFragment) {
-                EditText etDuration = (EditText) findViewById(R.id.et_duration);
-                if(etDuration.getText().toString().trim().length() == 0) {
-                    viewPager.setCurrentItem(currentPage);
-                }
-            }else {
-                Log.d("test", "not an instance of anything... ");
-            }
-    };
 }

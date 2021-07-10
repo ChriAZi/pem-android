@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.studywithme.R;
 import com.example.studywithme.ui.MainActivity;
 import com.example.studywithme.ui.history.SessionHistoryActivity;
+import com.example.studywithme.ui.join.SessionListActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -48,7 +49,7 @@ public abstract class NavigationActivity extends AppCompatActivity implements Bo
         navigationView.postDelayed(() -> {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    startActivity(new Intent(this, MainActivity.class));
+                    startActivity(new Intent(this, SessionListActivity.class));
                     overridePendingTransition(0, 0);
                     break;
                 case R.id.navigation_timer:

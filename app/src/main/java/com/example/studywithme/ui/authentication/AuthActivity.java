@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.User;
-import com.example.studywithme.ui.MainActivity;
+import com.example.studywithme.ui.join.SessionListActivity;
 import com.example.studywithme.ui.viewmodels.AuthViewModel;
 import com.example.studywithme.utils.Constants;
 import com.example.studywithme.utils.Logger;
@@ -96,7 +96,7 @@ public class AuthActivity extends AppCompatActivity {
             if (authenticatedUser.isNew()) {
                 createNewUser(authenticatedUser);
             } else {
-                goToMainActivity(authenticatedUser.getUid());
+                startSessionLisActivity(authenticatedUser.getUid());
             }
         });
     }
@@ -107,12 +107,12 @@ public class AuthActivity extends AppCompatActivity {
             if (user.isCreated()) {
                 ToastMaster.showToast(this, user.getName());
             }
-            goToMainActivity(user.getUid());
+            startSessionLisActivity(user.getUid());
         });
     }
 
-    private void goToMainActivity(String userId) {
-        Intent intent = new Intent(AuthActivity.this, MainActivity.class);
+    private void startSessionLisActivity(String userId) {
+        Intent intent = new Intent(AuthActivity.this, SessionListActivity.class);
         intent.putExtra(Constants.USER_ID, userId);
         startActivity(intent);
         finish();

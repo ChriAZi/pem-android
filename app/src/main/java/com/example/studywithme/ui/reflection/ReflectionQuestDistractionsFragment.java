@@ -27,6 +27,7 @@ public class ReflectionQuestDistractionsFragment extends Fragment {
     private ArrayList<String> distractionList = new ArrayList<>();
     private ArrayAdapter<String> distractionsAdapter;
     private ListView listView;
+    private ReflectionQuestActivity parentActivity;
 
 
     public ReflectionQuestDistractionsFragment() {
@@ -51,30 +52,34 @@ public class ReflectionQuestDistractionsFragment extends Fragment {
 
         EditText editTextTasks = view.findViewById(R.id.et_distractions);
 
+        parentActivity = (ReflectionQuestActivity) getActivity();
+
         Button submitTasksButton = view.findViewById(R.id.bt_submit_distraction);
         submitTasksButton.setOnClickListener(v -> {
             String taskDescription = editTextTasks.getText().toString();
-            addDistractionToListView(taskDescription);
+            addDistractionToListView(taskDescription, parentActivity);
             editTextTasks.setText("");
             distractionList.add(taskDescription);
             setDistractions(distractionList);
         });
 
-        setUpListViewListener();
+        setUpListViewListener(parentActivity);
 
         return view;
     }
 
-    private void setUpListViewListener() {
+    private void setUpListViewListener(ReflectionQuestActivity parentActivity) {
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
+            parentActivity.setDistractionAdded(false);
             distractionList.remove(position);
             distractionsAdapter.notifyDataSetChanged();
             return true;
         });
     }
 
-    private void addDistractionToListView(String distraction) {
+    private void addDistractionToListView(String distraction, ReflectionQuestActivity parentActivity) {
         if (!(distraction.equals(""))) {
+            parentActivity.setDistractionAdded(true);
             distractionsAdapter.add(distraction);
         }
     }

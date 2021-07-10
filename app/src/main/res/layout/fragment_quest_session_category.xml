@@ -2,10 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragmentQuest2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.questionnaire.QuestGoalFragment"
-    android:id="@+id/fragmentQuest2">
+    tools:context=".ui.questionnaire.QuestGoalFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,56 +28,42 @@
 
         <ImageView
             android:id="@+id/iv_categories"
-            android:layout_width="357dp"
-            android:layout_height="376dp"
+            android:layout_width="wrap_content"
+            android:layout_height="289dp"
             android:layout_gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/right_direction" />
 
-        <!--AutoCompleteTextView
-            android:id="@+id/ac_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20px"
-            android:hint="Choose a category"
-            android:textColor="@color/darkGrey" /-->
-
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:id="@+id/radio_group">
-            <RadioButton android:id="@+id/radio_uni"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="University"
-                android:checked="true" />
-                <!--android:onClick="onRadioButtonClicked"/-->
+            android:orientation="vertical">
 
-            <RadioButton android:id="@+id/radio_work"
+            <RadioButton
+                android:id="@+id/radio_uni"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/darkBlue"
+                android:checked="true"
+                android:text="University" />
+
+            <RadioButton
+                android:id="@+id/radio_work"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/darkBlue"
                 android:text="Work" />
-                <!--android:onClick="onRadioButtonClicked"/-->
 
-            <RadioButton android:id="@+id/radio_hobby"
+            <RadioButton
+                android:id="@+id/radio_hobby"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:buttonTint="@color/darkBlue"
                 android:text="Hobby" />
-                <!--android:onClick="onRadioButtonClicked"/-->
         </RadioGroup>
-
-        <!--TextView
-            android:id="@+id/tvAnsw2"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="20px"
-            android:gravity="left|center"
-            android:text=""
-            android:textSize="25dp"
-            android:textStyle="normal" /-->
 
     </LinearLayout>
 

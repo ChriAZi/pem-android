@@ -5,39 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="32dp"
-        android:paddingRight="32dp"
+    <ImageView
+        android:id="@+id/iv_timer_studying"
+        android:layout_width="357dp"
+        android:layout_height="376dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/studying"
+        tools:srcCompat="@drawable/studying" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="350dp"
-            android:layout_marginBottom="32dp"
-            app:srcCompat="@drawable/empty" />
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/bt_timer_create_session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?colorSecondaryVariant"
+        android:clickable="true"
+        android:contentDescription="Start Session"
+        android:text="Start Session"
+        app:icon="@drawable/ic_plus"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.921"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.863"
+        app:srcCompat="@drawable/ic_plus" />
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
-            android:lineSpacingExtra="8sp"
-            android:text="@string/empty_timer"
-            android:textSize="20dp" />
-
-        <Button
-            android:id="@+id/bt_empty_start_session"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/start_session" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_timer_no_sessions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Not timer started yet.\n Start your own with the Button below."
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/bt_timer_create_session"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_timer_studying" />
 
     <include
         android:id="@+id/include"

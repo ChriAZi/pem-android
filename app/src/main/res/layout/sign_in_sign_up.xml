@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:paddingBottom="24dp"
             android:text="@string/app_name"
-            android:textColor="@color/black"
             android:textSize="32dp"
+            android:textColor="?attr/colorOnPrimary"
             android:textStyle="bold" />
 
         <TextView
@@ -35,7 +35,7 @@
 
     <ImageView
         android:id="@+id/iv_sign_in_background_image"
-        android:layout_width="308dp"
+        android:layout_width="wrap_content"
         android:layout_height="324dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/linearLayout4"

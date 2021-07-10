@@ -17,7 +17,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <ImageView
-        android:id="@+id/iv_join"
+        android:id="@+id/iv_list_studying"
         android:layout_width="357dp"
         android:layout_height="376dp"
         android:layout_gravity="center"
@@ -25,26 +25,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/studying"
         tools:srcCompat="@drawable/studying" />
 
     <TextView
-        android:id="@+id/tv_no_open_session"
+        android:id="@+id/tv_list_no_sessions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
         android:text="No open sessions yet.\n Start your own with the Button below."
         android:textAlignment="center"
-        android:textColor="@color/darkBlue"
+        app:layout_constraintBottom_toTopOf="@+id/bt_list_create_session"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_join" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_list_studying" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/bt_create_session"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/bt_list_create_session"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="?colorSecondaryVariant"
         android:clickable="true"
+        android:contentDescription="Start Session"
+        android:text="Start Session"
+        app:icon="@drawable/ic_plus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.921"
