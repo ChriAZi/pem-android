@@ -160,6 +160,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
             public void onFinish() {
                 progressBar.setProgress(durationInMillis);
                 timerCountdown.setText("Session finished.");
+                Session.setIdInPreferences(getApplicationContext(), null);
                 endSession();
             }
         };
