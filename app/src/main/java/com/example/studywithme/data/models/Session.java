@@ -29,9 +29,8 @@ public class Session implements Serializable {
     public Session() {
     }
 
-    public Session(int duration, boolean hasPartner, boolean isPublic, SessionSetting ownerSetting) {
+    public Session(int duration, boolean isPublic, SessionSetting ownerSetting) {
         this.duration = duration;
-        this.hasPartner = hasPartner;
         this.isPublic = isPublic;
         this.ownerSetting = ownerSetting;
     }
@@ -124,7 +123,7 @@ public class Session implements Serializable {
         this.partnerReflection = partnerReflection;
     }
 
-    public boolean hasPartner() {
+    public boolean getHasPartner() {
         return hasPartner;
     }
 

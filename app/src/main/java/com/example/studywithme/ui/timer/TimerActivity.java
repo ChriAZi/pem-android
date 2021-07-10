@@ -75,7 +75,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
             if (!session.isPublic()) {
                 setTimerForOwner(session, false);
                 // is partner currently in the questionnaire?
-            } else if (session.hasPartner()) {
+            } else if (session.getHasPartner()) {
                 // is user the owner of the session?
                 if (session.getOwner().getUid().equals(userId)) {
                     setTimerForOwner(session, true);

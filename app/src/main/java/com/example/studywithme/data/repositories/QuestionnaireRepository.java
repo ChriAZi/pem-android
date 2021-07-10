@@ -25,6 +25,7 @@ public class QuestionnaireRepository {
             if (userTask.isSuccessful()) {
                 session.setOwner(userTask.getResult().toObject(User.class));
                 session.setActive(true);
+                session.setHasPartner(false);
                 sessionsRef
                         .add(session)
                         .addOnCompleteListener(sessionTask -> {

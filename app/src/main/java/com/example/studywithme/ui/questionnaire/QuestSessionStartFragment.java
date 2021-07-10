@@ -39,7 +39,6 @@ public class QuestSessionStartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -87,7 +86,7 @@ public class QuestSessionStartFragment extends Fragment {
                 }
             });
         } else {
-            Session session = new Session(getSessionDuration(), false, isPublic, setting);
+            Session session = new Session(getSessionDuration(), isPublic, setting);
             questionnaireViewModel.startSession(userId, session).observe(getViewLifecycleOwner(), sessionId -> {
                 if (sessionId != null) {
                     Session.setIdInPreferences(getContext(), sessionId);
