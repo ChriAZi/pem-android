@@ -33,8 +33,7 @@ public class TimerRepository {
         return finished;
     }
 
-    public LiveData<Boolean> updateTasks(String sessionId, String userId, List<SessionTask> tasks) {
-        MutableLiveData<Boolean> updated = new MutableLiveData<>(false);
+    public void updateTasks(String sessionId, String userId, List<SessionTask> tasks) {
         sessionsRef.document(sessionId).get().addOnCompleteListener(sessionTask -> {
             if (sessionTask.isSuccessful()) {
                 Session session = sessionTask.getResult().toObject(Session.class);
@@ -42,10 +41,7 @@ public class TimerRepository {
                 sessionsRef.document(sessionId)
                         .update(owner ? "ownerSetting.tasks" : "partnerSetting.tasks", tasks)
                         .addOnCompleteListener(sessionUpdateTask -> {
-                            if (sessionUpdateTask.isSuccessful()) {
-                                updated.setValue(true);
-                            } else {
-                                updated.setValue(false);
+                            if (!sessionUpdateTask.isSuccessful()) {
                                 Logger.log(sessionTask.getException().getMessage());
                             }
                         });
@@ -53,6 +49,5 @@ public class TimerRepository {
                 Logger.log(sessionTask.getException().getMessage());
             }
         });
-        return updated;
     }
 }

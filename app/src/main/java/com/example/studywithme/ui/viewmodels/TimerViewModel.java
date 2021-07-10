@@ -11,7 +11,6 @@ import java.util.List;
 public class TimerViewModel extends AbstractViewModel {
     private final TimerRepository timerRepository;
     private LiveData<Boolean> finished;
-    private LiveData<Boolean> updatedTasks;
 
     public TimerViewModel() {
         timerRepository = new TimerRepository();
@@ -22,8 +21,7 @@ public class TimerViewModel extends AbstractViewModel {
         return finished;
     }
 
-    public LiveData<Boolean> updateTasks(String sessionId, String userId, List<SessionTask> tasks) {
-        updatedTasks = timerRepository.updateTasks(sessionId, userId, tasks);
-        return updatedTasks;
+    public void updateTasks(String sessionId, String userId, List<SessionTask> tasks) {
+        timerRepository.updateTasks(sessionId, userId, tasks);
     }
 }

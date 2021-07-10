@@ -1,6 +1,5 @@
 package com.example.studywithme.ui.timer;
 
-import android.accounts.NetworkErrorException;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -110,7 +109,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
 
     private void setTasksRecyclerView(List<SessionTask> tasks) {
         TimerTaskAdapter sessionDetailTaskAdapter = new TimerTaskAdapter(tasks, this);
-        tasksRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tasksRecyclerView.setAdapter(sessionDetailTaskAdapter);
     }
 
@@ -136,7 +135,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
                 timerPartner.setText(partner.getName());
             }
         } else {
-            timerPartner.setText("No Partner");
+            timerPartner.setText("Private Session");
         }
     }
 
@@ -210,15 +209,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
     @Override
     public void onCheckedChange(int position, boolean checked) {
         tasks.get(position).setDone(checked);
-        timerViewModel.updateTasks(sessionId, User.getIdFromPreferences(this), tasks).observe(this, updated -> {
-            if (!updated) {
-                try {
-                    throw new NetworkErrorException("Could not update task");
-                } catch (NetworkErrorException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        timerViewModel.updateTasks(sessionId, User.getIdFromPreferences(this), tasks);
     }
 
     @Override

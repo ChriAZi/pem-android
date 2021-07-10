@@ -35,7 +35,6 @@ public class TimerTaskAdapter extends RecyclerView.Adapter<TimerTaskAdapter.Item
 
     @Override
     public void onBindViewHolder(@NonNull TimerTaskAdapter.ItemViewHolder holder, int position) {
-        holder.task.setChecked(tasks.get(position).isDone());
         holder.task.setText(tasks.get(position).getDescription());
         holder.task.setClickable(true);
     }
@@ -59,7 +58,7 @@ public class TimerTaskAdapter extends RecyclerView.Adapter<TimerTaskAdapter.Item
 
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-            onCheckedChangeListener.onCheckedChange(getAbsoluteAdapterPosition(), b);
+            onCheckedChangeListener.onCheckedChange(getAdapterPosition(), b);
         }
 
         public interface OnCheckedChangeListener {
