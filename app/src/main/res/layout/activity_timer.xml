@@ -254,7 +254,7 @@
         app:layout_constraintVertical_bias="0.116" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/iv_background_timer"
         android:layout_width="204dp"
         android:layout_height="204dp"
         android:drawableBottom="@drawable/timerasset"

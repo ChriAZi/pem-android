@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/timer_heading_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_timer_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="University"
+            android:textAlignment="center"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/tv_timer_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="Android Praktikum"
+            android:textAlignment="center"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/timer_partner_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/barTimer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timer_heading_container">
+
+        <ImageView
+            android:id="@+id/iv_timer_partner"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_weight="0"
+            android:baselineAligned="false"
+            app:srcCompat="@drawable/ic_partner"
+            tools:srcCompat="@drawable/ic_partner" />
+
+        <TextView
+            android:id="@+id/tv_timer_partner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
+            android:layout_weight="0"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Hans Peter"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_background_timer"
+        android:layout_width="297dp"
+        android:layout_height="284dp"
+        android:drawableBottom="@drawable/timerasset"
+        app:layout_constraintBottom_toBottomOf="@+id/barTimer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/barTimer"
+        app:srcCompat="@drawable/timerasset" />
+
+    <ProgressBar
+        android:id="@+id/barTimer"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="355dp"
+        android:layout_height="330dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/circular_shape"
+        android:indeterminate="false"
+        android:layoutDirection="ltr"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.369" />
+
+    <TextView
+        android:id="@+id/tv_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="00:00"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_background_timer"
+        app:layout_constraintEnd_toEndOf="@+id/iv_background_timer"
+        app:layout_constraintStart_toStartOf="@+id/iv_background_timer"
+        app:layout_constraintTop_toTopOf="@+id/iv_background_timer"
+        app:layout_constraintVertical_bias="0.503" />
+
+    <LinearLayout
+        android:id="@+id/tasks_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/include4"
+        app:layout_constraintTop_toBottomOf="@+id/barTimer">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_timer_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:nestedScrollingEnabled="false" />
+    </LinearLayout>
+
+    <include
+        android:id="@+id/include4"
+        layout="@layout/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
