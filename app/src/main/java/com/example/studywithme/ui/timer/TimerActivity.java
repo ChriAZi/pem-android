@@ -38,6 +38,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
     private int layoutId;
     private String sessionId;
     private List<SessionTask> tasks;
+    private boolean timerStarted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +92,18 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         tasks = session.getOwnerSetting().getTasks();
         setTasksRecyclerView(tasks);
         setViewsForOwner(session, hasPartner);
-        setTimer(session.getDuration());
+        if (!timerStarted) {
+            setTimer(session.getDuration());
+        }
     }
 
     private void setTimerForPartner(Session session) {
         tasks = session.getPartnerSetting().getTasks();
         setTasksRecyclerView(session.getPartnerSetting().getTasks());
         setViewsForPartner(session);
-        setTimer(getRemainingDuration(session));
+        if (!timerStarted) {
+            setTimer(getRemainingDuration(session));
+        }
     }
 
     private void setTasksRecyclerView(List<SessionTask> tasks) {
@@ -124,7 +129,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         if (hasPartner) {
             User partner = session.getPartner();
             if (partner == null) {
-                timerPartner.setText("Your partner will join soon.");
+                timerPartner.setText("Your partner will join soon");
             } else {
                 timerPartner.setText(partner.getName());
             }
