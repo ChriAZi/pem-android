@@ -78,8 +78,8 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
     public void onItemClick(int position) {
         Intent intent = new Intent(this, SessionDetailActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.SESSION_ID, sessions.get(0).getUid());
-        bundle.putString(Constants.SESSION_NAME, sessions.get(0).getOwnerSetting().getName());
+        bundle.putString(Constants.SESSION_ID, sessions.get(position).getUid());
+        bundle.putString(Constants.SESSION_NAME, sessions.get(position).getOwnerSetting().getName());
         intent.putExtras(bundle);
         this.startActivity(intent);
     }

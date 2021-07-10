@@ -47,6 +47,8 @@
         android:clickable="true"
         android:contentDescription="Start Session"
         android:text="Start Session"
+        android:textColor="@color/white"
+        app:iconTint="@color/white"
         app:icon="@drawable/ic_plus"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

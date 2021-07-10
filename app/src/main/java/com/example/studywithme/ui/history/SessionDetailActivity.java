@@ -64,7 +64,7 @@ public class SessionDetailActivity extends NavigationActivity {
             if (session.getPartner() != null) {
                 partner.setText(session.getPartner().getName());
             } else {
-                partner.setText(R.string.no_partner);
+                partner.setText(R.string.private_session);
             }
 
             TextView sessionCategory = findViewById(R.id.tv_detail_category);

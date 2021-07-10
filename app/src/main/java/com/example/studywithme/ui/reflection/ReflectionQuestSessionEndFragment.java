@@ -51,10 +51,10 @@ public class ReflectionQuestSessionEndFragment extends Fragment {
 
     private void finalizeReflectionForSession() {
         SessionReflection reflection = new SessionReflection(getFeedback(), getDistractions());
-
         ReflectionViewModel reflectionViewModel = new ViewModelProvider(this).get(ReflectionViewModel.class);
         reflectionViewModel.addReflection(User.getIdFromPreferences(getContext()), Session.getIdFromPreferences(getContext()), reflection).observe(getViewLifecycleOwner(), added -> {
             if (added) {
+                Session.setIdInPreferences(getContext(), null);
                 startSessionHistoryActivity();
             }
         });

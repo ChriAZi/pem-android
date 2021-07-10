@@ -135,7 +135,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
                 timerPartner.setText(partner.getName());
             }
         } else {
-            timerPartner.setText("Private Session");
+            timerPartner.setText(R.string.private_session);
         }
     }
 
@@ -159,8 +159,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
             @Override
             public void onFinish() {
                 progressBar.setProgress(durationInMillis);
-                timerCountdown.setText("Session finished.");
-                Session.setIdInPreferences(getApplicationContext(), null);
+                timerCountdown.setText("00:00");
                 endSession();
             }
         };

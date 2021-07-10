@@ -59,7 +59,7 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
         if(session.getPartner() != null) {
             holder.sessionPartner.setText(session.getPartner().getName());
         } else {
-            holder.sessionPartner.setText(R.string.no_partner);
+            holder.sessionPartner.setText(R.string.private_session);
         }
         holder.sessionCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategory().name()));
     }

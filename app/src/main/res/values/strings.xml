@@ -17,7 +17,7 @@
     <string name="empty_timer">Looks like you did not set a timer yet. Why don\'t you start one right now?</string>
 
     <!-- History -->
-    <string name="no_partner">No Partner</string>
+    <string name="private_session">Private Session</string>
 
     <!-- Headings -->
     <string name="heading_sign_in">Sign In</string>
