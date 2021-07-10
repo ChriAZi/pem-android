@@ -1,21 +1,16 @@
 package com.example.studywithme.ui.timer;
 
-import android.app.AlertDialog;
+import android.accounts.NetworkErrorException;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.format.DateUtils;
-import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
@@ -23,59 +18,30 @@ import com.example.studywithme.data.models.SessionTask;
 import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.questionnaire.QuestActivity;
-import com.example.studywithme.ui.viewmodels.AbstractViewModel;
-import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
-import com.example.studywithme.ui.viewmodels.SessionHistoryViewModel;
-import com.example.studywithme.ui.viewmodels.SessionListViewModel;
-import com.example.studywithme.utils.Constants;
+import com.example.studywithme.ui.reflection.ReflectionQuestActivity;
 import com.example.studywithme.ui.viewmodels.TimerViewModel;
-import com.example.studywithme.utils.ToastMaster;
-import com.google.firebase.Timestamp;
+import com.example.studywithme.utils.StringHelper;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.valueOf;
 
-public class TimerActivity extends NavigationActivity {
-    ProgressBar progressBar;
-    TextView textTimer, creatorName, partnerName, creatorGoal, partnerGoal, creatorCategory, partnerCategory, started, sessionNameCreator, sessionNamePartner, subtask1Creator, subtask2Creator, subtask1Partner, subtask2Partner ;
-    Button start;
-    Button stop;
-    EditText et_timer;
-    CountDownTimer countdownTimer;
-    AlertDialog.Builder builder;
-    private Timestamp sessionStart;
-    private int progress;
-    private int endTime = 250;
-    private int minutesLeft = 250;
-    private String newtime;
-    private String TAG = "TimerActivity";
-    private TimerViewModel timerViewModel;
-    private TimerViewModel timerViewModel1;
-    public SessionListViewModel sessionListViewModel;
-    public SessionListViewModel sessionListViewModel1;
-    private QuestionnaireViewModel questionnaireViewModel;
-    private User user;
-    private String session2;
-    private Session session;
-    private String uID;
-    private boolean active = false;
-    private String sessionId;
-    private int layoutId;
+public class TimerActivity extends NavigationActivity implements TimerTaskAdapter.ItemViewHolder.OnCheckedChangeListener {
 
+    private TextView timerCategory, timerName, timerPartner, timerCountdown;
+    private ProgressBar progressBar;
+    private CountDownTimer countdownTimer;
+    private RecyclerView tasksRecyclerView;
+    private TimerViewModel timerViewModel;
+    private int layoutId;
+    private String sessionId;
+    private List<SessionTask> tasks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sessionId = Session.getIdFromPreferences(this);
-        builder = new AlertDialog.Builder(this);
-        initViewModels();
-        getCurrentUser();
-        //check if User joined the active session
-        checkifPartner();
         if (sessionId == null) {
             layoutId = R.layout.activity_timer_empty;
             super.onCreate(savedInstanceState);
@@ -85,379 +51,155 @@ public class TimerActivity extends NavigationActivity {
             super.onCreate(savedInstanceState);
             initTimerLayout();
         }
-        getSupportActionBar().setTitle(R.string.heading_timer);
     }
-
-    /**
-     * checks if the user who opens the activity is the partner and accordingly adjusts the time
-     */
-    private void checkifPartner() {
-        timerViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session1 -> {
-            if(User.getIdFromPreferences(this).equals(session1.getOwner().getUid())){ //if user is owner
-                //set the timer accordingly
-                 startTimer(); // start timer the normal way
-            }else{
-                if(!(User.getIdFromPreferences(this).equals(session1.getPartner().getUid()))){ //if User is partner
-                    long currentTime = System.currentTimeMillis();
-                    int sessionDuration = session1.getDuration();
-                    int sessionDurationInMillis = sessionDuration*60*1000;
-                    //calculate time left of the session
-                    Long d = session1.getStartedAt().getSeconds();
-                    Long passedTime = currentTime - d*1000;
-                    Long timeleft = sessionDurationInMillis - passedTime;
-                    int minutesLeft = (int) TimeUnit.MILLISECONDS.toMinutes(timeleft);
-                    //set the timer accordingly
-                    startTimerwithSetRestTime(minutesLeft); //starts the timer for the partner
-                }
-            }
-        });
-
-
-    }
-
-    private void initViewModels() {
-        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
-        timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
-
-    }
-
 
     private void initEmptyTimerLayout() {
-        Button startSessionButton = findViewById(R.id.bt_empty_start_session);
+        ExtendedFloatingActionButton startSessionButton = findViewById(R.id.bt_timer_create_session);
         startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestActivity.class)));
     }
 
     private void initTimerLayout() {
-        sessionNameCreator = findViewById(R.id.sessionNameCreator);
-        creatorName = findViewById(R.id.sessionCreator);
-        subtask1Creator = findViewById(R.id.subtaskCreator1);
-        subtask2Creator = findViewById(R.id.subtaskCreator2);
-        creatorCategory = findViewById(R.id.creatorCategory);
-        creatorGoal = findViewById(R.id.creatorGoal);
-
-        sessionNamePartner = findViewById(R.id.sessionNamePartner);
-        partnerName = findViewById(R.id.partnerName);
-        subtask1Partner = findViewById(R.id.subtaskPartner1);
-        subtask2Partner = findViewById(R.id.subtaskPartner2);
-        partnerCategory= findViewById(R.id.partnerCategory);
-        partnerGoal = findViewById(R.id.partnerGoal);
-
+        timerCategory = findViewById(R.id.tv_timer_category);
+        timerName = findViewById(R.id.tv_timer_name);
+        timerPartner = findViewById(R.id.tv_timer_partner);
 
         progressBar = findViewById(R.id.barTimer);
-        textTimer = findViewById(R.id.timer_countdown);
-        start = findViewById(R.id.start);
-        stop = findViewById(R.id.stop);
-        et_timer = findViewById(R.id.session_duration);
-        started = findViewById(R.id.started);
+        timerCountdown = findViewById(R.id.tv_countdown);
 
-        initViewModel();
+        tasksRecyclerView = findViewById(R.id.rv_timer_tasks);
 
-        //start.setOnClickListener(v -> startTimer());
-        stop.setOnClickListener(v -> stopTimer());
-    }
-
-    private void stopTimer() {
-        try {
-            countdownTimer.cancel();
-            active = false;
-            endSession();
-            partnerGaveUp();
-
-        } catch (Exception e) {
-
-        }
-        textTimer.setText("Stopped!");
-        started.setText("Session stopped!");
-    }
-
-    private void getCurrentUser() {
-       // sessionListViewModel1 = new ViewModelProvider(this).get(SessionListViewModel.class);
-        sessionListViewModel.getCurrentUser(User.getIdFromPreferences(this)).observe(this, userCurr -> {
-            user = userCurr;
-        });
-
-    }
-
-    private void partnerGaveUp() {
-       // timerViewModel1 = new ViewModelProvider(this).get(TimerViewModel.class);
-        timerViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
-            if(!session.isPublic()){
-                //do nothing
-            }else{
-                if(session.getOwner().getName().equals(user.getName())){
-                      // ToastMaster.showToast(this,"You gave up. I know you can do better.");
-                       textTimer.setText("You gave up. I know you can do better.");
-
-                }else{
-                    if(session.getPartner().getName() == user.getName() && session.getPartner() != null){
-                           // ToastMaster.showToast(this,"Your partner gave up! They owe you a beer now!");
-                            textTimer.setText("Your partner gave up! They owe you a beer now!");
-
-                    }
-                }
-
+        timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
+        timerViewModel.getActiveSession(sessionId).observe(this, session -> {
+            String userId = User.getIdFromPreferences(this);
+            if (session.getPartner() == null) {
+                setTimerForOwner(session, false);
+            } else if (session.getOwner().getUid().equals(userId)) {
+                setTimerForOwner(session, true);
+            } else {
+                setTimerForPartner(session);
             }
         });
     }
 
-    /**
-     * ends the session via TimerviewModel
-     */
-    private void endSession() {
-         timerViewModel.endSession(Session.getIdFromPreferences(this)).observe(this, finished -> {
-            if (finished) {
-                Toast.makeText(getApplicationContext(), "Session finished", Toast.LENGTH_LONG).show();
-            }
-        } );
+    private void setTimerForOwner(Session session, boolean hasPartner) {
+        tasks = session.getOwnerSetting().getTasks();
+        setTasksRecyclerView(tasks);
+        setViewsForOwner(session, hasPartner);
+        setTimer(session.getDuration());
     }
 
-
-    /**
-     * observes the current session and sets the variables(creator & partner name, work & goal) to the current values
-     */
-    private void initViewModel() {
-        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session -> {
-
-            textTimer.setText(valueOf(session.getDuration()));
-            sessionStart = session.getStartedAt();
-            sessionNameCreator.setText(session.getOwnerSetting().getName());
-            creatorName.setText(session.getOwner().getName());
-            creatorCategory.setText(session.getOwnerSetting().getCategory().toString());
-            creatorGoal.setText(session.getOwnerSetting().getGoal());
-            subtask1Creator.setText(session.getOwnerSetting().getTasks().get(0).getDescription());
-           /* if(session.getOwnerSetting().getTasks().get(1).getDescription() != null){
-                subtask2Creator.setText(session.getOwnerSetting().getTasks().get(1).getDescription());
-            }else{
-                subtask2Creator.setVisibility(View.INVISIBLE);
-            } */
-           if (session.getPartner() != null) {
-                setLayoutParams();
-                partnerName.setText(session.getPartner().getName());
-                partnerCategory.setText(session.getPartnerSetting().getCategory().toString());
-                subtask1Partner.setText(session.getPartnerSetting().getTasks().get(0).getDescription());
-               /* if(session.getPartnerSetting().getTasks().get(1).getDescription() !=null) {
-                    subtask2Partner.setText(session.getPartnerSetting().getTasks().get(1).getDescription());
-                }else{
-                    subtask2Partner.setVisibility(View.INVISIBLE);
-                }*/
-                partnerGoal.setText(session.getPartnerSetting().getGoal());
-
-                 }else{
-                partnerName.setVisibility(View.INVISIBLE);
-                partnerCategory.setVisibility(View.INVISIBLE);
-                partnerGoal.setVisibility(View.INVISIBLE);
-                subtask1Partner.setVisibility(View.INVISIBLE);
-                subtask2Partner.setVisibility(View.INVISIBLE);
-                sessionNamePartner.setVisibility(View.INVISIBLE);
-                creatorName.setGravity(Gravity.CENTER);
-                creatorCategory.setGravity(Gravity.CENTER);
-                creatorGoal.setGravity(Gravity.CENTER);
-                sessionNameCreator.setGravity(Gravity.CENTER);
-                subtask1Creator.setGravity(Gravity.CENTER);
-                subtask2Creator.setGravity(Gravity.CENTER);
-
-            }
-            checkifPartner();
-
-        });
+    private void setTimerForPartner(Session session) {
+        setTasksRecyclerView(session.getPartnerSetting().getTasks());
+        setViewsForPartner(session);
+        setTimer(getRemainingDuration(session));
     }
 
-    /**
-     * sets the margins of the different parameters when the user has a partner
-     */
-    private void setLayoutParams() {
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-        );
-        ConstraintLayout.LayoutParams params1 = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-        );
-        ConstraintLayout.LayoutParams params2 = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-        );
-        ConstraintLayout.LayoutParams params3 = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-        );
-        ConstraintLayout.LayoutParams params4 = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-        );
-        ConstraintLayout.LayoutParams params5 = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_PARENT,
-                ConstraintLayout.LayoutParams.MATCH_PARENT
-        );
-        params.setMargins(200 , 180, 0, 0);
-        sessionNameCreator.setLayoutParams(params);
-        params1.setMargins(200,280,0,0);
-        creatorGoal.setLayoutParams(params1);
-        params2.setMargins(200,380,0,0);
-        creatorCategory.setLayoutParams(params2);
-        params3.setMargins(200,480,0,0);
-        subtask1Creator.setLayoutParams(params3);
-        if(subtask2Creator != null){
-            params4.setMargins(200,580,0,0);
-            subtask2Creator.setLayoutParams(params4);
+    private void setTasksRecyclerView(List<SessionTask> tasks) {
+        TimerTaskAdapter sessionDetailTaskAdapter = new TimerTaskAdapter(tasks, this);
+        tasksRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        tasksRecyclerView.setAdapter(sessionDetailTaskAdapter);
+    }
+
+    private int getRemainingDuration(Session session) {
+        long currentTimeInMillis = System.currentTimeMillis();
+        int sessionDurationInMinutes = session.getDuration();
+        int sessionDurationInMillis = sessionDurationInMinutes * 60000;
+
+        long startedAtInSeconds = session.getStartedAt().getSeconds();
+        long passedTime = currentTimeInMillis - startedAtInSeconds * 1000;
+        long timeLeftInMillis = sessionDurationInMillis - passedTime;
+        return (int) TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis);
+    }
+
+    private void setViewsForOwner(Session session, boolean hasPartner) {
+        timerCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategory().toString()));
+        timerName.setText(session.getOwnerSetting().getName());
+        if (hasPartner) {
+            timerPartner.setText(session.getPartner().getName());
+        } else {
+            timerPartner.setText("No Partner");
         }
-        params5.setMargins(200,680,0,0);
-        creatorName.setLayoutParams(params5);
     }
 
-
-    /**
-     * sets the session active
-     */
-    private void setActive() {
-        sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
-        sessionListViewModel.getActiveSession(Session.getIdFromPreferences(this)).observe(this, session ->{
-            session.setActive(true);
-        });
+    private void setViewsForPartner(Session session) {
+        timerCategory.setText(StringHelper.capitalize(session.getPartnerSetting().getCategory().toString()));
+        timerName.setText(session.getPartnerSetting().getName());
+        timerPartner.setText(session.getOwner().getName());
     }
 
-    /**
-     * starts the timer for the partner with given rest time
-     * @param minutesleft
-     */
-    public void startTimerwithSetRestTime(int minutesleft) {
-
-        try {
-            countdownTimer.cancel();
-
-        } catch (Exception e) {
-
-        }
-
-        progress = 1;
-        countdownTimer = new CountDownTimer(60 * minutesleft * 1000, 1000) {
+    private void setTimer(int duration) {
+        int durationInMillis = duration * 60000;
+        progressBar.setMax(durationInMillis);
+        countdownTimer = new CountDownTimer(durationInMillis, 1000) {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onTick(long millisUntilFinished) {
-                setProgress(progress, minutesleft * 60);
-                progress = progress + 1;
-                int seconds = (int) (millisUntilFinished / 1000) % 60;
-                int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
-                int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
-                newtime = hours + ":" + minutes + ":" + seconds;
-
-                //sets the countdown timer depending on length of seconds, minutes and hours
-                if (newtime.equals("0:0:0")) {
-                    textTimer.setText("00:00:00");
-                } else if ((valueOf(hours).length() == 1) && (valueOf(minutes).length() == 1) && (valueOf(seconds).length() == 1)) {
-                    textTimer.setText("0" + hours + ":0" + minutes + ":0" + seconds);
-                } else if ((valueOf(hours).length() == 1) && (valueOf(minutes).length() == 1)) {
-                    textTimer.setText("0" + hours + ":0" + minutes + ":" + seconds);
-                } else if ((valueOf(hours).length() == 1) && (valueOf(seconds).length() == 1)) {
-                    textTimer.setText("0" + hours + ":" + minutes + ":0" + seconds);
-                } else if ((valueOf(minutes).length() == 1) && (valueOf(seconds).length() == 1)) {
-                    textTimer.setText(hours + ":0" + minutes + ":0" + seconds);
-                } else if (valueOf(hours).length() == 1) {
-                    textTimer.setText("0" + hours + ":" + minutes + ":" + seconds);
-                } else if (valueOf(minutes).length() == 1) {
-                    textTimer.setText(hours + ":0" + minutes + ":" + seconds);
-                } else if (valueOf(seconds).length() == 1) {
-                    textTimer.setText(hours + ":" + minutes + ":0" + seconds);
-                } else {
-                    textTimer.setText(hours + ":" + minutes + ":" + seconds);
-                }
+                progressBar.setProgress((int) ((int) durationInMillis - millisUntilFinished));
+                timerCountdown.setText(getTimeAsText(millisUntilFinished));
             }
 
             @Override
             public void onFinish() {
-                setProgress(progress, minutesleft * 60);
-                textTimer.setText("Great, session finished successfully!");
-                countdownTimer.cancel();
+                progressBar.setProgress(durationInMillis);
+                timerCountdown.setText("Session finished.");
                 endSession();
             }
         };
         countdownTimer.start();
-        active = true;
-        started.setText("Session active");
-
     }
 
+    private String getTimeAsText(long millisUntilFinished) {
+        int seconds = (int) (millisUntilFinished / 1000) % 60;
+        int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
+        int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
+        String updatedTime = hours + ":" + minutes + ":" + seconds;
 
-    /**
-     * starts countdown & progress bar timer with time given from the input field
-     */
-    private void startTimer() {
-        if (et_timer.getText().toString().length() > 0 || textTimer.getText() != "00:00") {
-
-            try {
-                countdownTimer.cancel();
-
-            } catch (Exception e) {
-
-            }
-            String timeInterval = "";
-            if (et_timer.getText().toString().length() > 0) {
-                timeInterval = et_timer.getText().toString();
-            } else {
-                timeInterval = textTimer.getText().toString();
-            }
-            progress = 1;
-            endTime = Integer.parseInt(timeInterval); // up to finish time
-
-            countdownTimer = new CountDownTimer(60 * endTime * 1000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    setProgress(progress, endTime * 60);
-                    progress = progress + 1;
-                    int seconds = (int) (millisUntilFinished / 1000) % 60;
-                    int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
-                    int hours = (int) ((millisUntilFinished / (1000 * 60 * 60)) % 24);
-                     newtime = hours + ":" + minutes + ":" + seconds;
-
-                    //sets the countdown timer depending on length of seconds, minutes and hours
-                    if (newtime.equals("0:0:0")) {
-                        textTimer.setText("00:00:00");
-                    } else if ((valueOf(hours).length() == 1) && (valueOf(minutes).length() == 1) && (valueOf(seconds).length() == 1)) {
-                        textTimer.setText("0" + hours + ":0" + minutes + ":0" + seconds);
-                    } else if ((valueOf(hours).length() == 1) && (valueOf(minutes).length() == 1)) {
-                        textTimer.setText("0" + hours + ":0" + minutes + ":" + seconds);
-                    } else if ((valueOf(hours).length() == 1) && (valueOf(seconds).length() == 1)) {
-                        textTimer.setText("0" + hours + ":" + minutes + ":0" + seconds);
-                    } else if ((valueOf(minutes).length() == 1) && (valueOf(seconds).length() == 1)) {
-                        textTimer.setText(hours + ":0" + minutes + ":0" + seconds);
-                    } else if (valueOf(hours).length() == 1) {
-                        textTimer.setText("0" + hours + ":" + minutes + ":" + seconds);
-                    } else if (valueOf(minutes).length() == 1) {
-                        textTimer.setText(hours + ":0" + minutes + ":" + seconds);
-                    } else if (valueOf(seconds).length() == 1) {
-                        textTimer.setText(hours + ":" + minutes + ":0" + seconds);
-                    } else {
-                        textTimer.setText(hours + ":" + minutes + ":" + seconds);
-                    }
-                }
-
-                @Override
-                public void onFinish() {
-                    setProgress(progress, endTime * 60);
-                    textTimer.setText("Great, session finished successfully!");
-                    countdownTimer.cancel();
-                    endSession();
-                }
-            };
-            countdownTimer.start();
-            active = true;
-            started.setText("Session active");
+        if (updatedTime.equals("0:0:0")) {
+            return "00:00:00";
+        } else if ((valueOf(hours).length() == 1) && (valueOf(minutes).length() == 1) && (valueOf(seconds).length() == 1)) {
+            return "0" + hours + ":0" + minutes + ":0" + seconds;
+        } else if ((valueOf(hours).length() == 1) && (valueOf(minutes).length() == 1)) {
+            return "0" + hours + ":0" + minutes + ":" + seconds;
+        } else if ((valueOf(hours).length() == 1) && (valueOf(seconds).length() == 1)) {
+            return "0" + hours + ":" + minutes + ":0" + seconds;
+        } else if ((valueOf(minutes).length() == 1) && (valueOf(seconds).length() == 1)) {
+            return hours + ":0" + minutes + ":0" + seconds;
+        } else if (valueOf(hours).length() == 1) {
+            return "0" + hours + ":" + minutes + ":" + seconds;
+        } else if (valueOf(minutes).length() == 1) {
+            return hours + ":0" + minutes + ":" + seconds;
+        } else if (valueOf(seconds).length() == 1) {
+            return hours + ":" + minutes + ":0" + seconds;
         } else {
-            Toast.makeText(getApplicationContext(), "Please enter your session time", Toast.LENGTH_LONG).show();
+            return hours + ":" + minutes + ":" + seconds;
         }
     }
 
-    /**
-     * sets the circular progress bar correctly
-     *
-     * @param startTime
-     * @param endTime
-     */
-    public void setProgress(int startTime, int endTime) {
-        progressBar.setMax(endTime);
-        progressBar.setSecondaryProgress(endTime);
-        progressBar.setProgress(startTime);
+    private void endSession() {
+        timerViewModel.endSession(sessionId).observe(this, finished -> {
+            if (finished) {
+                startReflectionActivity();
+            }
+        });
+    }
 
+    private void startReflectionActivity() {
+        Intent intent = new Intent(TimerActivity.this, ReflectionQuestActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onCheckedChange(int position, boolean checked) {
+        tasks.get(position).setDone(checked);
+        timerViewModel.updateTasks(sessionId, User.getIdFromPreferences(this), tasks).observe(this, updated -> {
+            if (!updated) {
+                try {
+                    throw new NetworkErrorException("Could not update task");
+                } catch (NetworkErrorException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -472,7 +214,6 @@ public class TimerActivity extends NavigationActivity {
 
     @Override
     public String getActionBarTitle() {
-        return null;
+        return getResources().getString(R.string.heading_timer);
     }
-
 }
