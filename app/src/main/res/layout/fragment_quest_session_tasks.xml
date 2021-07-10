@@ -13,9 +13,7 @@
         android:orientation="vertical"
         android:padding="36dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tvQuest3"
@@ -43,19 +41,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
 
             <EditText
                 android:id="@+id/et_tasks"
                 android:layout_width="0dip"
-                android:layout_weight="0.7"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.7"
                 android:hint="Enter a subtask"
                 android:inputType="text"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
                 android:maxLines="1"
                 android:textColor="@color/darkGrey" />
 
@@ -65,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:text="Add"/>
+                android:text="Add" />
         </LinearLayout>
 
         <ScrollView
@@ -78,7 +75,7 @@
                 android:id="@+id/lv_tasks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/white" />
 
         </ScrollView>
     </LinearLayout>

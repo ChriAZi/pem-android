@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="36dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -51,7 +50,7 @@
             android:id="@+id/rpartnerGoal"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_margin="10px"
+            android:layout_margin="20px"
             android:gravity="left|center"
             android:text=""
             android:textSize="25dp"
