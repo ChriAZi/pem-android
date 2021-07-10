@@ -44,6 +44,7 @@ public class QuestCategoryFragment extends Fragment {
                     break;
                 case R.id.radio_hobby:
                     setSessionCategory(SessionCategory.HOBBY.name());
+                    break;
                 default:
                     setSessionCategory(SessionCategory.UNIVERSITY.name());
                     break;
