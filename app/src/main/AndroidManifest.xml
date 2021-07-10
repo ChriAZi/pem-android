@@ -24,7 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.authentication.AuthActivity" />
-        <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.join.SessionListActivity" />
         <activity android:name=".ui.questionnaire.QuestActivity" />
         <activity android:name=".ui.reflection.ReflectionQuestActivity" />

@@ -4,14 +4,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -70,20 +68,6 @@ public class QuestNameFragment extends Fragment {
 
         }
     }
-
-    /*
-    public void validate(View v) {
-        if(!TextUtils.isEmpty(editQuestName.getText())){
-            String value = editQuestName.getText().toString();
-            validated = true;
-            Toast.makeText(getActivity(), "Title confirmed", Toast.LENGTH_LONG).show();
-
-        } else {
-            editQuestName.setError("Please enter a title");
-            editQuestName.requestFocus();
-            validated = false;
-        }
-    } */
 
 }
 

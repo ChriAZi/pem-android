@@ -22,6 +22,7 @@ public class SessionListRepository {
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
         sessionsRef
                 .whereEqualTo("public", true)
+                .whereEqualTo("hasPartner", false)
                 .whereEqualTo("active", true)
                 .whereNotEqualTo("owner.uid", userId)
                 .addSnapshotListener((snapshot, exception) -> {

@@ -10,6 +10,7 @@ import com.example.studywithme.data.repositories.QuestionnaireRepository;
 public class QuestionnaireViewModel extends AbstractViewModel {
     private final QuestionnaireRepository questionnaireRepository;
     private LiveData<String> sessionId;
+    private LiveData<Boolean> isJoining;
     private LiveData<Boolean> joined;
 
     public QuestionnaireViewModel() {
@@ -19,6 +20,11 @@ public class QuestionnaireViewModel extends AbstractViewModel {
     public LiveData<String> startSession(String userId, Session newSession) {
         sessionId = questionnaireRepository.startSession(userId, newSession);
         return sessionId;
+    }
+
+    public LiveData<Boolean> isJoining(String sessionId) {
+        isJoining = questionnaireRepository.isJoining(sessionId);
+        return isJoining;
     }
 
     public LiveData<Boolean> joinSession(String sessionId, String userId, SessionSetting settings) {

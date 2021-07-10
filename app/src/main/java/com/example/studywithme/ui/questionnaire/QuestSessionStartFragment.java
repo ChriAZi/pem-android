@@ -87,7 +87,7 @@ public class QuestSessionStartFragment extends Fragment {
                 }
             });
         } else {
-            Session session = new Session(getSessionDuration(), isPublic, setting);
+            Session session = new Session(getSessionDuration(), false, isPublic, setting);
             questionnaireViewModel.startSession(userId, session).observe(getViewLifecycleOwner(), sessionId -> {
                 if (sessionId != null) {
                     Session.setIdInPreferences(getContext(), sessionId);

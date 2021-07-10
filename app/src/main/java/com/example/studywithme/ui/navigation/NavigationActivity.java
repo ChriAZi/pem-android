@@ -10,7 +10,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.studywithme.R;
-import com.example.studywithme.ui.MainActivity;
 import com.example.studywithme.ui.history.SessionHistoryActivity;
 import com.example.studywithme.ui.join.SessionListActivity;
 import com.example.studywithme.ui.timer.TimerActivity;

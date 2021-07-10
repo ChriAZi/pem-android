@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.studywithme.R;
+import com.example.studywithme.data.models.Session;
 import com.example.studywithme.ui.navigation.NavigationActivity;
+import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.utils.Constants;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
@@ -24,8 +27,23 @@ public class QuestActivity extends NavigationActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             joining = (boolean) extras.get(Constants.JOINING);
+            if (joining) {
+                setHasPartner();
+            } else {
+                setupViewPager();
+            }
+        } else {
+            setupViewPager();
         }
-        setupViewPager();
+    }
+
+    private void setHasPartner() {
+        QuestionnaireViewModel questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
+        questionnaireViewModel.isJoining(Session.getIdFromPreferences(this)).observe(this, joining -> {
+            if (joining) {
+                setupViewPager();
+            }
+        });
     }
 
     private void setupViewPager() {

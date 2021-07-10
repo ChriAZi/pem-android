@@ -54,6 +54,21 @@ public class QuestionnaireRepository {
         return sessionId;
     }
 
+    public LiveData<Boolean> isJoining(String sessionId) {
+        MutableLiveData<Boolean> isJoining = new MutableLiveData<>(false);
+        sessionsRef.document(sessionId)
+                .update("hasPartner", true)
+                .addOnCompleteListener(sessionUpdateTask -> {
+                    if (sessionUpdateTask.isSuccessful()) {
+                        isJoining.setValue(true);
+                    } else {
+                        isJoining.setValue(false);
+                        Logger.log(sessionUpdateTask.getException().getMessage());
+                    }
+                });
+        return isJoining;
+    }
+
     public LiveData<Boolean> joinSession(String sessionId, String userId, SessionSetting settings) {
         MutableLiveData<Boolean> joined = new MutableLiveData<>(false);
         DocumentReference partnerReference = usersRef.document(userId);
@@ -65,10 +80,6 @@ public class QuestionnaireRepository {
                                 "partner", partnerTask.getResult().toObject(User.class),
                                 "public", false,
                                 "partnerSetting", settings
-                                /*"partnerSetting.name", settings.getName(),
-                                "partnerSetting.goal", settings.getGoal(),
-                                "partnerSetting.categories", settings.getCategories(),
-                                "partnerSetting.tasks", settings.getTasks()*/
                         )
                         .addOnCompleteListener(updateTask -> {
                             if (updateTask.isSuccessful()) {
