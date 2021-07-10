@@ -116,7 +116,12 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         timerCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategory().toString()));
         timerName.setText(session.getOwnerSetting().getName());
         if (hasPartner) {
-            timerPartner.setText(session.getPartner().getName());
+            User partner = session.getPartner();
+            if (partner == null) {
+                timerPartner.setText("No Partner");
+            } else {
+                timerPartner.setText(partner.getName());
+            }
         } else {
             timerPartner.setText("No Partner");
         }
