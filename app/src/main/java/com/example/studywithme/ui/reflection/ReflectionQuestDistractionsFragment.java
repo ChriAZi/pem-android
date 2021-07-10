@@ -59,12 +59,9 @@ public class ReflectionQuestDistractionsFragment extends Fragment {
             String taskDescription = editTextTasks.getText().toString();
             addDistractionToListView(taskDescription, parentActivity);
             editTextTasks.setText("");
-            distractionList.add(taskDescription);
             setDistractions(distractionList);
         });
-
         setUpListViewListener(parentActivity);
-
         return view;
     }
 
