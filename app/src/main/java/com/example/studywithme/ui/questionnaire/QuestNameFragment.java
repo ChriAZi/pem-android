@@ -4,12 +4,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -17,6 +19,10 @@ import com.example.studywithme.R;
 import com.example.studywithme.utils.Constants;
 
 public class QuestNameFragment extends Fragment {
+
+    EditText editQuestName;
+    Boolean validated;
+    protected View nameView;
 
     public QuestNameFragment() {
     }
@@ -29,11 +35,12 @@ public class QuestNameFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quest_session_name, container, false);
+        this.nameView = view;
 
         ImageView backgroundImage = view.findViewById(R.id.iv_name);
         backgroundImage.setImageResource(R.drawable.startup_life);
 
-        EditText editQuestName = view.findViewById(R.id.et_name);
+        editQuestName = view.findViewById(R.id.et_name);
         editQuestName.addTextChangedListener(new QuestionNameTextWatcher());
 
         return view;
@@ -63,6 +70,21 @@ public class QuestNameFragment extends Fragment {
 
         }
     }
+
+    /*
+    public void validate(View v) {
+        if(!TextUtils.isEmpty(editQuestName.getText())){
+            String value = editQuestName.getText().toString();
+            validated = true;
+            Toast.makeText(getActivity(), "Title confirmed", Toast.LENGTH_LONG).show();
+
+        } else {
+            editQuestName.setError("Please enter a title");
+            editQuestName.requestFocus();
+            validated = false;
+        }
+    } */
+
 }
 
 

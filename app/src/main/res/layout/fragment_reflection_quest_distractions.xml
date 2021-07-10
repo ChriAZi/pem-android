@@ -36,27 +36,47 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/starry_window" />
 
-        <EditText
-            android:id="@+id/et_distractions"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:hint="Enter your distractions"
-            android:textColor="@color/darkGrey" />
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
 
-        <Button
-            android:id="@+id/bt_submit_distraction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Add Distraction" />
+            <EditText
+                android:id="@+id/et_distractions"
+                android:layout_width="0dip"
+                android:layout_weight="0.7"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:hint="Enter your distractions"
+                android:maxLines="1"
+                android:textColor="@color/darkGrey" />
 
-        <ListView
-            android:id="@+id/lv_distractions"
+            <Button
+                android:id="@+id/bt_submit_distraction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="Add" />
+
+        </LinearLayout>
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/darkGrey" />
+            android:layout_height="180dp"
+            android:fillViewport="true">
 
+            <ListView
+                android:id="@+id/lv_distractions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkGrey" />
+
+        </ScrollView>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
