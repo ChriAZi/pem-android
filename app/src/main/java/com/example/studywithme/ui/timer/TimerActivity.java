@@ -69,21 +69,17 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
         timerViewModel.getActiveSession(sessionId).observe(this, session -> {
             String userId = User.getIdFromPreferences(this);
-            // Is private Session?
             if (!session.isPublic()) {
                 if (session.getPartner() == null) {
                     setTimerForOwner(session, false);
+                } else if (session.getOwner().getUid().equals(userId)) {
+                    setTimerForOwner(session, true);
                 } else {
                     setTimerForPartner(session);
                 }
-                // is partner currently in the questionnaire?
             } else if (session.getHasPartner()) {
-                // is user the owner of the session?
                 if (session.getOwner().getUid().equals(userId)) {
                     setTimerForOwner(session, true);
-                    // is user the partner of the session?
-                } else {
-                    setTimerForPartner(session);
                 }
             } else {
                 setTimerForOwner(session, false);
