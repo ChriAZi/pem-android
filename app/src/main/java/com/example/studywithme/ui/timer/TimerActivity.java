@@ -83,6 +83,8 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
                 } else {
                     setTimerForPartner(session);
                 }
+            } else {
+                setTimerForOwner(session, false);
             }
         });
     }
