@@ -17,7 +17,7 @@ public class QuestViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         if (joining) {
-            return 4;
+            return 5;
         } else {
             return 6;
         }
@@ -29,16 +29,19 @@ public class QuestViewPagerAdapter extends FragmentPagerAdapter {
         if (joining) {
             switch (position) {
                 case 0:
-                    fragment = new QuestGoalFragment();
+                    fragment = new QuestNameFragment();
                     break;
                 case 1:
-                    fragment = new QuestCategoryFragment();
+                    fragment = new QuestGoalFragment();
                     break;
                 case 2:
-                    fragment = new QuestTaskFragment();
+                    fragment = new QuestCategoryFragment();
                     break;
                 case 3:
-                    fragment = new QuestSessionStartFragment(joining);
+                    fragment = new QuestTaskFragment();
+                    break;
+                case 4:
+                    fragment = new QuestSessionStartFragment(true);
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + position);
