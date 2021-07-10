@@ -62,10 +62,8 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         timerCategory = findViewById(R.id.tv_timer_category);
         timerName = findViewById(R.id.tv_timer_name);
         timerPartner = findViewById(R.id.tv_timer_partner);
-
         progressBar = findViewById(R.id.barTimer);
         timerCountdown = findViewById(R.id.tv_countdown);
-
         tasksRecyclerView = findViewById(R.id.rv_timer_tasks);
 
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
@@ -73,7 +71,11 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
             String userId = User.getIdFromPreferences(this);
             // Is private Session?
             if (!session.isPublic()) {
-                setTimerForOwner(session, false);
+                if (session.getPartner() == null) {
+                    setTimerForOwner(session, false);
+                } else {
+                    setTimerForPartner(session);
+                }
                 // is partner currently in the questionnaire?
             } else if (session.getHasPartner()) {
                 // is user the owner of the session?
