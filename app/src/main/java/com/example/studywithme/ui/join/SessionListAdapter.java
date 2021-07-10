@@ -57,8 +57,6 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
         private final TextView sessionCategory;
         private final ItemViewHolder.OnItemClickListener onItemClickListener;
 
-        public View layout;
-
         public ItemViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             this.sessionName = itemView.findViewById(R.id.tv_session_name);

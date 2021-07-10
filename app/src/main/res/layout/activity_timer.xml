@@ -3,270 +3,147 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?colorSecondaryVariant"
-    >
+    android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/timer_countdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="00:00"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="?colorOnSecondary"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.546" />
-
-    <ProgressBar
-        android:id="@+id/barTimer"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/circular_shape"
-        android:indeterminate="false"
-        android:layoutDirection="ltr"
-        android:max="100"
-        android:progress="0"
-        android:progressDrawable="@drawable/circular_progress_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.569" />
-
-    <TextView
-        android:id="@+id/started"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Not started yet"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.796" />
-
-    <EditText
-        android:id="@+id/session_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="time"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.812" />
-
-    <Button
-        android:id="@+id/stop"
-        android:layout_width="77dp"
-        android:layout_height="38dp"
-        android:text="Give up"
-        android:textSize="10sp"
-        android:textColor="?colorSecondary"
-        android:backgroundTint="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.878" />
-
-    <TextView
-        android:id="@+id/subtaskCreator1"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Subtask 1 Creator"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.217" />
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/sessionCreator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Session Creator"
-        android:textAlignment="gravity"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.334" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/subtaskCreator2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Subtask 2 Creator"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.269" />
+            <LinearLayout
+                android:id="@+id/timer_heading_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="24dp">
 
-    <TextView
-        android:id="@+id/sessionNameCreator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Session Name Creator"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.167"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.074" />
+                <TextView
+                    android:id="@+id/tv_timer_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="University"
+                    android:textAlignment="center"
+                    android:textAllCaps="false" />
 
-    <TextView
-        android:id="@+id/creatorCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Uni"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.115"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.168" />
+                <TextView
+                    android:id="@+id/tv_timer_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:text="Android Praktikum"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textSize="24sp" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/creatorGoal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Do exercise sheet"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.151"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116" />
+            <LinearLayout
+                android:id="@+id/timer_partner_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/partnerCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="60dp"
-        android:text="Hobby"
-        android:textAlignment="textEnd"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.158" />
+                <ImageView
+                    android:id="@+id/iv_timer_partner"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_weight="0"
+                    android:baselineAligned="false"
+                    app:srcCompat="@drawable/ic_partner"
+                    tools:srcCompat="@drawable/ic_partner" />
 
-    <TextView
-        android:id="@+id/partnerName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="60dp"
-        android:text="Session Partner"
-        android:textAlignment="textEnd"
-        android:layout_marginTop="15dp"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.269" />
+                <TextView
+                    android:id="@+id/tv_timer_partner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="0"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="Hans Peter"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
-    <TextView
-        android:id="@+id/subtaskPartner1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="60dp"
-        android:text="Subtask 1 Partner"
-        android:textAlignment="textEnd"
-        android:layout_marginTop="5dp"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.195" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/subtaskPartner2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="60dp"
-        android:text="Subtask 2 Partner"
-        android:textAlignment="textEnd"
-        android:layout_marginTop="10dp"
-        android:textColor="?colorOnSecondary"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
+                <ImageView
+                    android:id="@+id/iv_background_timer"
+                    android:layout_width="297dp"
+                    android:layout_height="284dp"
+                    android:layout_gravity="center"
+                    android:drawableBottom="@drawable/timerasset"
+                    app:srcCompat="@drawable/timerasset" />
 
-    <TextView
-        android:id="@+id/sessionNamePartner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Session Name Partner"
-        android:textColor="?colorOnSecondary"
-        android:layout_marginRight="60dp"
-        android:textAlignment="textEnd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.818"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.074" />
+                <TextView
+                    android:id="@+id/tv_countdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="00:00"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="24sp" />
 
-    <TextView
-        android:id="@+id/partnerGoal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Make illustration"
-        android:textColor="?colorOnSecondary"
-        android:layout_marginRight="60dp"
-        android:textAlignment="textEnd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.839"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116" />
+                <ProgressBar
+                    android:id="@+id/barTimer"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="355dp"
+                    android:layout_height="330dp"
+                    android:layout_centerInParent="false"
+                    android:layout_gravity="center"
+                    android:background="@drawable/circular_shape"
+                    android:indeterminate="false"
+                    android:layoutDirection="ltr"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/circular_progress_bar" />
 
-    <ImageView
-        android:id="@+id/iv_background_timer"
-        android:layout_width="204dp"
-        android:layout_height="204dp"
-        android:drawableBottom="@drawable/timerasset"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.561"
-        app:srcCompat="@drawable/timerasset" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/tasks_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="32dp">
+
+                <TextView
+                    android:id="@+id/tv_tasks2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:text="Tasks"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_timer_tasks"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="64dp"
+                    android:layout_weight="0"
+                    android:nestedScrollingEnabled="false" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
     <include
+        android:id="@+id/include4"
         layout="@layout/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -96,10 +96,10 @@ public class SessionDetailActivity extends NavigationActivity {
     }
 
     private void setTasksRecyclerView(List<SessionTask> tasks) {
-        TaskAdapter taskAdapter = new TaskAdapter(tasks);
+        SessionDetailTaskAdapter sessionDetailTaskAdapter = new SessionDetailTaskAdapter(tasks);
         tasksRecyclerView = findViewById(R.id.rv_tasks);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        tasksRecyclerView.setAdapter(taskAdapter);
+        tasksRecyclerView.setAdapter(sessionDetailTaskAdapter);
     }
 
     private void setDistractionsRecyclerView(List<String> distractions) {

@@ -15,11 +15,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ItemViewHolder> {
+public class SessionDetailTaskAdapter extends RecyclerView.Adapter<SessionDetailTaskAdapter.ItemViewHolder> {
 
     private List<SessionTask> tasks;
 
-    public TaskAdapter(List<SessionTask> tasks) {
+    public SessionDetailTaskAdapter(List<SessionTask> tasks) {
         this.tasks = tasks;
     }
 
@@ -27,11 +27,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ItemViewHolder
     public @NotNull ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.task_item, parent, false);
-        return new TaskAdapter.ItemViewHolder(view);
+        return new SessionDetailTaskAdapter.ItemViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskAdapter.ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SessionDetailTaskAdapter.ItemViewHolder holder, int position) {
         holder.task.setChecked(tasks.get(position).isDone());
         holder.task.setText(tasks.get(position).getDescription());
     }

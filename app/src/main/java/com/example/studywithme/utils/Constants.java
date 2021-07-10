@@ -13,6 +13,7 @@ public class Constants {
     public static final String SESSION_NAME = "session_name";
 
     public static final String JOINING = "joining";
+    public static final String OWNER = "owner";
 
     public static final String SESSION_QUEST_NAME = "session_quest_name";
     public static final String SESSION_QUEST_GOAL = "session_quest_goal";

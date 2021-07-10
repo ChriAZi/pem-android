@@ -27,7 +27,6 @@ import java.util.Set;
 public class ReflectionQuestSessionEndFragment extends Fragment {
 
     public ReflectionQuestSessionEndFragment() {
-        // Required empty public constructor
     }
 
     @Override
