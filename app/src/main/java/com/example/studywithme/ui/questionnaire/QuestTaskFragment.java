@@ -27,6 +27,7 @@ public class QuestTaskFragment extends Fragment {
     private ArrayList<String> taskList = new ArrayList<>();
     private ArrayAdapter<String> tasksAdapter;
     private ListView listView;
+    private EditText editTextTasks;
 
 
     public QuestTaskFragment() {
@@ -49,15 +50,12 @@ public class QuestTaskFragment extends Fragment {
         tasksAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, taskList);
         listView.setAdapter(tasksAdapter);
 
-        EditText editTextTasks = view.findViewById(R.id.et_tasks);
+        editTextTasks = view.findViewById(R.id.et_tasks);
 
         Button submitTasksButton = view.findViewById(R.id.bt_submit_tasks);
         submitTasksButton.setOnClickListener(v -> {
             String taskDescription = editTextTasks.getText().toString();
             addTodoToListView(taskDescription);
-            editTextTasks.setText("");
-            taskList.add(taskDescription);
-            setSessionTasks(taskList);
         });
 
         setUpListViewListener();
@@ -68,6 +66,8 @@ public class QuestTaskFragment extends Fragment {
     private void addTodoToListView(String description) {
         if (!(description.equals(""))) {
             tasksAdapter.add(description);
+            editTextTasks.setText("");
+            setSessionTasks(taskList);
         }
     }
 
