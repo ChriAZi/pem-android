@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.data.models.SessionTask;
+import com.example.studywithme.data.models.User;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.example.studywithme.ui.viewmodels.SessionDetailViewModel;
 import com.example.studywithme.utils.Constants;
@@ -40,10 +41,38 @@ public class SessionDetailActivity extends NavigationActivity {
         setupActionBar();
 
         sessionDetailViewModel.getSession(sessionId).observe(this, session -> {
+            boolean isOwner = User.getIdFromPreferences(this).equals(session.getOwner().getUid());
+
+            TextView partner = findViewById(R.id.tv_detail_partner);
+            if (isOwner && session.getPartner() != null) {
+                partner.setText(session.getPartner().getName());
+            } else if (!isOwner) {
+                partner.setText(session.getOwner().getName());
+            } else {
+                partner.setText(R.string.private_session);
+            }
+
+            TextView feedbackContent = findViewById(R.id.tv_feedback_content);
+            SessionCategory category;
+
+            if (isOwner) {
+                category = session.getOwnerSetting().getCategory();
+                feedbackContent.setText(session.getOwnerReflection().getFeedback());
+                setTasksRecyclerView(session.getOwnerSetting().getTasks());
+                setDistractionsRecyclerView(session.getOwnerReflection().getDistractions());
+            } else {
+                category = session.getPartnerSetting().getCategory();
+                feedbackContent.setText(session.getPartnerReflection().getFeedback());
+                setTasksRecyclerView(session.getPartnerSetting().getTasks());
+                setDistractionsRecyclerView(session.getPartnerReflection().getDistractions());
+            }
+
             TextView date = findViewById(R.id.tv_detail_date);
             date.setText(DateHelper.formatDate(session.getStartedAt().toDate().getTime()));
 
-            SessionCategory category = session.getOwnerSetting().getCategory();
+            TextView duration = findViewById(R.id.tv_detail_duration);
+            duration.setText(session.getDuration() + " Minuten");
+
             ImageView headerImage = findViewById(R.id.iv_header_image);
             switch (category) {
                 case WORK:
@@ -57,24 +86,8 @@ public class SessionDetailActivity extends NavigationActivity {
                     break;
             }
 
-            TextView duration = findViewById(R.id.tv_detail_duration);
-            duration.setText(session.getDuration() + " Minuten");
-
-            TextView partner = findViewById(R.id.tv_detail_partner);
-            if (session.getPartner() != null) {
-                partner.setText(session.getPartner().getName());
-            } else {
-                partner.setText(R.string.private_session);
-            }
-
             TextView sessionCategory = findViewById(R.id.tv_detail_category);
-            sessionCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategory().name()));
-
-            TextView feedbackContent = findViewById(R.id.tv_feedback_content);
-            feedbackContent.setText(session.getOwnerReflection().getFeedback());
-
-            setTasksRecyclerView(session.getOwnerSetting().getTasks());
-            setDistractionsRecyclerView(session.getOwnerReflection().getDistractions());
+            sessionCategory.setText(StringHelper.capitalize(category.name()));
         });
     }
 
