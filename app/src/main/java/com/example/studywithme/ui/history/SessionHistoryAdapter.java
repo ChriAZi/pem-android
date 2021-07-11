@@ -1,5 +1,6 @@
 package com.example.studywithme.ui.history;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.studywithme.R;
 import com.example.studywithme.data.models.Session;
+import com.example.studywithme.data.models.SessionCategory;
+import com.example.studywithme.data.models.User;
 import com.example.studywithme.utils.DateHelper;
 import com.example.studywithme.utils.StringHelper;
 
@@ -24,10 +27,12 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
 
     private ArrayList<Session> sessions;
     private final ItemViewHolder.OnItemClickListener onItemClickListener;
+    private final Context context;
 
-    public SessionHistoryAdapter(List<Session> sessions, ItemViewHolder.OnItemClickListener onItemClickListener) {
+    public SessionHistoryAdapter(List<Session> sessions, ItemViewHolder.OnItemClickListener onItemClickListener, Context context) {
         this.sessions = (ArrayList<Session>) sessions;
         this.onItemClickListener = onItemClickListener;
+        this.context = context;
     }
 
     @Override
@@ -40,7 +45,27 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Session session = sessions.get(position);
-        switch (session.getOwnerSetting().getCategory()) {
+        boolean isOwner = User.getIdFromPreferences(context).equals(session.getOwner().getUid());
+        SessionCategory category;
+        String name;
+
+        if (isOwner && session.getPartner() != null) {
+            holder.sessionPartner.setText(session.getPartner().getName());
+        } else if (!isOwner) {
+            holder.sessionPartner.setText(session.getOwner().getName());
+        } else {
+            holder.sessionPartner.setText(R.string.private_session);
+        }
+
+        if (isOwner) {
+            category = session.getOwnerSetting().getCategory();
+            name = session.getOwnerSetting().getName();
+        } else {
+            category = session.getPartnerSetting().getCategory();
+            name = session.getPartnerSetting().getName();
+        }
+
+        switch (category) {
             case WORK:
                 holder.sessionImage.setImageResource(R.drawable.work_image);
                 break;
@@ -53,15 +78,11 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
             default:
                 holder.sessionImage.setImageResource(R.drawable.work_image);
         }
-        holder.sessionName.setText(session.getOwnerSetting().getName());
+
+        holder.sessionCategory.setText(StringHelper.capitalize(category.name()));
+        holder.sessionName.setText(name);
         holder.sessionDate.setText(DateHelper.formatDate((double) session.getStartedAt().toDate().getTime()));
         holder.sessionDuration.setText(session.getDuration() + " Minuten");
-        if(session.getPartner() != null) {
-            holder.sessionPartner.setText(session.getPartner().getName());
-        } else {
-            holder.sessionPartner.setText(R.string.private_session);
-        }
-        holder.sessionCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategory().name()));
     }
 
     @Override

@@ -62,7 +62,7 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
                 backgroundImage.setVisibility(View.GONE);
                 createSessionButton.setVisibility(View.GONE);
                 this.sessions = sessions;
-                SessionHistoryAdapter adapter = new SessionHistoryAdapter(sessions, this);
+                SessionHistoryAdapter adapter = new SessionHistoryAdapter(sessions, this, this);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 recyclerView.setAdapter(adapter);
             }
@@ -79,7 +79,11 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
         Intent intent = new Intent(this, SessionDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(Constants.SESSION_ID, sessions.get(position).getUid());
-        bundle.putString(Constants.SESSION_NAME, sessions.get(position).getOwnerSetting().getName());
+        if (User.getIdFromPreferences(this).equals(sessions.get(position).getOwner().getUid())) {
+            bundle.putString(Constants.SESSION_NAME, sessions.get(position).getOwnerSetting().getName());
+        } else {
+            bundle.putString(Constants.SESSION_NAME, sessions.get(position).getPartner().getName());
+        }
         intent.putExtras(bundle);
         this.startActivity(intent);
     }
