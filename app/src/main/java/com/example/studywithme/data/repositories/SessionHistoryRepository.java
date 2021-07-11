@@ -20,7 +20,6 @@ public class SessionHistoryRepository {
     public LiveData<List<Session>> getPastSessions(String userId) {
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
         sessionsRef
-                .whereEqualTo("owner.uid", userId)
                 .whereEqualTo("active", false)
                 .addSnapshotListener((snapshot, exception) -> {
                     if (exception != null) {
@@ -31,7 +30,13 @@ public class SessionHistoryRepository {
                         List<Session> fetchedSessions = new ArrayList<>();
                         for (DocumentSnapshot document : snapshot.getDocuments()) {
                             Session session = document.toObject(Session.class);
-                            fetchedSessions.add(session);
+                            if (session != null) {
+                                if (session.getOwner().getUid().equals(userId)) {
+                                    fetchedSessions.add(session);
+                                } else if (session.getPartner().getUid().equals(userId)) {
+                                    fetchedSessions.add(session);
+                                }
+                            }
                         }
                         sessions.setValue(fetchedSessions);
                     } else {
