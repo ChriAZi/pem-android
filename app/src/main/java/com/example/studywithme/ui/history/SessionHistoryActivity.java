@@ -82,7 +82,7 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
         if (User.getIdFromPreferences(this).equals(sessions.get(position).getOwner().getUid())) {
             bundle.putString(Constants.SESSION_NAME, sessions.get(position).getOwnerSetting().getName());
         } else {
-            bundle.putString(Constants.SESSION_NAME, sessions.get(position).getPartner().getName());
+            bundle.putString(Constants.SESSION_NAME, sessions.get(position).getPartnerSetting().getName());
         }
         intent.putExtras(bundle);
         this.startActivity(intent);
