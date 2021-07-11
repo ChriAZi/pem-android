@@ -33,7 +33,7 @@ public class SessionHistoryRepository {
                             if (session != null) {
                                 if (session.getOwner().getUid().equals(userId)) {
                                     fetchedSessions.add(session);
-                                } else if (session.getPartner().getUid().equals(userId)) {
+                                } else if (session.getPartner() != null && session.getPartner().getUid().equals(userId)) {
                                     fetchedSessions.add(session);
                                 }
                             }
