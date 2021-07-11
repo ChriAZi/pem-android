@@ -82,6 +82,7 @@ public class QuestSessionStartFragment extends Fragment {
             questionnaireViewModel.joinSession(sessionId, userId, setting).observe(getViewLifecycleOwner(), joined -> {
                 if (joined) {
                     Session.setIdInPreferences(getContext(), sessionId);
+                    resetPreferences();
                     startTimerActivity();
                 }
             });
@@ -90,10 +91,22 @@ public class QuestSessionStartFragment extends Fragment {
             questionnaireViewModel.startSession(userId, session).observe(getViewLifecycleOwner(), sessionId -> {
                 if (sessionId != null) {
                     Session.setIdInPreferences(getContext(), sessionId);
+                    resetPreferences();
                     startTimerActivity();
                 }
             });
         }
+    }
+
+    private void resetPreferences() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constants.SESSION_QUEST_NAME, null);
+        editor.putString(Constants.SESSION_QUEST_GOAL, null);
+        editor.putString(Constants.SESSION_QUEST_CATEGORY, null);
+        editor.putString(Constants.SESSION_QUEST_TASKS, null);
+        editor.putString(Constants.SESSION_QUEST_DURATION, null);
+        editor.apply();
     }
 
     private void startTimerActivity() {

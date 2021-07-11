@@ -55,9 +55,18 @@ public class ReflectionQuestSessionEndFragment extends Fragment {
         reflectionViewModel.addReflection(User.getIdFromPreferences(getContext()), Session.getIdFromPreferences(getContext()), reflection).observe(getViewLifecycleOwner(), added -> {
             if (added) {
                 Session.setIdInPreferences(getContext(), null);
+                resetPreferences();
                 startSessionHistoryActivity();
             }
         });
+    }
+
+    private void resetPreferences() {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constants.SESSION_QUEST_FEEDBACK, null);
+        editor.putString(Constants.SESSION_QUEST_DISTRACTIONS, null);
+        editor.apply();
     }
 
     private void startSessionHistoryActivity() {
