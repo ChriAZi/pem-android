@@ -81,7 +81,7 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
 
     @Override
     public void onItemClick(int position) {
-        Session.setIdInPreferences(this, sessions.get(0).getUid());
+        Session.setIdInPreferences(this, sessions.get(position).getUid());
         startQuestionnaireActivity(true);
     }
 
