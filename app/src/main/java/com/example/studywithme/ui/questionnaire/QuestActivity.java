@@ -28,7 +28,7 @@ public class QuestActivity extends NavigationActivity {
         if (extras != null) {
             joining = (boolean) extras.get(Constants.JOINING);
             if (joining) {
-                setHasPartner();
+                setHasPartner(true, true);
             } else {
                 setupViewPager();
             }
@@ -37,10 +37,34 @@ public class QuestActivity extends NavigationActivity {
         }
     }
 
-    private void setHasPartner() {
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (joining) {
+            setHasPartner(false, false);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (joining) {
+            setHasPartner(true, true);
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (joining) {
+            setHasPartner(false, false);
+        }
+    }
+
+    private void setHasPartner(boolean hasPartner, boolean showPager) {
         QuestionnaireViewModel questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
-        questionnaireViewModel.isJoining(Session.getIdFromPreferences(this)).observe(this, joining -> {
-            if (joining) {
+        questionnaireViewModel.isJoining(Session.getIdFromPreferences(this), hasPartner).observe(this, joining -> {
+            if (joining && showPager) {
                 setupViewPager();
             }
         });

@@ -55,10 +55,10 @@ public class QuestionnaireRepository {
         return sessionId;
     }
 
-    public LiveData<Boolean> isJoining(String sessionId) {
+    public LiveData<Boolean> isJoining(String sessionId, boolean hasPartner) {
         MutableLiveData<Boolean> isJoining = new MutableLiveData<>(false);
         sessionsRef.document(sessionId)
-                .update("hasPartner", true)
+                .update("hasPartner", hasPartner)
                 .addOnCompleteListener(sessionUpdateTask -> {
                     if (sessionUpdateTask.isSuccessful()) {
                         isJoining.setValue(true);

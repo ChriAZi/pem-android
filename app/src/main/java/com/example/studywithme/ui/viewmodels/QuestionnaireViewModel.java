@@ -22,8 +22,8 @@ public class QuestionnaireViewModel extends AbstractViewModel {
         return sessionId;
     }
 
-    public LiveData<Boolean> isJoining(String sessionId) {
-        isJoining = questionnaireRepository.isJoining(sessionId);
+    public LiveData<Boolean> isJoining(String sessionId, boolean hasPartner) {
+        isJoining = questionnaireRepository.isJoining(sessionId, hasPartner);
         return isJoining;
     }
 
