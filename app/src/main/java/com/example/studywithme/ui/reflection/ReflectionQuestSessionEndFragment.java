@@ -24,6 +24,11 @@ import com.example.studywithme.utils.Constants;
 import java.util.ArrayList;
 import java.util.Set;
 
+/**
+ * This fragment saves the complete session by clicking the button.
+ * It provides several methods to get the prior given inputs from SharedPreferences.
+ * It also provides a method to save the session with all existing information.
+ */
 public class ReflectionQuestSessionEndFragment extends Fragment {
 
     public ReflectionQuestSessionEndFragment() {
@@ -34,6 +39,13 @@ public class ReflectionQuestSessionEndFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The created view holds the button to save the session.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reflection_quest_end_session, container, false);
@@ -49,6 +61,9 @@ public class ReflectionQuestSessionEndFragment extends Fragment {
         return view;
     }
 
+    /**
+     * By clicking the button, all information is added to a SessionReflection object, which will be handed to the ViewModel.
+     */
     private void finalizeReflectionForSession() {
         SessionReflection reflection = new SessionReflection(getFeedback(), getDistractions());
         ReflectionViewModel reflectionViewModel = new ViewModelProvider(this).get(ReflectionViewModel.class);
@@ -61,6 +76,9 @@ public class ReflectionQuestSessionEndFragment extends Fragment {
         });
     }
 
+    /**
+     * Resets the SharedPreferences, as all information is already passed on.
+     */
     private void resetPreferences() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sp.edit();
@@ -69,16 +87,27 @@ public class ReflectionQuestSessionEndFragment extends Fragment {
         editor.apply();
     }
 
+    /**
+     * Starts the SessionHistory Activity that is already updated with the ended Session.
+     */
     private void startSessionHistoryActivity() {
         Intent intent = new Intent(getActivity(), SessionHistoryActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Returns Feedback form SharedPreferences.
+     * @return
+     */
     private String getFeedback() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         return sp.getString(Constants.SESSION_QUEST_FEEDBACK, null);
     }
 
+    /**
+     * Returns DistractionList form SharedPreferences.
+     * @return
+     */
     private ArrayList<String> getDistractions() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         Set<String> set = sp.getStringSet(Constants.SESSION_QUEST_DISTRACTIONS, null);

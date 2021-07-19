@@ -32,7 +32,6 @@ import java.util.Set;
  * You can choose the according button.
  * It provides several methods to get the prior given inputs from SharedPreferences.
  * It also provides a method to start a session with all existing information.
- *
  */
 public class QuestSessionStartFragment extends Fragment {
 

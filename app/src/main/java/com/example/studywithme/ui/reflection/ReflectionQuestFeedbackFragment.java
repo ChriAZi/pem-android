@@ -16,6 +16,11 @@ import androidx.fragment.app.Fragment;
 import com.example.studywithme.R;
 import com.example.studywithme.utils.Constants;
 
+/**
+ * This fragment handles the question about the feedback.
+ * It provides a method to inform the SharedPreferences about the input.
+ * The input can be a text.
+ */
 public class ReflectionQuestFeedbackFragment extends Fragment {
 
     public ReflectionQuestFeedbackFragment() {
@@ -26,6 +31,13 @@ public class ReflectionQuestFeedbackFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The created view holds an EditText for text to enter the feedback.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reflection_quest_feedback, container, false);
@@ -39,6 +51,10 @@ public class ReflectionQuestFeedbackFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Informs the SharedPreferences about the entered feedback.
+     * @param feedback
+     */
     private void setReflectionFeedback(String feedback) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sp.edit();
@@ -46,11 +62,13 @@ public class ReflectionQuestFeedbackFragment extends Fragment {
         editor.apply();
     }
 
+    /**
+     * This class watches the state of the input field and sets the feedback once it is changed.
+     */
     private class ReflectionFeedbackTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
         }
 
         @Override
@@ -60,7 +78,6 @@ public class ReflectionQuestFeedbackFragment extends Fragment {
 
         @Override
         public void afterTextChanged(Editable editable) {
-
         }
     }
 }

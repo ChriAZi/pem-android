@@ -28,7 +28,7 @@ public class QuestViewPagerAdapter extends FragmentPagerAdapter {
 
     /**
      * Returns the Fragment on the according position.
-     * Which fragments (questions) are part of the list, depends on whether you are joining an existing session
+     * Which fragments (questions) are part of the list depends on whether you are joining an existing session
      * or start your own session.
      * @param position
      * @return

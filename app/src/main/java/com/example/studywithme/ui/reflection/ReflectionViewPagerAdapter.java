@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+/**
+ * This class handles the fragments that are holding the questions to be in order.
+ */
 public class ReflectionViewPagerAdapter extends FragmentPagerAdapter {
 
     public ReflectionViewPagerAdapter(FragmentManager fragmentManager) {
@@ -18,6 +21,11 @@ public class ReflectionViewPagerAdapter extends FragmentPagerAdapter {
         return 3;
     }
 
+    /**
+     * Returns the Fragment on the according position.
+     * @param position
+     * @return
+     */
     @NonNull
     public Fragment getItem(int position) {
         Fragment fragment;

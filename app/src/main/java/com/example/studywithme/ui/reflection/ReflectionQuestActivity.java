@@ -10,6 +10,12 @@ import com.example.studywithme.R;
 import com.example.studywithme.ui.navigation.NavigationActivity;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
+/**
+ * Class that contains the Reflection Activity.
+ * This activity handles the reflection questions after a session and
+ * holds and organises the swiping through fragments that act as the questions.
+ * It extends the Navigation Activity to have the Bottom Navigation shown.
+ */
 public class ReflectionQuestActivity extends NavigationActivity {
 
     private ViewPager viewPager;
@@ -22,6 +28,12 @@ public class ReflectionQuestActivity extends NavigationActivity {
         setupViewPager();
     }
 
+    /**
+     * Sets up the ViewPager, which enables Swiping through the pages.
+     * The page you are on is indicated by the dots in the bottom of the page.
+     * It implements a listener which listens for onPageScrolled, onPageSelected, onPageScrollStateChange.
+     * The first triggers the validate function to check if input is given.
+     */
     private void setupViewPager() {
         DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);
         viewPager = findViewById(R.id.view_pager);
@@ -48,7 +60,15 @@ public class ReflectionQuestActivity extends NavigationActivity {
         viewPager.addOnPageChangeListener(listener);
     }
 
-
+    /**
+     * Validates whether input and the right input type are given per Question.
+     * Each Question is its own Fragment.
+     * If there is no input given at the according Fragment, you cannot page forward.
+     * The CurrentItem variable (which means the page you turn to) is set to the page you were on, so you stay on your page.
+     * You are always able to go back though.
+     * @param position
+     * @param currentPage
+     */
     private void validateReflections(Fragment position, int currentPage) {
         if (position instanceof ReflectionQuestFeedbackFragment) {
             EditText etFeedback = findViewById(R.id.et_feedback);

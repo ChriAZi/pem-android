@@ -22,6 +22,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This fragment handles the question about the distractions.
+ * It provides a method to inform the SharedPreferences about the input.
+ * The input can be a Text and will be added to a distraction list.
+ */
 public class ReflectionQuestDistractionsFragment extends Fragment {
 
     private ArrayList<String> distractionList = new ArrayList<>();
@@ -39,6 +44,14 @@ public class ReflectionQuestDistractionsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The created view holds an Input field for text to enter a distraction,
+     * a button to submit the distraction and a list that shows your given inputs.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reflection_quest_distractions, container, false);
@@ -65,6 +78,10 @@ public class ReflectionQuestDistractionsFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Listens for the state of the list and sets/removes the distractions once one is added/removed.
+     * @param parentActivity
+     */
     private void setUpListViewListener(ReflectionQuestActivity parentActivity) {
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             parentActivity.setDistractionAdded(false);
@@ -74,6 +91,11 @@ public class ReflectionQuestDistractionsFragment extends Fragment {
         });
     }
 
+    /**
+     * Adds a entered Distraction to the list with help of the List Adapter
+     * @param distraction
+     * @param parentActivity
+     */
     private void addDistractionToListView(String distraction, ReflectionQuestActivity parentActivity) {
         if (!(distraction.equals(""))) {
             parentActivity.setDistractionAdded(true);
@@ -81,6 +103,10 @@ public class ReflectionQuestDistractionsFragment extends Fragment {
         }
     }
 
+    /**
+     * Informs the SharedPreferences about the distraction list.
+     * @param distractions
+     */
     private void setDistractions(List<String> distractions) {
         Set<String> distractionsSet = new HashSet<>(distractions);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
