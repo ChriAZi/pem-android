@@ -16,6 +16,11 @@ import androidx.fragment.app.Fragment;
 import com.example.studywithme.R;
 import com.example.studywithme.utils.Constants;
 
+/**
+ * This fragment handles the question about the duration.
+ * It provides a method to inform the SharedPreferences about the input.
+ * The input can be an Integer and stands for the duration in minutes.
+ */
 public class QuestDurationFragment extends Fragment {
 
     private EditText editDuration;
@@ -29,6 +34,13 @@ public class QuestDurationFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The created view holds an EditText for numbers to enter a duration in minutes.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quest_session_duration, container, false);
@@ -42,6 +54,10 @@ public class QuestDurationFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Informs the SharedPreferences about the entered duration in minutes.
+     * @param sessionDuration
+     */
     private void setSessionDuration(int sessionDuration) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sp.edit();
@@ -49,6 +65,9 @@ public class QuestDurationFragment extends Fragment {
         editor.apply();
     }
 
+    /**
+     * This class watches the state of the input field and saves the input in a variable once it is changed.
+     */
     private class QuestionDurationTextWatcher implements TextWatcher {
 
         @Override

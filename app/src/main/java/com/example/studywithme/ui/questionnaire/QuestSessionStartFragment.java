@@ -27,6 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This fragment handles the question about starting a private or starting/joining a private session.
+ * You can choose the according button.
+ * It provides several methods to get the prior given inputs from SharedPreferences.
+ * It also provides a method to start a session with all existing information.
+ *
+ */
 public class QuestSessionStartFragment extends Fragment {
 
     private final boolean joining;
@@ -41,6 +48,14 @@ public class QuestSessionStartFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The created view holds the buttons for either joining/creating a public session or starting a private one.
+     * Depending on which session option (starting/joining) the user chose in the beginning, buttons are set to in/visible.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quest_start_session, container, false);
@@ -70,10 +85,21 @@ public class QuestSessionStartFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Contacts the QuestionnaireViewModel
+     */
     private void initViewModel() {
         questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
     }
 
+    /**
+     * Starts a new session for the user.
+     * First the SessionSetting object is built by calling the Getters from the SharedPreferences.
+     * Depending on his decision about a public/joint or private Session, the ViewModel calls the according function
+     * It then starts the TimerActivity.
+     * @param isPublic
+     * @param joining
+     */
     private void startSessionForTimer(boolean isPublic, boolean joining) {
         String userId = User.getIdFromPreferences(getContext());
         SessionSetting setting = new SessionSetting(getSessionName(), getSessionGoal(), getSessionCategory() != null ? getSessionCategory() : SessionCategory.UNIVERSITY, getSessionTasks());
@@ -98,6 +124,9 @@ public class QuestSessionStartFragment extends Fragment {
         }
     }
 
+    /**
+     * Resets the SharedPreferences, as all information is already passed on.
+     */
     private void resetPreferences() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sp.edit();
@@ -109,21 +138,36 @@ public class QuestSessionStartFragment extends Fragment {
         editor.apply();
     }
 
+    /**
+     * Starts TimerActivity.
+     */
     private void startTimerActivity() {
         Intent intent = new Intent(getActivity(), TimerActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Returns Name form SharedPreferences.
+     * @return
+     */
     private String getSessionName() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         return sp.getString(Constants.SESSION_QUEST_NAME, null);
     }
 
+    /**
+     * Returns Goal form SharedPreferences.
+     * @return
+     */
     private String getSessionGoal() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         return sp.getString(Constants.SESSION_QUEST_GOAL, null);
     }
 
+    /**
+     * Returns Category form SharedPreferences.
+     * @return
+     */
     private SessionCategory getSessionCategory() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         String sessionCategory = sp.getString(Constants.SESSION_QUEST_CATEGORY, null);
@@ -134,6 +178,10 @@ public class QuestSessionStartFragment extends Fragment {
         }
     }
 
+    /**
+     * Returns TaskList form SharedPreferences.
+     * @return
+     */
     private List<SessionTask> getSessionTasks() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         Set<String> set = sp.getStringSet(Constants.SESSION_QUEST_TASKS, null);
@@ -144,6 +192,10 @@ public class QuestSessionStartFragment extends Fragment {
         return tasks;
     }
 
+    /**
+     * Returns Duration form SharedPreferences.
+     * @return
+     */
     private int getSessionDuration() {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         return sp.getInt(Constants.SESSION_QUEST_DURATION, 0);

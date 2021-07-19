@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+/**
+ * This class handles the fragments that are holding the questions to be in order.
+ */
 public class QuestViewPagerAdapter extends FragmentPagerAdapter {
 
     private final boolean joining;
@@ -23,6 +26,13 @@ public class QuestViewPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    /**
+     * Returns the Fragment on the according position.
+     * Which fragments (questions) are part of the list, depends on whether you are joining an existing session
+     * or start your own session.
+     * @param position
+     * @return
+     */
     @NonNull
     public Fragment getItem(int position) {
         Fragment fragment;

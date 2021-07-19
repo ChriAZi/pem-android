@@ -14,6 +14,12 @@ import com.example.studywithme.ui.viewmodels.QuestionnaireViewModel;
 import com.example.studywithme.utils.Constants;
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator;
 
+/**
+ * Class that contains the Questionnaire Activity.
+ * This activity handles the first steps for starting a session and
+ * holds and organises the swiping through fragments that act as the questions.
+ * It extends the Navigation Activity to have the Bottom Navigation shown.
+ */
 public class QuestActivity extends NavigationActivity {
 
     private boolean joining = false;
@@ -21,6 +27,11 @@ public class QuestActivity extends NavigationActivity {
     private int currentPage;
     private boolean taskAdded = false;
 
+    /**
+     * When activity is created, it is checked whether the user is joining a existing session or creating his/her own.
+     * Depending on this, some questions are asked or not, accordingly the ViewPager is set up.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +72,11 @@ public class QuestActivity extends NavigationActivity {
         }
     }
 
+    /**
+     * Gives information about the state of already having a partner to the Viewmodel.
+     * @param hasPartner
+     * @param showPager
+     */
     private void setHasPartner(boolean hasPartner, boolean showPager) {
         QuestionnaireViewModel questionnaireViewModel = new ViewModelProvider(this).get(QuestionnaireViewModel.class);
         questionnaireViewModel.isJoining(Session.getIdFromPreferences(this), hasPartner).observe(this, joining -> {
@@ -70,6 +86,12 @@ public class QuestActivity extends NavigationActivity {
         });
     }
 
+    /**
+     * Sets up the ViewPager, which enables Swiping through the pages.
+     * The page you are on is indicated by the dots in the bottom of the page.
+     * It implements a listener which listens for onPageScrolled, onPageSelected, onPageScrollStateChange.
+     * The first triggers the validate function to check if input is given.
+     */
     private void setupViewPager() {
         DotsIndicator dotsIndicator = findViewById(R.id.dots_indicator);
         viewPager = findViewById(R.id.view_pager);
@@ -96,6 +118,15 @@ public class QuestActivity extends NavigationActivity {
         viewPager.addOnPageChangeListener(listener);
     }
 
+    /**
+     * Validates whether input and the right input type are given per Question.
+     * Each Question is its own Fragment.
+     * If there is no input given at the according Fragment, you cannot page forward.
+     * The CurrentItem variable (which means the page you turn to) is set to the page you were on, so you stay on your page.
+     * You are always able to go back though.
+     * @param position
+     * @param currentPage
+     */
     private void validate(Fragment position, int currentPage) {
         if (position instanceof QuestNameFragment) {
             EditText etName = findViewById(R.id.et_name);

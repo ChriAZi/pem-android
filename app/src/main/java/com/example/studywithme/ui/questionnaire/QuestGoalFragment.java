@@ -16,6 +16,11 @@ import androidx.fragment.app.Fragment;
 import com.example.studywithme.R;
 import com.example.studywithme.utils.Constants;
 
+/**
+ * This fragment handles the question about the goal.
+ * It provides a method to inform the SharedPreferences about the input.
+ * The input can be a text.
+ */
 public class QuestGoalFragment extends Fragment {
 
     public QuestGoalFragment() {
@@ -27,6 +32,13 @@ public class QuestGoalFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The created view holds an EditText for text to enter the goal.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quest_session_goal, container, false);
@@ -40,6 +52,10 @@ public class QuestGoalFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Informs the SharedPreferences about the entered goal.
+     * @param sessionGoal
+     */
     private void setSessionGoal(String sessionGoal) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sp.edit();
@@ -47,11 +63,13 @@ public class QuestGoalFragment extends Fragment {
         editor.apply();
     }
 
+    /**
+     * This class watches the state of the input field and sets the goal once it is changed.
+     */
     private class QuestionGoalTextWatcher implements TextWatcher {
 
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
         }
 
         @Override
@@ -61,7 +79,6 @@ public class QuestGoalFragment extends Fragment {
 
         @Override
         public void afterTextChanged(Editable editable) {
-
         }
     }
 

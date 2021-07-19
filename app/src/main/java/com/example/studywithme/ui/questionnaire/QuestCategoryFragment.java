@@ -15,6 +15,11 @@ import com.example.studywithme.R;
 import com.example.studywithme.data.models.SessionCategory;
 import com.example.studywithme.utils.Constants;
 
+/**
+ * This fragment handles the question about the worked for category.
+ * It provides a method to inform the SharedPreferences about the input.
+ * The input is one of the predefined SessionCategories.
+ */
 public class QuestCategoryFragment extends Fragment {
 
     public QuestCategoryFragment() {
@@ -25,6 +30,13 @@ public class QuestCategoryFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The created view holds a radio group which provides the options for the category input.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quest_session_category, container, false);
@@ -54,6 +66,10 @@ public class QuestCategoryFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Informs the SharedPreferences about the picked category.
+     * @param sessionCategory
+     */
     private void setSessionCategory(String sessionCategory) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
         SharedPreferences.Editor editor = sp.edit();

@@ -22,6 +22,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This fragment handles the question about the subtasks.
+ * It provides a method to inform the SharedPreferences about the input.
+ * The input can be a Text and will be added to a task list.
+ */
 public class QuestTaskFragment extends Fragment {
 
     private ArrayList<String> taskList = new ArrayList<>();
@@ -38,6 +43,14 @@ public class QuestTaskFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * The created view holds an Input field for text to enter a subtask,
+     * a button to submit the subtask and a list that shows your given inputs.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quest_session_tasks, container, false);
@@ -62,6 +75,11 @@ public class QuestTaskFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Adds a entered Subtask to the list with help of the List Adapter
+     * @param description
+     * @param parentActivity
+     */
     private void addTodoToListView(String description, QuestActivity parentActivity) {
         if (!(description.equals(""))) {
             parentActivity.setTaskAdded(true);
@@ -71,6 +89,10 @@ public class QuestTaskFragment extends Fragment {
         }
     }
 
+    /**
+     * Listens for the state of the list and sets/removes the tasks once one is added/removed.
+     * @param parentActivity
+     */
     private void setUpListViewListener(QuestActivity parentActivity) {
         listView.setOnItemLongClickListener((parent, view, position, id) -> {
             parentActivity.setTaskAdded(false);
@@ -80,6 +102,10 @@ public class QuestTaskFragment extends Fragment {
         });
     }
 
+    /**
+     * Informs the SharedPreferences about the task list.
+     * @param tasks
+     */
     private void setSessionTasks(List<String> tasks) {
         Set<String> tasksSet = new HashSet<>(tasks);
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getContext());
