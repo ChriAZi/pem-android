@@ -27,6 +27,10 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.valueOf;
 
+/**
+ * Activity that handles the Timer Functionality, extends the Navigation
+ * and implements the Adapter for the Task List
+ */
 public class TimerActivity extends NavigationActivity implements TimerTaskAdapter.ItemViewHolder.OnCheckedChangeListener {
 
     private TextView timerCategory, timerName, timerPartner, timerCountdown;
@@ -39,25 +43,37 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
     private List<SessionTask> tasks;
     private boolean timerStarted = false;
 
+    /**
+     * When the activity is created, this method checks whether the user has already started
+     * a session or not and accordingly loads the right layout
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sessionId = Session.getIdFromPreferences(this);
         if (sessionId == null) {
             layoutId = R.layout.activity_timer_empty;
             super.onCreate(savedInstanceState);
-            initEmptyTimerLayout();
+            initEmptyTimerLayout(); //load empty timer layout
         } else {
             layoutId = R.layout.activity_timer;
             super.onCreate(savedInstanceState);
-            initTimerLayout();
+            initTimerLayout(); //load actual timer layout
         }
     }
 
+    /**
+     * loads the empty timer layout and enables a Clicklistener for a Floatingaction Button
+     * by which a session can be started
+     */
     private void initEmptyTimerLayout() {
         ExtendedFloatingActionButton startSessionButton = findViewById(R.id.bt_timer_create_session);
         startSessionButton.setOnClickListener(view -> startActivity(new Intent(this, QuestActivity.class)));
     }
 
+    /**
+     * loads the actual timer layout and observes the current session with the TimerViewModel class
+     */
     private void initTimerLayout() {
         timerCategory = findViewById(R.id.tv_timer_category);
         timerName = findViewById(R.id.tv_timer_name);
@@ -67,26 +83,31 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         tasksRecyclerView = findViewById(R.id.rv_timer_tasks);
 
         timerViewModel = new ViewModelProvider(this).get(TimerViewModel.class);
-        timerViewModel.getActiveSession(sessionId).observe(this, session -> {
-            String userId = User.getIdFromPreferences(this);
-            if (!session.isPublic()) {
-                if (session.getPartner() == null) {
-                    setTimerForOwner(session, false);
-                } else if (session.getOwner().getUid().equals(userId)) {
-                    setTimerForOwner(session, true);
+        timerViewModel.getActiveSession(sessionId).observe(this, session -> {   //observes the active session
+            String userId = User.getIdFromPreferences(this);    //get the current user ID
+            if (!session.isPublic()) {  //check if the session is private
+                if (session.getPartner() == null) {     //check if there is a session partner
+                    setTimerForOwner(session, false);   //set timer for owner without a partner
+                } else if (session.getOwner().getUid().equals(userId)) {  //check if the current user is the owner
+                    setTimerForOwner(session, true);    //set timer for owner with a partner
                 } else {
-                    setTimerForPartner(session);
+                    setTimerForPartner(session);    //set timer for the partner
                 }
-            } else if (session.getHasPartner()) {
-                if (session.getOwner().getUid().equals(userId)) {
-                    setTimerForOwner(session, true);
+                } else if (session.getHasPartner()) {  // if the session has a partner
+                if (session.getOwner().getUid().equals(userId)) {   //check if the current user is the owner
+                    setTimerForOwner(session, true);    //set timer for owner with a partner
                 }
             } else {
-                setTimerForOwner(session, false);
+                setTimerForOwner(session, false);   //set timer for owner without a partner
             }
         });
     }
 
+    /**
+     * sets the views and the timer for the person who created the session with the initial duration
+     * @param session   current session
+     * @param hasPartner    session with or without partner
+     */
     private void setTimerForOwner(Session session, boolean hasPartner) {
         setViewsForOwner(session, hasPartner);
         if (!timerStarted) {
@@ -97,6 +118,10 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         }
     }
 
+    /**
+     * sets the views and the timer with the session's remaining duration for the the partner
+     * @param session current session
+     */
     private void setTimerForPartner(Session session) {
         setViewsForPartner(session);
         if (!timerStarted) {
@@ -107,23 +132,37 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         }
     }
 
+    /**
+     * Puts the fetched tasks into the recycler view via the adapter
+     * @param tasks
+     */
     private void setTasksRecyclerView(List<SessionTask> tasks) {
         TimerTaskAdapter sessionDetailTaskAdapter = new TimerTaskAdapter(tasks, this);
         tasksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         tasksRecyclerView.setAdapter(sessionDetailTaskAdapter);
     }
 
+    /**
+     * calculates the remaining session duration for the joining partner
+     * @param session
+     * @return
+     */
     private int getRemainingDuration(Session session) {
-        long currentTimeInMillis = System.currentTimeMillis();
-        int sessionDurationInMinutes = session.getDuration();
-        int sessionDurationInMillis = sessionDurationInMinutes * 60000;
+        long currentTimeInMillis = System.currentTimeMillis(); //gets the current system time
+        int sessionDurationInMinutes = session.getDuration(); //gets the session duration in minutes
+        int sessionDurationInMillis = sessionDurationInMinutes * 60000; //gets the session duration in milliseconds
 
-        long startedAtInSeconds = session.getStartedAt().getSeconds();
-        long passedTime = currentTimeInMillis - startedAtInSeconds * 1000;
-        long timeLeftInMillis = sessionDurationInMillis - passedTime;
+        long startedAtInSeconds = session.getStartedAt().getSeconds(); //gets the seconds of the timestamp at which the session has started
+        long passedTime = currentTimeInMillis - startedAtInSeconds * 1000; //calculates the passed time
+        long timeLeftInMillis = sessionDurationInMillis - passedTime;   //calculates the left time
         return (int) TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis);
     }
 
+    /**
+     * sets the text views like the category, user name and the partner name if there is a partner
+     * @param session
+     * @param hasPartner
+     */
     private void setViewsForOwner(Session session, boolean hasPartner) {
         timerCategory.setText(StringHelper.capitalize(session.getOwnerSetting().getCategory().toString()));
         timerName.setText(session.getOwnerSetting().getName());
@@ -139,12 +178,20 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         }
     }
 
+    /**
+     * sets the text views for the partner (Category, own name, owner name)
+     * @param session
+     */
     private void setViewsForPartner(Session session) {
         timerCategory.setText(StringHelper.capitalize(session.getPartnerSetting().getCategory().toString()));
         timerName.setText(session.getPartnerSetting().getName());
         timerPartner.setText(session.getOwner().getName());
     }
 
+    /**
+     * sets the progress bar and the countdown timer to the given duration
+     * @param duration
+     */
     private void setTimer(int duration) {
         int durationInMillis = duration * 60000;
         progressBar.setMax(durationInMillis);
@@ -166,6 +213,11 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         countdownTimer.start();
     }
 
+    /**
+     * sets the text for the countdown timer
+     * @param millisUntilFinished
+     * @return
+     */
     private String getTimeAsText(long millisUntilFinished) {
         int seconds = (int) (millisUntilFinished / 1000) % 60;
         int minutes = (int) ((millisUntilFinished / (1000 * 60)) % 60);
@@ -193,6 +245,9 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         }
     }
 
+    /**
+     * ends the session (also in firebase) and calls the reflection activity
+     */
     private void endSession() {
         timerViewModel.endSession(sessionId).observe(this, finished -> {
             if (finished) {
@@ -201,11 +256,19 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         });
     }
 
+    /**
+     * starts the reflection activity (called after the timer has finished)
+     */
     private void startReflectionActivity() {
         Intent intent = new Intent(TimerActivity.this, ReflectionQuestActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * updates the tasks to done in the database if the user checks the checkboxes
+     * @param position
+     * @param checked
+     */
     @Override
     public void onCheckedChange(int position, boolean checked) {
         tasks.get(position).setDone(checked);

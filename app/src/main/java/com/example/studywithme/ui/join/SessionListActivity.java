@@ -22,6 +22,10 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Activity that shows all the currently open sessions from other users
+ * extends the Navigation and implements the Adapter for the Session List
+ */
 public class SessionListActivity extends NavigationActivity implements SessionListAdapter.ItemViewHolder.OnItemClickListener {
     SessionListViewModel sessionListViewModel;
     private RecyclerView recyclerView;
@@ -44,6 +48,9 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
         createSessionButton.setOnClickListener(view -> startQuestionnaireActivity(false));
     }
 
+    /**
+     * gets the currently logged in user from intent and saves the user ID to the preferences
+     */
     private void setUserIdFromIntent() {
         if (getIntent().hasExtra(Constants.USER_ID)) {
             userId = (String) getIntent().getSerializableExtra(Constants.USER_ID);
@@ -52,6 +59,9 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
         userId = User.getIdFromPreferences(this);
     }
 
+    /**
+     * sets all the view & layout items
+     */
     private void setupViews() {
         backgroundImage = findViewById(R.id.iv_list_studying);
         backgroundImage.setImageResource(R.drawable.studying);
@@ -59,32 +69,46 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
         hint = findViewById(R.id.tv_list_no_sessions);
     }
 
+    /**
+     * fetches the viewmodel from the sessionlistviewmodel class
+     */
     private void initViewModel() {
         sessionListViewModel = new ViewModelProvider(this).get(SessionListViewModel.class);
     }
 
+    /**
+     * observes all public sessions from firebase and displays them in the recycler view
+     */
     private void loadOpenSessions() {
         sessionListViewModel.getPublicSessions(User.getIdFromPreferences(this)).observe(this, sessions -> {
-            if (sessions.isEmpty()) {
-                hint.setVisibility(View.VISIBLE);
-                backgroundImage.setVisibility(View.VISIBLE);
+            if (sessions.isEmpty()) {   //if there are no open sessions
+                hint.setVisibility(View.VISIBLE);   // show hint
+                backgroundImage.setVisibility(View.VISIBLE); //show background image
             } else {
                 hint.setVisibility(View.GONE);
                 backgroundImage.setVisibility(View.GONE);
                 SessionListAdapter sessionAdapter = new SessionListAdapter(sessions, this);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-                recyclerView.setAdapter(sessionAdapter);
+                recyclerView.setAdapter(sessionAdapter); //set adapter
                 this.sessions = sessions;
             }
         });
     }
 
+    /**
+     * starts the Questionaire Activity for the clicked session
+     * @param position of clicked item
+     */
     @Override
     public void onItemClick(int position) {
         Session.setIdInPreferences(this, sessions.get(position).getUid());
         startQuestionnaireActivity(true);
     }
 
+    /**
+     * starts the Questionaire Activity
+     * @param joining to report to the other user that the partner is currently joining the session
+     */
     private void startQuestionnaireActivity(boolean joining) {
         Intent i = new Intent(SessionListActivity.this, QuestActivity.class);
         i.putExtra(Constants.JOINING, joining);

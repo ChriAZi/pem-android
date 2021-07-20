@@ -16,6 +16,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * Adapter for the Task List in the Timer Activity
+ */
 public class TimerTaskAdapter extends RecyclerView.Adapter<TimerTaskAdapter.ItemViewHolder> {
 
     private List<SessionTask> tasks;
@@ -26,6 +29,12 @@ public class TimerTaskAdapter extends RecyclerView.Adapter<TimerTaskAdapter.Item
         this.onCheckedChangeListener = onCheckedChangeListener;
     }
 
+    /**
+     * inflates the layout for the list items
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @Override
     public @NotNull ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -56,6 +65,11 @@ public class TimerTaskAdapter extends RecyclerView.Adapter<TimerTaskAdapter.Item
             task.setOnCheckedChangeListener(this);
         }
 
+        /**
+         * calls onCheckedChange in the Timer Activity if the user clicks into a checkbox
+         * @param compoundButton
+         * @param b
+         */
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             onCheckedChangeListener.onCheckedChange(getAdapterPosition(), b);

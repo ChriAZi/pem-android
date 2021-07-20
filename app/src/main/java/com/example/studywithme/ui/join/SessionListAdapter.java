@@ -15,16 +15,26 @@ import com.example.studywithme.utils.StringHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter for the Session List
+ */
 public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.ItemViewHolder> {
 
     private ArrayList<Session> sessions;
     final private ItemViewHolder.OnItemClickListener onItemClickListener;
 
+    //constructor
     public SessionListAdapter(List<Session> sessions, ItemViewHolder.OnItemClickListener onItemClickListener) {
         this.sessions = (ArrayList<Session>) sessions;
         this.onItemClickListener = onItemClickListener;
     }
 
+    /**
+     * inflates the layout for the list items
+     * @param parent
+     * @param viewType
+     * @return
+     */
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -67,6 +77,10 @@ public class SessionListAdapter extends RecyclerView.Adapter<SessionListAdapter.
             itemView.setOnClickListener(this);
         }
 
+        /**
+         * calls onItemClick in the SessionListActivity when an item is clicked
+         * @param v
+         */
         @Override
         public void onClick(View v) {
             onItemClickListener.onItemClick(getAdapterPosition());
