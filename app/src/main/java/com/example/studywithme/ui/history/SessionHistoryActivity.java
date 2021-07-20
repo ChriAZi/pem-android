@@ -21,6 +21,12 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 import java.util.List;
 
+/**
+ * Class that contains the SessionHistory Activity.
+ * This activity contains snapshots of active cloud Firestore Database.
+ *It extends the Navigation Activity to have the Bottom Navigation shown.
+ * You can view session details in SessionDetails Activity.
+ */
 public class SessionHistoryActivity extends NavigationActivity implements SessionHistoryAdapter.ItemViewHolder.OnItemClickListener {
     private SessionHistoryViewModel sessionHistoryViewModel;
     private List<Session> sessions;

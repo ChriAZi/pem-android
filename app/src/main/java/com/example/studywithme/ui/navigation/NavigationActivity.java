@@ -15,6 +15,15 @@ import com.example.studywithme.ui.join.SessionListActivity;
 import com.example.studywithme.ui.timer.TimerActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/** Our app main component are  based on Activities, not fragments.
+ * The traditional Jetpack setup from the Bottom Navigation does not work.
+ * so NavigationActivity is used.
+ * What is Bottom Navigation Activity?
+ * It is an implementation of material design bottom navigation.
+ * Bottom navigation bars make it easy for users to explore and switch between top-level views in a single tap.
+ * They should be used when an application has three to five top-level destination.
+ *
+ */
 public abstract class NavigationActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     protected BottomNavigationView navigationView;

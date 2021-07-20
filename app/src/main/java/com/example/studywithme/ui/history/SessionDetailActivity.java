@@ -24,6 +24,20 @@ import com.example.studywithme.utils.StringHelper;
 
 import java.util.List;
 
+/**
+ * Class that contains the Details of SessionHistory Activity.
+ * It extends the Navigation Activity to have the Bottom Navigation shown.
+ * In the Activity, you can view session details such as the following:
+ * + The ID of the session
+ * + Which user connected to an instance through a session(Date)
+ * + When the session began and ended(Duration)
+ * + The status of the session
+ * + Tasks (your Goals)
+ *
+ * when the session loads, a list of Sessions will be loaded from the database.
+ * when the list is displayed we will request whole Information for each session as itś loaded by the Recyclerview.
+ *
+ */
 public class SessionDetailActivity extends NavigationActivity {
 
     private SessionDetailViewModel sessionDetailViewModel;
