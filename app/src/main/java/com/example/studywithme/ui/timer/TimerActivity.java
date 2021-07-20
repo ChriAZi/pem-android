@@ -147,7 +147,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
      * @param session
      * @return
      */
-    private int getRemainingDuration(Session session) {
+    private long getRemainingDuration(Session session) {
         long currentTimeInMillis = System.currentTimeMillis(); //gets the current system time
         int sessionDurationInMinutes = session.getDuration(); //gets the session duration in minutes
         int sessionDurationInMillis = sessionDurationInMinutes * 60000; //gets the session duration in milliseconds
@@ -155,7 +155,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
         long startedAtInSeconds = session.getStartedAt().getSeconds(); //gets the seconds of the timestamp at which the session has started
         long passedTime = currentTimeInMillis - startedAtInSeconds * 1000; //calculates the passed time
         long timeLeftInMillis = sessionDurationInMillis - passedTime;   //calculates the left time
-        return (int) TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis);
+        return (long) TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis);
     }
 
     /**
@@ -192,9 +192,9 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
      * sets the progress bar and the countdown timer to the given duration
      * @param duration
      */
-    private void setTimer(int duration) {
-        int durationInMillis = duration * 60000;
-        progressBar.setMax(durationInMillis);
+    private void setTimer(long duration) {
+        long durationInMillis = duration * 60000;
+        progressBar.setMax((int) durationInMillis);
         countdownTimer = new CountDownTimer(durationInMillis, 1000) {
             @SuppressLint("SetTextI18n")
             @Override
@@ -205,7 +205,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
 
             @Override
             public void onFinish() {
-                progressBar.setProgress(durationInMillis);
+                progressBar.setProgress((int) durationInMillis);
                 timerCountdown.setText("00:00");
                 endSession();
             }
