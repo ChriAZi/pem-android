@@ -11,6 +11,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * A service to fetch the currently active user
+ * Can be used in all views through the AbstractViewModel
+ *
+ * @see com.example.studywithme.ui.viewmodels.AbstractViewModel
+ */
 public class UserService {
     private static UserService INSTANCE = null;
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -19,6 +25,11 @@ public class UserService {
     private UserService() {
     }
 
+    /**
+     * Creating a Singelton Instance of the service
+     *
+     * @return the existing or a new UserService
+     */
     public static UserService getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new UserService();
@@ -26,6 +37,12 @@ public class UserService {
         return (INSTANCE);
     }
 
+    /**
+     * Fetches the currently active User information from the backend
+     *
+     * @param userId the ID of the user to fetch information for
+     * @return LiveData holding the information about the requested User
+     */
     public LiveData<User> getCurrentUser(String userId) {
         DocumentReference userDocument = usersRef.document(userId);
         MutableLiveData<User> user = new MutableLiveData<>();

@@ -15,6 +15,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * The Adapter handling the tasks displayed in the SessionDetailActivity
+ */
 public class SessionDetailTaskAdapter extends RecyclerView.Adapter<SessionDetailTaskAdapter.ItemViewHolder> {
 
     private List<SessionTask> tasks;

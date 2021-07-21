@@ -13,10 +13,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository for retrieving a list of past Sessions from the backend
+ */
 public class SessionHistoryRepository {
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference sessionsRef = rootRef.collection(Constants.SESSIONS);
 
+    /**
+     * Fetches all past sessions for a given user
+     *
+     * @param userId the ID of the user for whom to fetch the sessions
+     * @return LiveData holding a list of relevant Sessions
+     */
     public LiveData<List<Session>> getPastSessions(String userId) {
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
         sessionsRef

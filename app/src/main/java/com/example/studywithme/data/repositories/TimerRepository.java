@@ -13,10 +13,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
+/**
+ * Repository for managing timer related backend tasks
+ */
 public class TimerRepository {
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference sessionsRef = rootRef.collection(Constants.SESSIONS);
 
+    /**
+     * Ends a session in the backend
+     *
+     * @param sessionId the ID of the session to be ended
+     * @return LiveData indicating whether the update was successful
+     */
     public LiveData<Boolean> endSession(String sessionId) {
         MutableLiveData<Boolean> finished = new MutableLiveData<>(false);
         DocumentReference sessionDocument = sessionsRef.document(sessionId);
@@ -33,6 +42,13 @@ public class TimerRepository {
         return finished;
     }
 
+    /**
+     * Updates the status of tasks during a session in the backend
+     *
+     * @param sessionId the ID of the session to be updated
+     * @param userId    the ID of the user updating the session
+     * @param tasks     a list of the updated tasks stati
+     */
     public void updateTasks(String sessionId, String userId, List<SessionTask> tasks) {
         sessionsRef.document(sessionId).get().addOnCompleteListener(sessionTask -> {
             if (sessionTask.isSuccessful()) {

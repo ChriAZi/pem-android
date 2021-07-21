@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Class that contains the SessionHistory Activity.
  * This activity contains snapshots of active cloud Firestore Database.
- *It extends the Navigation Activity to have the Bottom Navigation shown.
+ * It extends the Navigation Activity to have the Bottom Navigation shown.
  * You can view session details in SessionDetails Activity.
  */
 public class SessionHistoryActivity extends NavigationActivity implements SessionHistoryAdapter.ItemViewHolder.OnItemClickListener {
@@ -42,6 +42,9 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
         initViewModel();
     }
 
+    /**
+     * Initializes all Views
+     */
     private void setupViews() {
         backgroundImage = findViewById(R.id.iv_history_studying);
         backgroundImage.setImageResource(R.drawable.studying);
@@ -55,6 +58,9 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
         });
     }
 
+    /**
+     * initializes the SessionHistoryViewModel and adapting the visibility of the list based on the content of the Session List
+     */
     private void initViewModel() {
         String userId = User.getIdFromPreferences(this);
         sessionHistoryViewModel = new ViewModelProvider(this).get(SessionHistoryViewModel.class);
@@ -75,11 +81,21 @@ public class SessionHistoryActivity extends NavigationActivity implements Sessio
         });
     }
 
+    /**
+     * starts the QuestActivity
+     *
+     * @see QuestActivity
+     */
     private void startQuestionnaireActivity() {
         Intent i = new Intent(SessionHistoryActivity.this, QuestActivity.class);
         this.startActivity(i);
     }
 
+    /**
+     * handles the click on a single session in the RecyclerView
+     *
+     * @param position the position of the clicked session in the list
+     */
     @Override
     public void onItemClick(int position) {
         Intent intent = new Intent(this, SessionDetailActivity.class);

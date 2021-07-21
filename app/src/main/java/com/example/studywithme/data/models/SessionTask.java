@@ -2,10 +2,22 @@ package com.example.studywithme.data.models;
 
 import java.io.Serializable;
 
+/**
+ * Model Class: Represents a Session Task for a user of a session
+ */
 public class SessionTask implements Serializable {
+    /**
+     * the description of a task as set by the user
+     */
     private String description;
+    /**
+     * indicating whether the task is marked as done by the user
+     */
     private boolean done;
 
+    /**
+     * Empty constructor for FireStore mapping
+     */
     public SessionTask() {
 
     }

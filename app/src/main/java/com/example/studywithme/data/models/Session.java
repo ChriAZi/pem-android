@@ -9,23 +9,79 @@ import com.google.firebase.Timestamp;
 
 import java.io.Serializable;
 
+/**
+ * Model Class: Represents a Focus-Session
+ */
 public class Session implements Serializable {
-    private String uid;
 
+    /**
+     * a unique database ID
+     */
+    private String uid;
+    /**
+     * the duration of a session (set by the owner)
+     */
     private int duration;
+    /**
+     * timestamp indicating when a session was created on the server
+     *
+     * @see Timestamp
+     */
     private Timestamp startedAt;
+    /**
+     * indicating whether a session is currently active
+     */
     private boolean active;
+    /**
+     * indicating whether other users can join a session
+     */
     private boolean isPublic;
+    /**
+     * indicating whether a partner is currently joining a session
+     */
     private boolean hasPartner;
 
+    /**
+     * the owner (creator) of a session
+     *
+     * @see User
+     */
     private User owner;
+    /**
+     * the partner of a session
+     *
+     * @see User
+     */
     private User partner;
+    /**
+     * the settings as set by the owner of a session
+     *
+     * @see SessionSetting
+     */
     private SessionSetting ownerSetting;
+    /**
+     * the settings as set by the partner of a session
+     *
+     * @see SessionSetting
+     */
     private SessionSetting partnerSetting;
 
+    /**
+     * the reflection as made by the owner of a session
+     *
+     * @see SessionReflection
+     */
     private SessionReflection ownerReflection;
+    /**
+     * the reflection as made by the partner of a session
+     *
+     * @see SessionReflection
+     */
     private SessionReflection partnerReflection;
 
+    /**
+     * Empty constructor for FireStore mapping
+     */
     public Session() {
     }
 
@@ -34,6 +90,31 @@ public class Session implements Serializable {
         this.isPublic = isPublic;
         this.ownerSetting = ownerSetting;
     }
+
+    /**
+     * Convenience method for accessing the active session ID from the shared preferences
+     *
+     * @param context the application context
+     * @return the ID of the currently active session
+     */
+    public static String getIdFromPreferences(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString(Constants.SESSION_ID, null);
+    }
+
+    /**
+     * Convenience method for storing the active session ID in the shared preferences
+     *
+     * @param context   the application context
+     * @param sessionId the ID of the currently active session
+     */
+    public static void setIdInPreferences(Context context, String sessionId) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(Constants.SESSION_ID, sessionId);
+        editor.apply();
+    }
+
 
     public String getUid() {
         return uid;
@@ -129,17 +210,5 @@ public class Session implements Serializable {
 
     public void setHasPartner(boolean hasPartner) {
         this.hasPartner = hasPartner;
-    }
-
-    public static String getIdFromPreferences(Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getString(Constants.SESSION_ID, null);
-    }
-
-    public static void setIdInPreferences(Context context, String sessionId) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sp.edit();
-        editor.putString(Constants.SESSION_ID, sessionId);
-        editor.apply();
     }
 }
