@@ -2,11 +2,23 @@ package com.example.studywithme.data.models;
 
 import java.util.List;
 
+/**
+ * Model Class: Represents a Session Reflection for a user of a session
+ */
 public class SessionReflection {
 
+    /**
+     * the written feedback as entered by the user
+     */
     private String feedback;
+    /**
+     * a list of distractions as entered by the user
+     */
     private List<String> distractions;
 
+    /**
+     * Empty constructor for FireStore mapping
+     */
     public SessionReflection() {
 
     }

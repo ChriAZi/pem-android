@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Create Recycler View Adapter of SessionDeatilActivity.
+ * the adapter handling the list of sessions to be shown in the SessionHistoryActivity
  */
 
 public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAdapter.ItemViewHolder> {
@@ -45,9 +45,13 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
         return new ItemViewHolder(view, onItemClickListener);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
         Session session = sessions.get(position);
+        /*
+          Checks if the user requesting the view is the owner of a session and adapting all view content based on that information
+         */
         boolean isOwner = User.getIdFromPreferences(context).equals(session.getOwner().getUid());
         SessionCategory category;
         String name;
@@ -67,7 +71,9 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
             category = session.getPartnerSetting().getCategory();
             name = session.getPartnerSetting().getName();
         }
-
+        /*
+        Sets stock image based on the SessionCategory
+         */
         switch (category) {
             case WORK:
                 holder.sessionImage.setImageResource(R.drawable.work_image);
@@ -120,6 +126,9 @@ public class SessionHistoryAdapter extends RecyclerView.Adapter<SessionHistoryAd
             onItemClickListener.onItemClick(getAdapterPosition());
         }
 
+        /**
+         * Interface to allow handling of onClick events per item in the parent activity
+         */
         public interface OnItemClickListener {
             void onItemClick(int position);
         }

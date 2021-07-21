@@ -33,10 +33,8 @@ import java.util.List;
  * + When the session began and ended(Duration)
  * + The status of the session
  * + Tasks (your Goals)
- *
  * when the session loads, a list of Sessions will be loaded from the database.
  * when the list is displayed we will request whole Information for each session as itś loaded by the Recyclerview.
- *
  */
 public class SessionDetailActivity extends NavigationActivity {
 
@@ -45,6 +43,12 @@ public class SessionDetailActivity extends NavigationActivity {
     private RecyclerView distractionsRecyclerView;
     private String sessionName;
 
+    /**
+     * Fetches the Extras as passed through the intent
+     * Loads all relevant information from the backend to show the details of the requested Session
+     *
+     * @param savedInstanceState
+     */
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,9 @@ public class SessionDetailActivity extends NavigationActivity {
         setupActionBar();
 
         sessionDetailViewModel.getSession(sessionId).observe(this, session -> {
+            /*
+            Checks if the user requesting the view is the owner of a session and adapting all view content based on that information
+            */
             boolean isOwner = User.getIdFromPreferences(this).equals(session.getOwner().getUid());
 
             TextView partner = findViewById(R.id.tv_detail_partner);
@@ -87,6 +94,9 @@ public class SessionDetailActivity extends NavigationActivity {
             TextView duration = findViewById(R.id.tv_detail_duration);
             duration.setText(session.getDuration() + " Minuten");
 
+            /*
+            Sets stock image based on the SessionCategory
+            */
             ImageView headerImage = findViewById(R.id.iv_header_image);
             switch (category) {
                 case WORK:
@@ -105,10 +115,16 @@ public class SessionDetailActivity extends NavigationActivity {
         });
     }
 
+    /**
+     * initializes the SessionDetailViewModel
+     */
     private void initViewModel() {
         sessionDetailViewModel = new ViewModelProvider(this).get(SessionDetailViewModel.class);
     }
 
+    /**
+     * Shows the ActionBar and enables the back arrow
+     */
     private void setupActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -116,12 +132,23 @@ public class SessionDetailActivity extends NavigationActivity {
         }
     }
 
+    /**
+     * Handles the click on the back arrow
+     *
+     * @param item the back arrow in this case
+     * @return indicating whether the the back arrow was selected
+     */
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent backIntent = new Intent(getApplicationContext(), SessionHistoryActivity.class);
         startActivityForResult(backIntent, 0);
         return true;
     }
 
+    /**
+     * Initializes the adapter for the RecyclerView containing the tasks of the requested Session
+     *
+     * @param tasks the list of tasks to be shown
+     */
     private void setTasksRecyclerView(List<SessionTask> tasks) {
         SessionDetailTaskAdapter sessionDetailTaskAdapter = new SessionDetailTaskAdapter(tasks);
         tasksRecyclerView = findViewById(R.id.rv_tasks);
@@ -129,6 +156,11 @@ public class SessionDetailActivity extends NavigationActivity {
         tasksRecyclerView.setAdapter(sessionDetailTaskAdapter);
     }
 
+    /**
+     * Initializes the adapter for the RecyclerView containing the distractions of the requested Session
+     *
+     * @param distractions the list of distractions to be shown
+     */
     private void setDistractionsRecyclerView(List<String> distractions) {
         DistractionAdapter distractionsAdapter = new DistractionAdapter(distractions);
         distractionsRecyclerView = findViewById(R.id.rv_distractions);

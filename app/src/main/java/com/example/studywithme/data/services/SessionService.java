@@ -13,6 +13,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A service to fetch the currently active session
+ * Can be used in all views
+ */
 public class SessionService {
     private static SessionService INSTANCE = null;
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
@@ -21,6 +25,11 @@ public class SessionService {
     private SessionService() {
     }
 
+    /**
+     * Creating a Singelton Instance of the service
+     *
+     * @return the existing or a new SessionService
+     */
     public static SessionService getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new SessionService();
@@ -28,6 +37,12 @@ public class SessionService {
         return (INSTANCE);
     }
 
+    /**
+     * Fetches the currently active Session information from the backend
+     *
+     * @param sessionId the ID of the session to fetch information for
+     * @return LiveData holding the information about the requested Session
+     */
     public LiveData<Session> getActiveSession(String sessionId) {
         MutableLiveData<Session> session = new MutableLiveData<>();
         sessionsRef

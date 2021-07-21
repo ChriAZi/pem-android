@@ -11,12 +11,20 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Repository for managing persistence of authentication tasks
+ */
 public class SplashRepository {
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private final User user = new User();
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference usersRef = rootRef.collection(Constants.USERS);
 
+    /**
+     * Checks if the user requesting to log in is already authenticated
+     *
+     * @return LiveData holding the relevant user
+     */
     public MutableLiveData<User> checkIfUserIsAuthenticated() {
         MutableLiveData<User> isUserAuthenticatedInFirebase = new MutableLiveData<>();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -30,9 +38,15 @@ public class SplashRepository {
         return isUserAuthenticatedInFirebase;
     }
 
-    public MutableLiveData<User> setUserFromId(String id) {
+    /**
+     * Creates a User object from the data provided by the backend
+     *
+     * @param userId the ID of the
+     * @return LiveData holding the fetched User object
+     */
+    public MutableLiveData<User> getUserFromId(String userId) {
         MutableLiveData<User> user = new MutableLiveData<>();
-        usersRef.document(id).get().addOnCompleteListener(userTask -> {
+        usersRef.document(userId).get().addOnCompleteListener(userTask -> {
             if (userTask.isSuccessful()) {
                 DocumentSnapshot document = userTask.getResult();
                 if (document.exists()) {

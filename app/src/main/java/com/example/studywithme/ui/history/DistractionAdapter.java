@@ -14,6 +14,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+/**
+ * The Adapter handling the distractions displayed in the SessionDetailActivity
+ */
 public class DistractionAdapter extends RecyclerView.Adapter<DistractionAdapter.ItemViewHolder> {
 
     private List<String> distractions;

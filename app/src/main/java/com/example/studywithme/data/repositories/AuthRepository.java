@@ -13,11 +13,20 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * Repository for managing authenticating tasks with the backend
+ */
 public class AuthRepository {
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference usersRef = rootRef.collection(Constants.USERS);
     private final FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
+    /**
+     * signs in a new user to the application using Google Authentication
+     *
+     * @param googleAuthCredential the authentication credentials as provided by Google
+     * @return LiveData including the signed in user
+     */
     public MutableLiveData<User> firebaseSignInWithGoogle(AuthCredential googleAuthCredential) {
         MutableLiveData<User> authenticatedUser = new MutableLiveData<>();
         firebaseAuth.signInWithCredential(googleAuthCredential).addOnCompleteListener(authTask -> {
@@ -39,6 +48,11 @@ public class AuthRepository {
         return authenticatedUser;
     }
 
+    /**
+     * creates a user in the database if the user is not yet stored there
+     * @param authenticatedUser the User object to be stored
+     * @return LiveData including the created User
+     */
     public MutableLiveData<User> createUserIfNotExists(User authenticatedUser) {
         MutableLiveData<User> newUser = new MutableLiveData<>();
         DocumentReference uidReference = usersRef.document(authenticatedUser.getUid());

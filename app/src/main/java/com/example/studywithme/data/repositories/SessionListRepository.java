@@ -13,11 +13,21 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository for retrieving a list of active Sessions from the backend
+ */
 public class SessionListRepository {
 
     private final FirebaseFirestore rootRef = FirebaseFirestore.getInstance();
     private final CollectionReference sessionsRef = rootRef.collection(Constants.SESSIONS);
 
+    /**
+     * Fetches all active and public sessions that are not owned by the user requesting them
+     * Checks also whether a user is currently in the process of joining
+     *
+     * @param userId the ID of the user requesting the list of sessions
+     * @return LiveData holding a list of all relevant sessions
+     */
     public LiveData<List<Session>> getPublicSessions(String userId) {
         MutableLiveData<List<Session>> sessions = new MutableLiveData<>();
         sessionsRef

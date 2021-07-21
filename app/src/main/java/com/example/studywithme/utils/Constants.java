@@ -1,5 +1,8 @@
 package com.example.studywithme.utils;
 
+/**
+ * class holding relevant constants used throughout the application
+ */
 public class Constants {
     public static final int RC_SIGN_IN = 1;
     public static final String TAG = "StudyWithMe";
