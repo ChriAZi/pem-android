@@ -34,7 +34,12 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
     private List<Session> sessions = new ArrayList<>();
     private String userId;
 
-
+    /**
+     * When this activity is created, this method
+     * - calls the functions to load the current user,the views and the active sessions
+     * - calls the function that fetches the viewmodel
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +54,7 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
     }
 
     /**
-     * gets the currently logged in user from intent and saves the user ID to the preferences
+     * gets the currently logged in user from the intent (given from AuthActivity) and saves the user ID to the preferences
      */
     private void setUserIdFromIntent() {
         if (getIntent().hasExtra(Constants.USER_ID)) {
@@ -96,7 +101,7 @@ public class SessionListActivity extends NavigationActivity implements SessionLi
     }
 
     /**
-     * starts the Questionaire Activity for the clicked session
+     * starts the Questionaire Activity for the clicked session (sets the clicked session in the preferences as current session)
      * @param position of clicked item
      */
     @Override

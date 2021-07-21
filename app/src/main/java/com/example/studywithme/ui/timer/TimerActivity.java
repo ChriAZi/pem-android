@@ -179,7 +179,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
     }
 
     /**
-     * sets the text views for the partner (Category, own name, owner name)
+     * sets the text views for the partner (Category, own user name, owner name)
      * @param session
      */
     private void setViewsForPartner(Session session) {
@@ -265,7 +265,7 @@ public class TimerActivity extends NavigationActivity implements TimerTaskAdapte
     }
 
     /**
-     * updates the tasks to done in the database if the user checks the checkboxes
+     * updates the tasks to "done" in the database if the user checks the checkboxes
      * @param position
      * @param checked
      */
